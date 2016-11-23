@@ -38,7 +38,7 @@ protected:
 		unpack(CFS* pCFS);
 public:
 
-	enum RESULT_DECODE {
+    enum RESULT_DECODE {
 		SUCCESSFUL,
 		ERROR,
 		NOT_FOUND

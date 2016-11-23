@@ -772,7 +772,7 @@ bool N2Processor::SelfExec(DataPack *tc)
 			#define MAX_STRING_BUFFER_SIZE 512
 			CHAR_N2 buf[MAX_STRING_BUFFER_SIZE];
 			if(pVar->type() == VAR_INT) {
-				std_snprintf(buf, MAX_STRING_BUFFER_SIZE, sym.c_str(), ((N2VariableINT*)pVar)->getValue());
+                snprintf(buf, MAX_STRING_BUFFER_SIZE, sym.c_str(), ((N2VariableINT*)pVar)->getValue());
 				sVar->set(std_string(buf));
 			}
 		}

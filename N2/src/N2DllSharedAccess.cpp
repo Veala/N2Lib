@@ -44,7 +44,7 @@ bool N2DllSharedAccess::attach(std_string path)
 {
 	if(path == EMPTY_STR)
 		path = path_;
-	hin = ::LoadLibrary(path.c_str());
+    hin = ::LoadLibrary((LPCWSTR)path.c_str());
 	if(!hin) {
 		//int k = ::GetLastError();
 		return false;

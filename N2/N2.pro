@@ -8,7 +8,7 @@ QT       -= core gui
 
 TARGET = N2
 TEMPLATE = lib
-CONFIG += staticlib
+CONFIG += staticlib c++11
 
 win32:INCLUDEPATH += "src" \
             "src/include" \
