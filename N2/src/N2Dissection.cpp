@@ -87,7 +87,7 @@ SET_PARSER_ERR(vector<DataPack>& totalPack, DataPack& pack, std_string tag, std_
 	pack.signature.value =  SIGN_CONSOLE(CMD_CON_SYNTAX_ERROR);
 	pack.nameTag = CT("PARSER: SYNTAX ERROR");
 	totalPack.push_back(pack);
-	return N2Dissection::RESULT_DECODE::ERROR;
+    return N2Dissection::RESULT_DECODE::ERROR;
 }
 
 N2Dissection::RESULT_DECODE

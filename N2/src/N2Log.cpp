@@ -2,16 +2,16 @@
 ///
 /// \file		N2Log.cpp
 ///
-///	\brief 		Файл журнала
+///	\brief 		Р¤Р°Р№Р» Р¶СѓСЂРЅР°Р»Р°
 /// \details	
 ///
-/// \copyright  ЗАО НТЦ "Модуль"
-/// \author 	Чихичин Д.А.
+/// \copyright  Р—РђРћ РќРўР¦ "РњРѕРґСѓР»СЊ"
+/// \author 	Р§РёС…РёС‡РёРЅ Р”.Рђ.
 ///
 /// \date 		11.07.2014
 /// \version 	0.1
 ///  
-///  История изменений:
+///  РСЃС‚РѕСЂРёСЏ РёР·РјРµРЅРµРЅРёР№:
 ///  
 ///
 
@@ -26,7 +26,7 @@ N2Logbook::N2Logbook()
 	time_t tt = time(NULL);
 	tm* t = localtime( &tt );
 	Write("---------------------------------------------------------------------------\n");
-	Write(string("Начало ведения журнала : ") + asctime(t));
+	Write(string("РќР°С‡Р°Р»Рѕ РІРµРґРµРЅРёСЏ Р¶СѓСЂРЅР°Р»Р° : ") + asctime(t));
 	profile = NULL;
 	pProfStruct = NULL;
 	order_length = 0;
@@ -45,7 +45,7 @@ void N2Logbook::Write(std::string record)
 {
 	if(write_interdiction)
 			return;
-	// запись в вектор определений
+	// Р·Р°РїРёСЃСЊ РІ РІРµРєС‚РѕСЂ РѕРїСЂРµРґРµР»РµРЅРёР№
 	LOGED l;
 	l.module = "";
 	l.error = 0;
@@ -64,14 +64,14 @@ bool N2Logbook::WriteError(std::string module, int error, std::string descriptio
 	bool ret_val = false;	
 	current_error = error;
 	descr_error = description;
-	// запись в вектор определений
+	// Р·Р°РїРёСЃСЊ РІ РІРµРєС‚РѕСЂ РѕРїСЂРµРґРµР»РµРЅРёР№
 	loged.module = module;
 	loged.error = error;
 	loged.descr = description;
 	log_error.push_back(loged);
 	std::string ns;
 	char tc[512];
-	sprintf_s(tc, "Модуль: %s  Ошибка № %d  \n   Описание: %s", module.c_str(), error, description.c_str());
+	sprintf_s(tc, "РњРѕРґСѓР»СЊ: %s  РћС€РёР±РєР° в„– %d  \n   РћРїРёСЃР°РЅРёРµ: %s", module.c_str(), error, description.c_str());
 	ns = tc;
 	if(response) 
 		response(ns);
@@ -90,7 +90,7 @@ void N2Logbook::ResetError()
 	descr_error = "";
 }
 
-void N2Logbook::Print(std::string filename, bool add_over) //Запись в файл filename лога
+void N2Logbook::Print(std::string filename, bool add_over) //Р—Р°РїРёСЃСЊ РІ С„Р°Р№Р» filename Р»РѕРіР°
 {
 	FILE *file;
 	if ((file = fopen(filename.c_str(), add_over ? "a" : "w"))==NULL) 
@@ -106,7 +106,7 @@ void N2Logbook::Print(std::string filename, bool add_over) //Запись в файл filen
 
 	time_t tt = time(NULL);
 	tm* t = localtime( &tt );
-	fprintf(file, "Конец ведения журнала : %s", asctime(t));
+	fprintf(file, "РљРѕРЅРµС† РІРµРґРµРЅРёСЏ Р¶СѓСЂРЅР°Р»Р° : %s", asctime(t));
 	fclose(file);
 }
 
@@ -128,8 +128,8 @@ void N2Logbook::SetInterdiction(bool interd)
 //				return;
 //		time_t tt = ::time(NULL);
 //		tm* t = localtime( &tt );
-//		fprintf(profile, "Длительность выполнения команд от %s \n", asctime(t));				
-//		fprintf(profile, "ЧП: - число повторений инструкции, Т: - суммарно тиков \n\n");				
+//		fprintf(profile, "Р”Р»РёС‚РµР»СЊРЅРѕСЃС‚СЊ РІС‹РїРѕР»РЅРµРЅРёСЏ РєРѕРјР°РЅРґ РѕС‚ %s \n", asctime(t));				
+//		fprintf(profile, "Р§Рџ: - С‡РёСЃР»Рѕ РїРѕРІС‚РѕСЂРµРЅРёР№ РёРЅСЃС‚СЂСѓРєС†РёРё, Рў: - СЃСѓРјРјР°СЂРЅРѕ С‚РёРєРѕРІ \n\n");				
 //		}
 //	else
 //		return;
@@ -168,7 +168,7 @@ void N2Logbook::SetInterdiction(bool interd)
 //		for(int i=0; i<order_length; i++)
 //			{
 //			if(pProfStruct[i].init)
-//				fprintf(profile, "%4d : %-20s  (SIGN:0x%8.8X,Code:%-3d) ЧП:%-d  Т:%-d\n",
+//				fprintf(profile, "%4d : %-20s  (SIGN:0x%8.8X,Code:%-3d) Р§Рџ:%-d  Рў:%-d\n",
 //							 i, pProfStruct[i].name.c_str(), pProfStruct[i].sign, \
 //							 pProfStruct[i].sign >> 24, pProfStruct[i].count, pProfStruct[i].time);
 //			else

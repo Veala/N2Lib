@@ -8,11 +8,11 @@ using namespace std;
 enum AHE 
 		{
  		 AHE_ERROR,
-		 AHE_TOKEN,			// токен, константное строковое значение
-		 AHE_TOKEN_FLAGS,	// набор токенов (разделённых разделителями )
-		 AHE_DIGIT,			// число
-		 AHE_VARIABLE,		// переменная
-		 AHE_EMPTY			// пусто
+		 AHE_TOKEN,			// С‚РѕРєРµРЅ, РєРѕРЅСЃС‚Р°РЅС‚РЅРѕРµ СЃС‚СЂРѕРєРѕРІРѕРµ Р·РЅР°С‡РµРЅРёРµ
+		 AHE_TOKEN_FLAGS,	// РЅР°Р±РѕСЂ С‚РѕРєРµРЅРѕРІ (СЂР°Р·РґРµР»С‘РЅРЅС‹С… СЂР°Р·РґРµР»РёС‚РµР»СЏРјРё )
+		 AHE_DIGIT,			// С‡РёСЃР»Рѕ
+		 AHE_VARIABLE,		// РїРµСЂРµРјРµРЅРЅР°СЏ
+		 AHE_EMPTY			// РїСѓСЃС‚Рѕ
 		 };
 
 enum RADIX_CALC
@@ -46,7 +46,7 @@ public:
 	int GetValue();
 	float GetValueFloat(void);
 	long GetLongValue();
-	// переименовать в GetFirstToken и GetNextToken
+	// РїРµСЂРµРёРјРµРЅРѕРІР°С‚СЊ РІ GetFirstToken Рё GetNextToken
 	string GetFirstFlag();
 	string GetNextFlag();
 	size_t Count() { return return_flags.size(); }

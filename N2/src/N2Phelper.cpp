@@ -39,7 +39,7 @@ PHelper::WhatIs(std::string attribute)
 	if(attribute == "")
 		return AHE_EMPTY;
 	
-	// выжать пробелы
+	// РІС‹Р¶Р°С‚СЊ РїСЂРѕР±РµР»С‹
 	//attribute.replace(
 	int szIn = attribute.size();
 
@@ -162,7 +162,7 @@ PHelper::Find(std::string fnd)
 }
 bool PHelper::HashString(std::string str)
 {
-	//buff.clear(); - сбрасывать буфер нельзя!
+	//buff.clear(); - СЃР±СЂР°СЃС‹РІР°С‚СЊ Р±СѓС„РµСЂ РЅРµР»СЊР·СЏ!
 	char *pch, *tc;
 	return_flags.clear();
 	

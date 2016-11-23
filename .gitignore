@@ -1,0 +1,8 @@
+#ignore debug path
+/build-N2-Desktop_Qt_5_4_2_MinGW_32bit-Debug
+/build-N2-Desktop_Qt_5_4_2_MinGW_32bit-Release
+#ignore /N2/*.user, *.autosave
+/N2/*.user
+/N2/*.autosave
+#ignore /.svn
+/.svn

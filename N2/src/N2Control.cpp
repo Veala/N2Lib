@@ -1,4 +1,4 @@
-﻿
+
 #include "../export/common/IControl.h"
 #include "include/N2Control.h"
 #include "../export/common/N2Base.h"

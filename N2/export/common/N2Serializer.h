@@ -1,4 +1,4 @@
-﻿// -*- mode:c++; coding:utf-8; -*-
+// -*- mode:c++; coding:utf-8; -*-
 ///
 /// \file		N2Serializer.h
 ///
@@ -39,8 +39,8 @@ public:
 	}
 	~N2Serializer() 
 	{
-		N2Register::release<TNode>(node);
-		N2Register::release<TParser>(pars);
+        N2Register::self()->getMemoryAllocator()->release(node);
+        N2Register::self()->getMemoryAllocator()->release(pars);
 	}
 	//
 	//virtual ITreeNode*
@@ -58,7 +58,7 @@ public:
 			errorDescription = CT("Ошибка регистрации в реестре");
 			return false;//return NULL;
 		}
-	};
+    }
 	bool
 		saveProject(std_string filename) { return false; }
 

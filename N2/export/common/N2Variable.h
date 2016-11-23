@@ -1,4 +1,4 @@
-﻿// -*- mode:c++; coding:utf-8; -*-
+// -*- mode:c++; coding:utf-8; -*-
 ///
 /// \file		 N2VariableSimplex.h
 ///
@@ -26,7 +26,7 @@
 using namespace std;
 using namespace N2_Defines;
 
-class N2VariableCreator;
+//class N2VariableCreator;
 
 enum N2_ERRORS_OPCODES {
 	N2EC_SUCCESS = 0,
@@ -101,6 +101,31 @@ public:
 	KIND_TYPE kind(void);
 	///
 	virtual void* getVoid(INDEX index = 0);
+};
+
+
+class N2VariableCreator
+{
+
+public:
+
+    N2BaseVariable*
+        createSimplex(TYPE_VAR type, std_string name = EMPTY_STR, int cnt = 1);
+
+
+    N2BaseVariable*
+        createComplex(std_string name)
+    {
+        return NULL; // new N2VariableComplex(name);
+    }
+
+    //
+
+    N2BaseVariable*
+        createTable(TYPE_VAR el_type, std_string name, int rows, int columns);
+
+    int
+        getIntFromSimplexVar(N2BaseVariable* pVar);
 };
 
 
@@ -355,7 +380,7 @@ protected:
 		{}
 public:
 	N2Table<T> tbl;
-	virtual bool set(N2BaseVariable*, INDEX index = 0 ) {return false;};
+    virtual bool set(N2BaseVariable*, INDEX index = 0 ) {return false;}
 	virtual N2BaseVariable* clone(); // {return new N2VariableTABLE<T>(name(), tbl.rows(), tbl.columns(), typeElement_);}
 
 	virtual int rowCount() { return tbl.rows(); }
@@ -494,26 +519,26 @@ public:
 
 
 /// Класс для создания объектов переменных разных типов
-class N2VariableCreator
-{
+//class N2VariableCreator
+//{
 	
-public:
+//public:
 	
-	N2BaseVariable* 
-		createSimplex(TYPE_VAR type, std_string name = EMPTY_STR, int cnt = 1);
+//	N2BaseVariable*
+//		createSimplex(TYPE_VAR type, std_string name = EMPTY_STR, int cnt = 1);
 
 	
-	N2BaseVariable* 
-		createComplex(std_string name)
-	{
-		return NULL; // new N2VariableComplex(name);
-	}
+//	N2BaseVariable*
+//		createComplex(std_string name)
+//	{
+//		return NULL; // new N2VariableComplex(name);
+//	}
 	
-	//
+//	//
 
-	N2BaseVariable* 
-		createTable(TYPE_VAR el_type, std_string name, int rows, int columns);
+//	N2BaseVariable*
+//		createTable(TYPE_VAR el_type, std_string name, int rows, int columns);
 
-	int 
-		getIntFromSimplexVar(N2BaseVariable* pVar);
-};
+//	int
+//		getIntFromSimplexVar(N2BaseVariable* pVar);
+//};

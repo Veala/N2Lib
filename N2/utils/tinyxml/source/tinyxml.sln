@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinyxml", "tinyxml_lib.vcxproj", "{9F17D80D-3037-4736-B2B4-6E66038E4457}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+		tinyxmld_std|Win32 = tinyxmld_std|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F17D80D-3037-4736-B2B4-6E66038E4457}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9F17D80D-3037-4736-B2B4-6E66038E4457}.Debug|Win32.Build.0 = Debug|Win32
+		{9F17D80D-3037-4736-B2B4-6E66038E4457}.Release|Win32.ActiveCfg = Release|Win32
+		{9F17D80D-3037-4736-B2B4-6E66038E4457}.Release|Win32.Build.0 = Release|Win32
+		{9F17D80D-3037-4736-B2B4-6E66038E4457}.tinyxmld_std|Win32.ActiveCfg = tinyxmld_std|Win32
+		{9F17D80D-3037-4736-B2B4-6E66038E4457}.tinyxmld_std|Win32.Build.0 = tinyxmld_std|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

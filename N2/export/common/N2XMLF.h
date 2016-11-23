@@ -1,4 +1,4 @@
-﻿// -*- mode:c++; coding:utf-8; -*-
+// -*- mode:c++; coding:utf-8; -*-
 ///
 /// \file		N2XMLF.h
 ///
