@@ -766,14 +766,16 @@ bool N2Processor::SelfExec(DataPack *tc)
 		N2VariableSTR* sVar = (N2VariableSTR*)creator.createSimplex(VAR_STRING);
 		if (!sVar)
 			return false;
-		sVar->set(sVar->custom(pVar));
+        std_string str = sVar->custom(pVar);
+        sVar->set(str);
 
 		if(!sym.empty()) {
 			#define MAX_STRING_BUFFER_SIZE 512
 			CHAR_N2 buf[MAX_STRING_BUFFER_SIZE];
 			if(pVar->type() == VAR_INT) {
                 snprintf(buf, MAX_STRING_BUFFER_SIZE, sym.c_str(), ((N2VariableINT*)pVar)->getValue());
-				sVar->set(std_string(buf));
+                str = std_string(buf);
+                sVar->set(str);
 			}
 		}
 		// преобразуем значение переменной var в строку
@@ -1251,7 +1253,8 @@ bool N2Processor::SelfExec(DataPack *tc)
 			if (!pSV)
 				return false;
 			for(size_t i=0; i<pNas->size() && i<pVar->dimension(); i++) {
-				pSV->set(pNas->get(i));
+                std_string str = pNas->get(i);
+                pSV->set(str);
 				pVar->set(pSV, i);
 			}
 

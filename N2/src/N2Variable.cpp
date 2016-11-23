@@ -94,7 +94,7 @@ N2VariableSimplex<T>::N2VariableSimplex(const N2VariableSimplex<T> & copy):
 }
 
 template<class T>
-N2VariableSimplex<T>::N2VariableSimplex(const TYPE_VAR typeName, std_string name, COUNT numElements = 1):
+N2VariableSimplex<T>::N2VariableSimplex(const TYPE_VAR typeName, std_string name, COUNT numElements):
 	N2BaseVariable(typeName, KT_SIMPLEX),
 	value_(NULL),
 	count_(numElements)
@@ -110,7 +110,7 @@ N2VariableSimplex<T>::~N2VariableSimplex()
 
 template<typename T>
 void 
-N2VariableSimplex<T>::create(std_string name, COUNT count = 1)
+N2VariableSimplex<T>::create(std_string name, COUNT count)
 {		
 	value_ = N2Register::self()->getMemoryAllocator()->createVar<T>(name, count);
 	rename(name);
@@ -200,7 +200,7 @@ N2VariableSimplex<T>::compare(N2_COMPARE_CODES code, N2BaseVariable* pVar)
 
 template<class T>
 bool
-N2VariableSimplex<T>::setVoid(void* pVal, INDEX index = 0)
+N2VariableSimplex<T>::setVoid(void* pVal, INDEX index)
 {
 	if (index >= count_ || !pVal)
 		return false;
@@ -211,7 +211,7 @@ N2VariableSimplex<T>::setVoid(void* pVal, INDEX index = 0)
 
 template<class T>
 void*
-N2VariableSimplex<T>::getVoid(INDEX index = 0)
+N2VariableSimplex<T>::getVoid(INDEX index)
 {
 	if(index >= count_)
 		return false;
