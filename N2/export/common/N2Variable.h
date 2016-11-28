@@ -103,7 +103,7 @@ public:
 	virtual void* getVoid(INDEX index = 0);
 };
 
-
+/// Класс для создания объектов переменных разных типов
 class N2VariableCreator
 {
 
