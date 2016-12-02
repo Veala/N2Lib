@@ -4,17 +4,28 @@
 #
 #-------------------------------------------------
 
-QT       -= core gui
+#QT       -= core gui
 
-TARGET = N2
-TEMPLATE = lib
-CONFIG += staticlib c++11
+#TARGET = N2
+#TEMPLATE = lib
+#CONFIG += staticlib c++11
+TEMPLATE = app
+CONFIG += console
+CONFIG -= app_bundle
+CONFIG -= qt
+CONFIG += c++11
+CONFIG += no_lflags_merge
 
-win32:INCLUDEPATH += "src" \
-            "src/include" \
-            "export/common"
+win32:INCLUDEPATH += d:/N2/N2/src/include \
+                     d:/N2/N2/export/common \
+                     d:/N2/N2/utils/tinyxml \
+
+#win32:LIBS += d:/N2/N2/utils/tinyxml/lib/tinyxml.lib \
+#              d:/N2/N2/utils/tinyxml/lib/tinyxmld.lib \
 
 SOURCES += \
+    main.cpp \
+    src/N2Types.cpp \
     src/N2AllOperatingState.cpp \
     src/N2Base.cpp \
     src/N2Control.cpp \
@@ -37,7 +48,12 @@ SOURCES += \
     src/N2System.cpp \
     src/N2TinyXMLParser.cpp \
     src/N2Variable.cpp \
-    src/N2VariablesManager.cpp
+    src/N2VariablesManager.cpp \
+    utils/tinyxml/source/tinystr.cpp \
+    utils/tinyxml/source/tinyxml.cpp \
+    utils/tinyxml/source/tinyxmlerror.cpp \
+    utils/tinyxml/source/tinyxmlparser.cpp \
+    #utils/tinyxml/source/xmltest.cpp \
 
 HEADERS += \
     export/common/configuration.h \
@@ -74,6 +90,7 @@ HEADERS += \
     export/common/N2XMLF.h \
     export/common/tuner.h \
     export/common/user_node.h \
+    src/include/N2Types.h \
     src/include/N2AllOperatingState.h \
     src/include/N2Control.h \
     src/include/N2DllSharedAccess.h \
@@ -87,9 +104,7 @@ HEADERS += \
     src/include/N2Processor.h \
     src/include/N2SharedAccess.h \
     src/include/N2SharedAccessWorker.h \
-    src/include/N2VariablesManager.h
-
-unix {
-    target.path = /usr/lib
-    INSTALLS += target
-}
+    src/include/N2VariablesManager.h \
+    utils/tinyxml/source/tinystr.h \
+    utils/tinyxml/source/tinystr.h \
+    utils/tinyxml/source/tinyxml.h \

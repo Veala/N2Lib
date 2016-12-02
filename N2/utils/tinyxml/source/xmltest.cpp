@@ -977,9 +977,9 @@ int main()
             // Legacy mode test. (This test may only pass on a western system)
             const char* str =
                         "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>"
-                        "<ä>"
-                        "CöntäntßäöüÄÖÜ"
-                        "</ä>";
+                        "<Ğ´>"
+                        "CÑ†ntĞ´ntĞ¯Ğ´Ñ†ÑŒĞ”Ğ¦Ğ¬"
+                        "</Ğ´>";
 
             TiXmlDocument doc;
             doc.Parse( str );
@@ -987,11 +987,11 @@ int main()
 			//doc.Print( stdout, 0 );
 
             TiXmlHandle docHandle( &doc );
-            TiXmlHandle aHandle = docHandle.FirstChildElement( "ä" );
+            TiXmlHandle aHandle = docHandle.FirstChildElement( "Ğ´" );
             TiXmlHandle tHandle = aHandle.Child( 0 );
             assert( aHandle.Element() );
             assert( tHandle.Text() );
-            XmlTest( "ISO-8859-1 Parsing.", "CöntäntßäöüÄÖÜ", tHandle.Text()->Value() );
+            XmlTest( "ISO-8859-1 Parsing.", "CÑ†ntĞ´ntĞ¯Ğ´Ñ†ÑŒĞ”Ğ¦Ğ¬", tHandle.Text()->Value() );
     }
 
 	{
