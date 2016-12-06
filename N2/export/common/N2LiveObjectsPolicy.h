@@ -19,10 +19,26 @@
 #include "isolator.h"
 #include "N2Misc.h"
 //#include "N2Register.h"
+#include "N2Types.h"
 
 using namespace std;
 
 
+struct OLS_Heap_New_Base
+{
+    template <class T>
+    T* create(std_string name = "")
+    {
+        T* ptr = NULL;
+        ptr = new T();
+        return ptr;
+    }
+    template <class T>
+    void release(T* ptr)
+    {
+        delete ptr;
+    }
+};
 
 
 struct OLS_Heap_New
@@ -49,6 +65,15 @@ struct OLS_Heap_New
 struct OLS_HeapWithGarbage
 {
 	N2MemoManager memManager;
+
+    N2AbstractType* createSimpleType(N2AbstractType::types t, string name = "", ) {
+
+    }
+
+    template <class T>
+    void releaseVar_2(T* ptr) {
+
+    }
 
 	template <class T>
 	T* create(std_string name = "")
@@ -131,5 +156,6 @@ void releaseVar( T* ptr, int count)
 };
 
 
-//typedef OLS_Heap_New OLS_Heap; 
-typedef OLS_HeapWithGarbage OLS_Heap; 
+//typedef OLS_Heap_New_Base OLS_Heap;
+//typedef OLS_Heap_New OLS_Heap;
+typedef OLS_HeapWithGarbage OLS_Heap;

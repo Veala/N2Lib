@@ -40,97 +40,57 @@ void f(N2AbstractType* data) {
 
 int main()
 {
-    N2User userVal("userVal");
-    N2AbstractType *data1 = new N2Int("data1", 7, 1);
-    N2AbstractType *data2 = new N2IntTable("data2", 8, 3, 3);
-    ((N2Int*)data1)->setValue(0, 17);
-    ((N2IntTable*)data2)->setValue(0, 1, 18);
-    userVal.addCopyVar(data1);
-    userVal.addCopyVar(data2);
-    N2AbstractType *value = userVal.getVar("data1", N2AbstractType::INT);
-    if (value!=0) {
-        f(value);
-    }
-    value = userVal.getVar("data2", N2AbstractType::INTTABLE);
-    if (value!=0) {
-        f(value);
-    }
-
-    N2AbstractType *data3 = new N2Int("data3", 21, 1);
-    N2AbstractType *data4 = new N2IntTable("data4", 42, 4, 4);
-    N2User *uv = new N2User("uv");
-    uv->addCopyVar(data3);
-    uv->addCopyVar(data4);
-    uv->addCopyVar(&userVal);
-
-    delete (N2Int*)data3; delete (N2IntTable*)data4;
-
-    N2User *uVal = uv->clone();
-
-    delete uv;
-
-    value = uVal->getVar("data3", N2AbstractType::INT);
-    if (value!=0) {
-        f(value);
-    }
-    value = uVal->getVar("data4", N2AbstractType::INTTABLE);
-    if (value!=0) {
-        f(value);
-    }
-    value = uVal->getVar("userVal.data1", N2AbstractType::INT);
-    if (value!=0) {
-        f(value);
-    }
-    value = uVal->getVar("userVal.data2", N2AbstractType::INTTABLE);
-    if (value!=0) {
-        f(value);
-    }
-    value = uVal->getVar("userVal", N2AbstractType::VMUSER);
-    if (value!=0) {
-        f(value);
-    }
-
-    delete uVal;
-
-//    value = uv->getVar("data3", N2AbstractType::INT);
+//    N2User userVal("userVal");
+//    N2AbstractType *data1 = new N2Int("data1", 7, 1);
+//    N2AbstractType *data2 = new N2IntTable("data2", 8, 3, 3);
+//    ((N2Int*)data1)->setValue(0, 17);
+//    ((N2IntTable*)data2)->setValue(0, 1, 18);
+//    userVal.addCopyVar(data1);
+//    userVal.addCopyVar(data2);
+//    N2AbstractType *value = userVal.getVar("data1", N2AbstractType::INT);
 //    if (value!=0) {
 //        f(value);
 //    }
-//    value = uv->getVar("data4", N2AbstractType::INTTABLE);
-//    if (value!=0) {
-//        f(value);
-//    }
-//    value = uv->getVar("userVal.data1", N2AbstractType::INT);
-//    if (value!=0) {
-//        f(value);
-//    }
-//    value = uv->getVar("userVal.data2", N2AbstractType::INTTABLE);
+//    value = userVal.getVar("data2", N2AbstractType::INTTABLE);
 //    if (value!=0) {
 //        f(value);
 //    }
 
+//    N2AbstractType *data3 = new N2Int("data3", 21, 1);
+//    N2AbstractType *data4 = new N2IntTable("data4", 42, 4, 4);
+//    N2User *uv = new N2User("uv");
+//    uv->addCopyVar(data3);
+//    uv->addCopyVar(data4);
+//    uv->addCopyVar(&userVal);
 
-    //delete data1;
-    //delete data2;
+//    delete (N2Int*)data3; delete (N2IntTable*)data4;
 
-//    N2IntTable it("it", 123, 2, 10);
-//    cout << it.getName() << endl;
-//    cout << it.getValue(1,9) << endl;
-//    N2IntTable it2(it);
-//    cout << it2.getName() << endl;
-//    cout << it2.getValue(1,9) << endl;
+//    N2User *uVal = uv->clone();
 
-//    N2Int data("data", 7, 1);
-//    cout << data.getName() << endl;
-//    cout << data.getValue(0) << endl;
-//    N2Int data2(data);
-//    cout << data2.getName() << endl;
-//    cout << data2.getValue(0) << endl;
+//    delete uv;
 
+//    value = uVal->getVar("data3", N2AbstractType::INT);
+//    if (value!=0) {
+//        f(value);
+//    }
+//    value = uVal->getVar("data4", N2AbstractType::INTTABLE);
+//    if (value!=0) {
+//        f(value);
+//    }
+//    value = uVal->getVar("userVal.data1", N2AbstractType::INT);
+//    if (value!=0) {
+//        f(value);
+//    }
+//    value = uVal->getVar("userVal.data2", N2AbstractType::INTTABLE);
+//    if (value!=0) {
+//        f(value);
+//    }
+//    value = uVal->getVar("userVal", N2AbstractType::VMUSER);
+//    if (value!=0) {
+//        f(value);
+//    }
 
-//    N2StringTable dataT("dataT", "Igor", 3, 3);
-//    cout << dataT.getName() << endl;
-//    cout << dataT.getValue(1,1) << endl;
+//    delete uVal;
 
     return 0;
 }

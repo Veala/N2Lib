@@ -105,14 +105,14 @@ N2VariableSimplex<T>::N2VariableSimplex(const TYPE_VAR typeName, std_string name
 template<class T>
 N2VariableSimplex<T>::~N2VariableSimplex()
 {
-	N2Register::self()->getMemoryAllocator()->releaseVar<T>(value_, count_);
+    N2Register::self()->getMemoryAllocator()->releaseVar<T>(value_, count_);
 }
 
 template<typename T>
 void 
 N2VariableSimplex<T>::create(std_string name, COUNT count)
-{		
-	value_ = N2Register::self()->getMemoryAllocator()->createVar<T>(name, count);
+{
+    value_ = N2Register::self()->getMemoryAllocator()->createVar<T>(name, count);
 	rename(name);
 }
 

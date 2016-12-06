@@ -21,13 +21,13 @@ public:
         STRING,   STRINGTABLE,
         VMUSER
     };
-    N2AbstractType(string vName)    { varName = vName; }
     void setName(string newName)    { varName = newName; }
     const string getName()          { return varName; }
     types getType()                 { return type; }
     virtual N2AbstractType* clone() = 0;
     virtual ~N2AbstractType() { }
 protected:
+    N2AbstractType(string vName)    { varName = vName; }
     string varName;
     types type;
 private:
@@ -39,13 +39,13 @@ private:
 template <class T> class N2AbstractSimple : public N2AbstractType
 {
 public:
-    N2AbstractSimple(string vName, T defVal, uint N);
-    N2AbstractSimple(N2AbstractSimple &data);
     void setValue(uint index, T newValue);
     T getValue(uint index);
     N2AbstractType* clone() { return new N2AbstractSimple<T>(*this); }
     ~N2AbstractSimple() { }
 protected:
+    N2AbstractSimple(string vName, T defVal, uint N);
+    N2AbstractSimple(N2AbstractSimple &data);
     vector<T> value;
 private:
 
@@ -82,13 +82,13 @@ public:
 template <class T> class N2AbstractTable : public N2AbstractType
 {
 public:
-    N2AbstractTable(string vName, T defVal, uint numRows, uint numColumns);
-    N2AbstractTable(N2AbstractTable &data);
     void setValue(uint row, uint column, T newValue);
     T getValue(uint row, uint column);
     N2AbstractType* clone() { return new N2AbstractTable<T>(*this); }
     ~N2AbstractTable() { }
 protected:
+    N2AbstractTable(string vName, T defVal, uint numRows, uint numColumns);
+    N2AbstractTable(N2AbstractTable &data);
     vector< vector<T> > value;
 private:
 
@@ -125,7 +125,6 @@ public:
 class N2User : public N2AbstractType
 {
 public:
-    N2User(string vName) : N2AbstractType(vName) { type = VMUSER; }
     void addCopyVar(N2AbstractType* var) { vars.push_back(var->clone()); }
 
     N2AbstractType* getVar(string strHierarchy, types t) {
@@ -161,6 +160,7 @@ public:
     }
 
 protected:
+    N2User(string vName) : N2AbstractType(vName) { type = VMUSER; }
     vector<N2AbstractType*>   vars;
 private:
     N2AbstractType* searchVar(string vName, types t) {
