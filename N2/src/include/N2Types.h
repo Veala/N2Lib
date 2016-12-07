@@ -1,11 +1,13 @@
 #ifndef N2AbstractType_H
 #define N2AbstractType_H
 
-#include<iostream>
-#include<sstream>
-#include<string>
-#include<vector>
-#include<stdexcept>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <stdexcept>
+#include "N2LiveObjectsPolicy.h"
+#include "N2Register.h"
 
 using namespace std;
 
@@ -25,7 +27,7 @@ public:
     const string getName()          { return varName; }
     types getType()                 { return type; }
     virtual N2AbstractType* clone() = 0;
-    virtual ~N2AbstractType() { }
+    virtual ~N2AbstractType() { cout << "N2AbstractType: " << varName << endl; }
 protected:
     N2AbstractType(string vName)    { varName = vName; }
     string varName;
@@ -38,13 +40,14 @@ private:
 
 template <class T> class N2AbstractSimple : public N2AbstractType
 {
+    friend class OLS_HeapWithGarbage;
 public:
     void setValue(uint index, T newValue);
     T getValue(uint index);
-    N2AbstractType* clone() { return new N2AbstractSimple<T>(*this); }
-    ~N2AbstractSimple() { }
+    N2AbstractType* clone();
+    ~N2AbstractSimple();
 protected:
-    N2AbstractSimple(string vName, T defVal, uint N);
+    N2AbstractSimple(string vName, uint N, T defVal);
     N2AbstractSimple(N2AbstractSimple &data);
     vector<T> value;
 private:
@@ -53,41 +56,47 @@ private:
 
 class N2Bool : public N2AbstractSimple <bool>
 {
-public:
-    N2Bool(string vName, bool defVal, uint N) : N2AbstractSimple<bool>(vName, defVal, N) { type = BOOL; }
+    friend class OLS_HeapWithGarbage;
+protected:
+    N2Bool(string vName, uint N=1, bool defVal=false) : N2AbstractSimple<bool>(vName, N, defVal) { type = BOOL; }
 };
 class N2Int : public N2AbstractSimple <int>
 {
-public:
-    N2Int(string vName, int defVal, uint N) : N2AbstractSimple<int>(vName, defVal, N) { type = INT; }
+    friend class OLS_HeapWithGarbage;
+protected:
+    N2Int(string vName, uint N=1, int defVal=0) : N2AbstractSimple<int>(vName, N, defVal) { type = INT; }
 };
 class N2Long : public N2AbstractSimple <long>
 {
-public:
-    N2Long(string vName, long defVal, uint N) : N2AbstractSimple<long>(vName, defVal, N) { type = LONG; }
+    friend class OLS_HeapWithGarbage;
+protected:
+    N2Long(string vName, uint N=1, long defVal=0) : N2AbstractSimple<long>(vName, N, defVal) { type = LONG; }
 };
 class N2Float : public N2AbstractSimple <float>
 {
-public:
-    N2Float(string vName, float defVal, uint N) : N2AbstractSimple<float>(vName, defVal, N) { type = FLOAT; }
+    friend class OLS_HeapWithGarbage;
+protected:
+    N2Float(string vName, uint N=1, float defVal=0) : N2AbstractSimple<float>(vName, N, defVal) { type = FLOAT; }
 };
 class N2String : public N2AbstractSimple <string>
 {
-public:
-    N2String(string vName, string defVal, uint N) : N2AbstractSimple<string>(vName, defVal, N) { type = STRING; }
+    friend class OLS_HeapWithGarbage;
+protected:
+    N2String(string vName, uint N=1, string defVal="defVal") : N2AbstractSimple<string>(vName, N, defVal) { type = STRING; }
 };
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 template <class T> class N2AbstractTable : public N2AbstractType
 {
+    friend class OLS_HeapWithGarbage;
 public:
     void setValue(uint row, uint column, T newValue);
     T getValue(uint row, uint column);
-    N2AbstractType* clone() { return new N2AbstractTable<T>(*this); }
-    ~N2AbstractTable() { }
+    N2AbstractType* clone();
+    ~N2AbstractTable();
 protected:
-    N2AbstractTable(string vName, T defVal, uint numRows, uint numColumns);
+    N2AbstractTable(string vName, uint numRows, uint numColumns, T defVal);
     N2AbstractTable(N2AbstractTable &data);
     vector< vector<T> > value;
 private:
@@ -96,81 +105,50 @@ private:
 
 class N2BoolTable : public N2AbstractTable <bool>
 {
-public:
-    N2BoolTable(string vName, bool defVal, uint numRows, uint numColumns) : N2AbstractTable<bool>(vName, defVal, numRows, numColumns) { type = BOOLTABLE; }
+    friend class OLS_HeapWithGarbage;
+protected:
+    N2BoolTable(string vName, uint numRows=1, uint numColumns=1, bool defVal=false) : N2AbstractTable<bool>(vName, numRows, numColumns, defVal) { type = BOOLTABLE; }
 };
 class N2IntTable : public N2AbstractTable <int>
 {
-public:
-    N2IntTable(string vName, int defVal, uint numRows, uint numColumns) : N2AbstractTable<int>(vName, defVal, numRows, numColumns) { type = INTTABLE; }
+    friend class OLS_HeapWithGarbage;
+protected:
+    N2IntTable(string vName, uint numRows=1, uint numColumns=1, int defVal=0) : N2AbstractTable<int>(vName, numRows, numColumns, defVal) { type = INTTABLE; }
 };
 class N2LongTable : public N2AbstractTable <long>
 {
-public:
-    N2LongTable(string vName, long defVal, uint numRows, uint numColumns) : N2AbstractTable<long>(vName, defVal, numRows, numColumns) { type = LONGTABLE; }
+    friend class OLS_HeapWithGarbage;
+protected:
+    N2LongTable(string vName, uint numRows=1, uint numColumns=1, long defVal=0) : N2AbstractTable<long>(vName, numRows, numColumns, defVal) { type = LONGTABLE; }
 };
 class N2FloatTable : public N2AbstractTable <float>
 {
-public:
-    N2FloatTable(string vName, float defVal, uint numRows, uint numColumns) : N2AbstractTable<float>(vName, defVal, numRows, numColumns) { type = FLOATTABLE; }
+    friend class OLS_HeapWithGarbage;
+protected:
+    N2FloatTable(string vName, uint numRows=1, uint numColumns=1, float defVal=0) : N2AbstractTable<float>(vName, numRows, numColumns, defVal) { type = FLOATTABLE; }
 };
 class N2StringTable : public N2AbstractTable <string>
 {
-public:
-    N2StringTable(string vName, string defVal, uint numRows, uint numColumns) : N2AbstractTable<string>(vName, defVal, numRows, numColumns) { type = STRINGTABLE; }
+    friend class OLS_HeapWithGarbage;
+protected:
+    N2StringTable(string vName, uint numRows=1, uint numColumns=1, string defVal="defVal") : N2AbstractTable<string>(vName, numRows, numColumns, defVal) { type = STRINGTABLE; }
 };
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 class N2User : public N2AbstractType
 {
+    friend class OLS_HeapWithGarbage;
 public:
-    void addCopyVar(N2AbstractType* var) { vars.push_back(var->clone()); }
-
-    N2AbstractType* getVar(string strHierarchy, types t) {
-        istringstream iss(strHierarchy);   vector<string> names;
-        while (getline(iss, strHierarchy, '.'))    names.push_back(strHierarchy);
-
-        if (names.size() == 0)  return 0;
-        else if (names.size() == 1)  return searchVar(names[0], t);
-        else {
-            strHierarchy.clear();
-            for (uint i=1;i<names.size();i++) {
-                strHierarchy+=names[i];
-                if (i!=names.size()-1) strHierarchy+='.';
-            }
-            N2AbstractType* var = searchVar(names[0], VMUSER);
-            if(var) return ((N2User*)var)->getVar(strHierarchy,t);
-            else    return 0;
-        }
-    }
-
-    N2User* clone() {
-        N2User* clone = new N2User(varName);
-        for (uint i=0; i<vars.size();i++) {
-            N2AbstractType* var = vars.at(i);
-            clone->addCopyVar(var->clone());
-        }
-        return clone;
-    }
-
-    ~N2User() {
-        for (uint i=0; i<vars.size(); i++)
-            delete vars.at(i);
-    }
-
+    void addCopyVar(N2AbstractType* var);
+    N2AbstractType* getVar(string strHierarchy, types t);
+    N2User* clone();
+    ~N2User();
 protected:
     N2User(string vName) : N2AbstractType(vName) { type = VMUSER; }
     vector<N2AbstractType*>   vars;
 private:
-    N2AbstractType* searchVar(string vName, types t) {
-        N2AbstractType* var;
-        for (uint i=0; i<vars.size(); i++) {
-            var = vars.at(i);
-            if ((var->getName() == vName) && (var->getType() == t)) return var;
-        }
-        return 0;
-    }
+    N2AbstractType* searchVar(string vName, types t);
 };
 
 #endif // N2AbstractType_H

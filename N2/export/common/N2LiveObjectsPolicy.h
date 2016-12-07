@@ -1,3 +1,5 @@
+#ifndef N2OLS_Heap_H
+#define N2OLS_Heap_H
 // -*- mode:c++; coding:utf-8; -*-
 ///
 /// \file		 N2LiveObjectsPolicy.h
@@ -13,32 +15,14 @@
 ///  
 ///  История изменений:
 ///  
-
 #pragma once
 
 #include "isolator.h"
 #include "N2Misc.h"
 //#include "N2Register.h"
-#include "N2Types.h"
+//#include "N2Types.h"
 
 using namespace std;
-
-
-struct OLS_Heap_New_Base
-{
-    template <class T>
-    T* create(std_string name = "")
-    {
-        T* ptr = NULL;
-        ptr = new T();
-        return ptr;
-    }
-    template <class T>
-    void release(T* ptr)
-    {
-        delete ptr;
-    }
-};
 
 
 struct OLS_Heap_New
@@ -66,13 +50,25 @@ struct OLS_HeapWithGarbage
 {
 	N2MemoManager memManager;
 
-    N2AbstractType* createSimpleType(N2AbstractType::types t, string name = "", ) {
-
-    }
-
     template <class T>
-    void releaseVar_2(T* ptr) {
-
+    T* createSimpleVar(string name="simpleVar", unsigned int N=1) {
+        return new T(name,N);
+    }
+    template <class T>
+    T* createTableVar(string name="tableVar", unsigned int RowsN=1, unsigned int ColumnsN=1) {
+        return new T(name,RowsN,ColumnsN);
+    }
+    template <class T>
+    T* createUserVar(string name="tableVar") {
+        return new T(name);
+    }
+    template <class T>
+    void releaseAnyVar(T* var) {
+        delete var;
+    }
+    template <class T>
+    T* createCopyVar(T& var) {
+        return new T(var);
     }
 
 	template <class T>
@@ -156,6 +152,7 @@ void releaseVar( T* ptr, int count)
 };
 
 
-//typedef OLS_Heap_New_Base OLS_Heap;
 //typedef OLS_Heap_New OLS_Heap;
 typedef OLS_HeapWithGarbage OLS_Heap;
+
+#endif
