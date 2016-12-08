@@ -245,7 +245,7 @@ N2Control::setGlobalVariable(N2BaseVariable* var)
 		return retVal;
     N2BaseVariable* temp = N2Register::self()->getEnvironment()->change(var->name());
 	if(temp) {
-//        if(temp->operation(N2_Defines::N2OC_INIT, var))
+        if(temp->operation(N2_Defines::N2OC_INIT, var))
 			retVal = true;
 	}
 	else

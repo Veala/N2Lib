@@ -25,7 +25,6 @@ win32:INCLUDEPATH += d:/N2/N2/src/include \
 
 SOURCES += \
     main.cpp \
-    src/N2Types.cpp \
     src/N2AllOperatingState.cpp \
     src/N2Base.cpp \
     src/N2Control.cpp \
@@ -47,7 +46,8 @@ SOURCES += \
     src/N2StandartProjectNode.cpp \
     src/N2System.cpp \
     src/N2TinyXMLParser.cpp \
-    src/N2Variable.cpp \
+    src/N2Types.cpp \
+    #src/N2Variable.cpp \
     src/N2VariablesManager.cpp \
     utils/tinyxml/source/tinystr.cpp \
     utils/tinyxml/source/tinyxml.cpp \
@@ -86,11 +86,11 @@ HEADERS += \
     export/common/N2Standart2014ProjectNode.h \
     export/common/N2TinyXMLParser.h \
     export/common/N2TreeNode.h \
-    export/common/N2Variable.h \
+    export/common/N2Types.h \
+    #export/common/N2Variable.h \
     export/common/N2XMLF.h \
     export/common/tuner.h \
     export/common/user_node.h \
-    src/include/N2Types.h \
     src/include/N2AllOperatingState.h \
     src/include/N2Control.h \
     src/include/N2DllSharedAccess.h \

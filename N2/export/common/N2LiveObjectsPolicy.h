@@ -59,7 +59,7 @@ struct OLS_HeapWithGarbage
         return new T(name,RowsN,ColumnsN);
     }
     template <class T>
-    T* createUserVar(string name="tableVar") {
+    T* createUserVar(string name="userVar") {
         return new T(name);
     }
     template <class T>

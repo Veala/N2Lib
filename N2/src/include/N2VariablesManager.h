@@ -18,7 +18,8 @@
 #pragma once
 
 #include "../common/N2Base.h"
-#include "N2Variable.h"
+//#include "N2Variable.h"
+#include "N2Types.h"
 #include <vector>
 
 using namespace std;

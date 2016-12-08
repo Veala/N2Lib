@@ -18,7 +18,9 @@
 #pragma once
 
 #include <list>
-#include "N2Variable.h"
+//#include "N2Variable.h"
+#include "N2Types.h"
+
 
 class N2Environment
 {
