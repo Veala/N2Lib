@@ -97,7 +97,7 @@ bool N2Processor::tick(/*Order* order*/)
 	case 0: 
 		OnProcedureProcessError(std_string("Нулевая сигнатура класса устройства : ") + tc->nameTag, tc->signature.value, true);
 		break;
-	case N2_PROCESSOR:  
+    case N2_PROCESSOR:
 		binc = SelfExec(tc);
 		break;
 	case N2_CONSOLE:
@@ -188,71 +188,71 @@ bool N2Processor::inject(DataPack* pack)
 
 bool N2Processor::SelfExec(DataPack *tc)
 {
-//	if(!initial)
-//		return false;
+    if(!initial)
+        return false;
 
-//	const std_string head = std_string(CT("Команда - ")) + tc->nameTag + CT(" : ");
+    const std_string head = std_string(CT("Команда - ")) + tc->nameTag + CT(" : ");
 
-//	switch(tc->signature.img1.code)
-//	{
-//	case 0:
-//		{
-//		} break;
-//	case CMD_TASK: // начало задачи
-//		{
-//		//vars.Clear();
-//		cur_USID = tc->namePack;
-//		N2Register::self()->log()->Write(std_string("Начало задачи - ") + tc->namePack);
-//		step_log = true;
-//		//
-//		DataPack dp;
-//		Response resp;
-//		dp.namePack = tc->namePack;
-//		dp.signature.value =  MAKE_CODE(CMD_PROCESSOR_EVENT, N2_CONSOLE);
-//		pModsMan_->AutoExecuteCommand(&dp, resp);
-//		} break;
+    switch(tc->signature.img1.code)
+    {
+    case 0:
+        {
+        } break;
+    case CMD_TASK: // начало задачи
+        {
+        //vars.Clear();
+        cur_USID = tc->namePack;
+        N2Register::self()->log()->Write(std_string("Начало задачи - ") + tc->namePack);
+        step_log = true;
+        //
+        DataPack dp;
+        Response resp;
+        dp.namePack = tc->namePack;
+        dp.signature.value =  MAKE_CODE(CMD_PROCESSOR_EVENT, N2_CONSOLE);
+        pModsMan_->AutoExecuteCommand(&dp, resp);
+        } break;
 
-//	case CMD_TASK_END: // конец задачи
-//		{
-//		N2Register::self()->log()->Write(std_string("Конец задачи - ") + tc->namePack);
-//		cur_USID = "";
-//		//vars.Clear();
-//		} break;
+    case CMD_TASK_END: // конец задачи
+        {
+        N2Register::self()->log()->Write(std_string("Конец задачи - ") + tc->namePack);
+        cur_USID = "";
+        //vars.Clear();
+        } break;
 
-//	case CMD_STEP: // начало шага
-//		{
-//		if(step_log)
-//			if(tc->namePack != EMPTY_STR)
-//				N2Register::self()->log()->Write(tc->namePack.c_str());
-//		nameStep = tc->namePack;
-//		//
-//		DataPack dp;
-//		Response resp;
-//		dp.namePack = tc->namePack;
-//		dp.signature.value =  MAKE_CODE(CMD_PROCESSOR_EVENT, N2_CONSOLE);
-//		pModsMan_->AutoExecuteCommand(&dp, resp);
-//		} break;
-//	case CMD_STEP_END: // конец шага
-//		{
-//		// empty
-//		} break;
+    case CMD_STEP: // начало шага
+        {
+        if(step_log)
+            if(tc->namePack != EMPTY_STR)
+                N2Register::self()->log()->Write(tc->namePack.c_str());
+        nameStep = tc->namePack;
+        //
+        DataPack dp;
+        Response resp;
+        dp.namePack = tc->namePack;
+        dp.signature.value =  MAKE_CODE(CMD_PROCESSOR_EVENT, N2_CONSOLE);
+        pModsMan_->AutoExecuteCommand(&dp, resp);
+        } break;
+    case CMD_STEP_END: // конец шага
+        {
+        // empty
+        } break;
 
-//	case 5: // включение
-//		{
-//		step_log = true;
-//		} break;
+    case 5: // включение
+        {
+        step_log = true;
+        } break;
 
-//	case 6: // отключение
-//		{
-//		step_log = false;
-//		} break;
+    case 6: // отключение
+        {
+        step_log = false;
+        } break;
 
-//	case 7: // заголовочный пакет очереди команд
-//		{
-//			queue_empty = false;
-//		} break;
+    case 7: // заголовочный пакет очереди команд
+        {
+            queue_empty = false;
+        } break;
 
-//	/// условная команда IF
+    /// условная команда IF
 //	case CMD_IF:
 //		{
 //		bool sol = false;
@@ -325,19 +325,19 @@ bool N2Processor::SelfExec(DataPack *tc)
 
 
 
-//	case 18: // начало блока операторов
-//		{
-//		OnProcedureProcessError("Ошибка - начала блока операторов\nИнструкция незаконна!", \
-//			tc->signature.value, true);
-//			//return;
-//		} break;
+    case 18: // начало блока операторов
+        {
+        OnProcedureProcessError("Ошибка - начала блока операторов\nИнструкция незаконна!", \
+            tc->signature.value, true);
+            //return;
+        } break;
 		
-//	case END_CMD: // конец блока операторов
-//		{
-//			pOrder_->JumpWithCurrent();
-//			return false;
-//		} break;
-//	// ...
+    case END_CMD: // конец блока операторов
+        {
+            pOrder_->JumpWithCurrent();
+            return false;
+        } break;
+    // ...
 
 //	case CMD_VARIABLE: // Инициализация переменной
 //		{
@@ -539,20 +539,20 @@ bool N2Processor::SelfExec(DataPack *tc)
 //			}
 //		} break;
 
-//	case 33: // INSTRUCTION_PROFILER
-//		{
-//		#ifdef INSTRUCTION_PROFILER
-//			N2Register::self()->log()->ProfilerStop();
-//		#endif
-//		ResetProcessor();
-//		queue_empty = true;
-//		return false;
-//		} break;
+    case 33: // INSTRUCTION_PROFILER
+        {
+        #ifdef INSTRUCTION_PROFILER
+            N2Register::self()->log()->ProfilerStop();
+        #endif
+        ResetProcessor();
+        queue_empty = true;
+        return false;
+        } break;
 
-//	case CMD_ELSE: // команда ELSE
-//		{
-//		// Включено в логику IF
-//		} break;
+    case CMD_ELSE: // команда ELSE
+        {
+        // Включено в логику IF
+        } break;
 
 //	///////////////////////////////////////////////////////////
 //	case CMD_COMPARE:  // COMPARE
@@ -622,16 +622,16 @@ bool N2Processor::SelfExec(DataPack *tc)
 //	//	{
 
 
-//	///**/
-//	case CMD_BREAK : // BREAK
-//		{
-//		pOrder_->JumpWithCurrent();
-//		unsigned int cp = pOrder_->GetCIP();
-//		pOrder_->DecCIP();
-//		pOrder_->JumpWithCurrent();
-//		pOrder_->SetActivityOfCurrent();
-//		pOrder_->SetCIP(cp);
-//		} return false;
+    ///**/
+    case CMD_BREAK : // BREAK
+        {
+        pOrder_->JumpWithCurrent();
+        unsigned int cp = pOrder_->GetCIP();
+        pOrder_->DecCIP();
+        pOrder_->JumpWithCurrent();
+        pOrder_->SetActivityOfCurrent();
+        pOrder_->SetCIP(cp);
+        } return false;
 		
 //	case CMD_EXECUTE: // EXECUTE
 //		{
@@ -652,61 +652,61 @@ bool N2Processor::SelfExec(DataPack *tc)
 //			((N2VariableLONG*) pTemp)->set((long&)ret);
 //		} break;
 
-//	case CMD_EXIT: // EXIT
-//		{
-//		consoleMessage(std_string("команда EXIT: ") + tc->namePack, CMD_PROCESSOR_EVENT);
-//		ResetProcessor();
-//		queue_empty = true;
-//		} return false;
+    case CMD_EXIT: // EXIT
+        {
+        consoleMessage(std_string("команда EXIT: ") + tc->namePack, CMD_PROCESSOR_EVENT);
+        ResetProcessor();
+        queue_empty = true;
+        } return false;
 		
-//	case CMD_TIMER: // TIMER
-//		{
-//		N2BFC2* cmd = (N2BFC2*) tc->pCmd;
-//		if(cmd->i_var[0] > 10)
-//				return true;
-//		INT_N2 numTimer = cmd->i_var[0];
-//		switch(cmd->i_var[1])
-//			{
-//			case 0: // INIT
-//				Timers[numTimer].use = true;
-//				Timers[numTimer].resol = cmd->i_var[2];
-//				Timers[numTimer].time_begin = clock();
-//				break;
-//			case 1: // GET
-//				{
-//				int val = 0;
-//				int res = (Timers[numTimer].resol == 0)? 1000 : 1;
-//				val = ((clock() - Timers[numTimer].time_begin) * res)/ CLOCKS_PER_SEC;
-//				//vars.SetValue(tc->namePack, val); ???
-//				}
-//				break;
-//			case 2: // RESOLUTION
-//				Timers[numTimer].resol = cmd->i_var[2];
-//				break;
-//			case 3: // STOP
-//				Timers[numTimer].use = false;
-//				break;
-//			case 4: // WAIT
-//				{
-//				int val = 0;
-//				int res = (Timers[numTimer].resol == 0)? 1000 : 1;
-//				int end = cmd->i_var[2];
-//				while(1)
-//					{
-//					val = ((clock() - Timers[numTimer].time_begin) * res)/ CLOCKS_PER_SEC;
-//					if(val >= end)
-//							break;
-//					}
-//				}
-//				break;
-//			case 5: //START
-//				{
-//				Timers[numTimer].time_begin = clock();
-//				}
-//				break;
-//			}
+    case CMD_TIMER: // TIMER
+        {
+        N2BFC2* cmd = (N2BFC2*) tc->pCmd;
+        if(cmd->i_var[0] > 10)
+                return true;
+        INT_N2 numTimer = cmd->i_var[0];
+        switch(cmd->i_var[1])
+            {
+            case 0: // INIT
+                Timers[numTimer].use = true;
+                Timers[numTimer].resol = cmd->i_var[2];
+                Timers[numTimer].time_begin = clock();
+                break;
+            case 1: // GET
+                {
+                int val = 0;
+                int res = (Timers[numTimer].resol == 0)? 1000 : 1;
+                val = ((clock() - Timers[numTimer].time_begin) * res)/ CLOCKS_PER_SEC;
+                //vars.SetValue(tc->namePack, val); ???
+                }
+                break;
+            case 2: // RESOLUTION
+                Timers[numTimer].resol = cmd->i_var[2];
+                break;
+            case 3: // STOP
+                Timers[numTimer].use = false;
+                break;
+            case 4: // WAIT
+                {
+                int val = 0;
+                int res = (Timers[numTimer].resol == 0)? 1000 : 1;
+                int end = cmd->i_var[2];
+                while(1)
+                    {
+                    val = ((clock() - Timers[numTimer].time_begin) * res)/ CLOCKS_PER_SEC;
+                    if(val >= end)
+                            break;
+                    }
+                }
+                break;
+            case 5: //START
+                {
+                Timers[numTimer].time_begin = clock();
+                }
+                break;
+            }
 		
-//		} break;
+        } break;
 				
 //	case CMD_WHILE: // WHILE
 //		{
@@ -887,57 +887,57 @@ bool N2Processor::SelfExec(DataPack *tc)
 //		}
 //		break;
 
-//	case CMD_CLOSE_DEVICE: // CLOSE_DEVICE
-//		{
-//			bool error = true;
-//			vector<HANDLE_NAME>::iterator it;
-//			for(it=vecHands.begin(); it!=vecHands.end(); it++)
-//				if((*it).nameHandle == tc->namePack) {
-//					error = false;
-//					pModsMan_->deleteModule((*it).pModule);
-//					vecHands.erase(it);
-//					break;
-//				}
+    case CMD_CLOSE_DEVICE: // CLOSE_DEVICE
+        {
+            bool error = true;
+            vector<HANDLE_NAME>::iterator it;
+            for(it=vecHands.begin(); it!=vecHands.end(); it++)
+                if((*it).nameHandle == tc->namePack) {
+                    error = false;
+                    pModsMan_->deleteModule((*it).pModule);
+                    vecHands.erase(it);
+                    break;
+                }
 
-//			if(error)
-//				OnProcedureProcessError("Устройство не закрыто!", tc->signature.value, false);
-//		}
-//		break;
+            if(error)
+                OnProcedureProcessError("Устройство не закрыто!", tc->signature.value, false);
+        }
+        break;
 
-//	case CMD_DEVICE: // DEVICE
-//		{
-//			bool error = true;
-//			vector<HANDLE_NAME>::iterator it;
-//			for(it=vecHands.begin(); it!=vecHands.end(); it++)
-//				if((*it).nameHandle == tc->namePack) {
-//					error = false;
-//					stackHands.push(*it);
-//					break;
-//				}
+    case CMD_DEVICE: // DEVICE
+        {
+            bool error = true;
+            vector<HANDLE_NAME>::iterator it;
+            for(it=vecHands.begin(); it!=vecHands.end(); it++)
+                if((*it).nameHandle == tc->namePack) {
+                    error = false;
+                    stackHands.push(*it);
+                    break;
+                }
 
-//			if(error)
-//				OnProcedureProcessError("Устройство не найдено!", tc->signature.value, false);
+            if(error)
+                OnProcedureProcessError("Устройство не найдено!", tc->signature.value, false);
 		
-//		}
-//		break;
-////
-//	case CMD_DEVICE_END: //  </DEVICE>
-//		{
-//			if(!stackHands.empty())
-//				stackHands.pop();
-//		}
-//		break;
+        }
+        break;
+//
+    case CMD_DEVICE_END: //  </DEVICE>
+        {
+            if(!stackHands.empty())
+                stackHands.pop();
+        }
+        break;
 
-//	case CMD_MARK: //  <MARK />
-//		{}
-//		break;
+    case CMD_MARK: //  <MARK />
+        {}
+        break;
 
-//	case CMD_GOTO: //  <GOTO />
-//		{
-//			pOrder_->SetCIP(tc->ret_value);
-//			return false; // не прокручивать указатель команд
-//		}
-//		break;
+    case CMD_GOTO: //  <GOTO />
+        {
+            pOrder_->SetCIP(tc->ret_value);
+            return false; // не прокручивать указатель команд
+        }
+        break;
 
 //	case CMD_USE_GLOBAL: //  <USE_GLOBAL>
 //		{
@@ -954,17 +954,17 @@ bool N2Processor::SelfExec(DataPack *tc)
 //		}
 //		break;
 
-//	case CMD_MACRO : //
-//		{
-//			// пока пустая команда
-//		}
-//		break;
+    case CMD_MACRO : //
+        {
+            // пока пустая команда
+        }
+        break;
 	
-//	case CMD_EMPTY : //
-//		{
-//			// пустая команда
-//		}
-//		break;
+    case CMD_EMPTY : //
+        {
+            // пустая команда
+        }
+        break;
 
 //	case CMD_TABLE : //
 //		{
@@ -1257,18 +1257,18 @@ bool N2Processor::SelfExec(DataPack *tc)
 
 //		} break;
 
-//	///	На удаление vvvvvvvvvvvv
-//	case 100:
-//		{
-//		std_string str;
-//		char mtc[512];
-//		sprintf_s(mtc, "Произошла ошибка: %s\nРабота остановлена!", tc->namePack.c_str());
-//		str = mtc;
-//		//MessageBox(NULL, str.c_str(), "Ошибка синтаксиса тестов (Загрузчик тестов)", MB_ICONERROR);
-//		//display->Write(std_string("(!) Произошла ошибка (Загрузчик) : ") + tc->namePack.c_str());
-//		queue_empty = true;
-//		} return false;
-//	}
+    ///	На удаление vvvvvvvvvvvv
+    case 100:
+        {
+        std_string str;
+        char mtc[512];
+        sprintf_s(mtc, "Произошла ошибка: %s\nРабота остановлена!", tc->namePack.c_str());
+        str = mtc;
+        //MessageBox(NULL, str.c_str(), "Ошибка синтаксиса тестов (Загрузчик тестов)", MB_ICONERROR);
+        //display->Write(std_string("(!) Произошла ошибка (Загрузчик) : ") + tc->namePack.c_str());
+        queue_empty = true;
+        } return false;
+    }
 
     return true;
 }

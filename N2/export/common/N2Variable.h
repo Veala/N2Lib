@@ -515,30 +515,3 @@ public:
     N2BaseVariable* getNamed(std_string name);
 };
 
-
-
-
-/// Класс для создания объектов переменных разных типов
-//class N2VariableCreator
-//{
-	
-//public:
-	
-//	N2BaseVariable*
-//		createSimplex(TYPE_VAR type, std_string name = EMPTY_STR, int cnt = 1);
-
-	
-//	N2BaseVariable*
-//		createComplex(std_string name)
-//	{
-//		return NULL; // new N2VariableComplex(name);
-//	}
-	
-//	//
-
-//	N2BaseVariable*
-//		createTable(TYPE_VAR el_type, std_string name, int rows, int columns);
-
-//	int
-//		getIntFromSimplexVar(N2BaseVariable* pVar);
-//};
