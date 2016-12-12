@@ -33,6 +33,7 @@ static N2_ERRORS_OPCODES_DESCRIPTION N2ERR_Definitions [] =
 
 class N2BaseVariable
 {
+    friend OLS_Heap;
 public:
     typedef unsigned int uint;
 //    enum types {
@@ -49,7 +50,7 @@ public:
     virtual N2BaseVariable* clone() = 0;
     virtual ~N2BaseVariable()       { cout << "N2BaseVariable: " << varName << endl; }
 
-    virtual N2_ERRORS_OPCODES operation(N2_OPERATING_CODE code, N2BaseVariable* op2 = NULL, N2BaseVariable* res = NULL) = 0;
+    //virtual N2_ERRORS_OPCODES operation(N2_OPERATING_CODE code, N2BaseVariable* op2 = NULL, N2BaseVariable* res = NULL) = 0;
 
 
 //    virtual std_string rename(std_string newName);
@@ -77,7 +78,7 @@ private:
 
 template <class T> class N2AbstractSimple : public N2BaseVariable
 {
-    friend OLS_Heap;
+    //friend OLS_Heap;
 public:
     void setValue(uint index, T newValue);
     T getValue(uint index);
@@ -109,33 +110,15 @@ private:
 
 class N2VariableBOOL : public N2AbstractSimple <bool>
 {
-    friend OLS_Heap;
+    //friend OLS_Heap;
 protected:
     N2VariableBOOL(string vName, uint N=1, bool defVal=false) : N2AbstractSimple<bool>(vName, N, defVal) { type = VAR_BOOL; }
 };
 class N2VariableINT : public N2AbstractSimple <int>
 {
-    friend OLS_Heap;
+    //friend OLS_Heap;
 protected:
     N2VariableINT(string vName, uint N=1, int defVal=0) : N2AbstractSimple<int>(vName, N, defVal) { type = VAR_INT; }
-};
-class N2VariableLONG : public N2AbstractSimple <long>
-{
-    friend OLS_Heap;
-protected:
-    N2VariableLONG(string vName, uint N=1, long defVal=0) : N2AbstractSimple<long>(vName, N, defVal) { type = VAR_LONG; }
-};
-class N2VariableFLOAT : public N2AbstractSimple <float>
-{
-    friend OLS_Heap;
-protected:
-    N2VariableFLOAT(string vName, uint N=1, float defVal=0) : N2AbstractSimple<float>(vName, N, defVal) { type = VAR_FLOAT; }
-};
-class N2VariableSTR : public N2AbstractSimple <string>
-{
-    friend OLS_Heap;
-protected:
-    N2VariableSTR(string vName, uint N=1, string defVal="defVal") : N2AbstractSimple<string>(vName, N, defVal) { type = VAR_STRING; }
 };
 
 
@@ -143,7 +126,7 @@ protected:
 
 template <class T> class N2AbstractTable : public N2BaseVariable
 {
-    friend OLS_Heap;
+    //friend OLS_Heap;
 public:
     void setValue(uint row, uint column, T newValue);
     T getValue(uint row, uint column);
@@ -159,33 +142,15 @@ private:
 
 class N2VariableBoolTABLE : public N2AbstractTable <bool>
 {
-    friend OLS_Heap;
+    //friend OLS_Heap;
 protected:
     N2VariableBoolTABLE(string vName, uint numRows=1, uint numColumns=1, bool defVal=false) : N2AbstractTable<bool>(vName, numRows, numColumns, defVal) { type = VAR_BOOLTABLE; }
 };
 class N2VariableIntTABLE : public N2AbstractTable <int>
 {
-    friend OLS_Heap;
+    //friend OLS_Heap;
 protected:
     N2VariableIntTABLE(string vName, uint numRows=1, uint numColumns=1, int defVal=0) : N2AbstractTable<int>(vName, numRows, numColumns, defVal) { type = VAR_INTTABLE; }
-};
-class N2VariableLongTABLE : public N2AbstractTable <long>
-{
-    friend OLS_Heap;
-protected:
-    N2VariableLongTABLE(string vName, uint numRows=1, uint numColumns=1, long defVal=0) : N2AbstractTable<long>(vName, numRows, numColumns, defVal) { type = VAR_LONGTABLE; }
-};
-class N2VariableFloatTABLE : public N2AbstractTable <float>
-{
-    friend OLS_Heap;
-protected:
-    N2VariableFloatTABLE(string vName, uint numRows=1, uint numColumns=1, float defVal=0) : N2AbstractTable<float>(vName, numRows, numColumns, defVal) { type = VAR_FLOATTABLE; }
-};
-class N2VariableStringTABLE : public N2AbstractTable <string>
-{
-    friend OLS_Heap;
-protected:
-    N2VariableStringTABLE(string vName, uint numRows=1, uint numColumns=1, string defVal="defVal") : N2AbstractTable<string>(vName, numRows, numColumns, defVal) { type = VAR_STRINGTABLE; }
 };
 
 
@@ -193,7 +158,7 @@ protected:
 
 class N2User : public N2BaseVariable
 {
-    friend OLS_Heap;
+    //friend OLS_Heap;
 public:
     void addCopyVar(N2BaseVariable* var);
     N2BaseVariable* getVar(string strHierarchy, TYPE_VAR t);

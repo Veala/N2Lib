@@ -162,9 +162,9 @@ N2BaseVariable *N2VariableCreator::createSimplex(TYPE_VAR type, string name, uns
     switch (type) {
     case VAR_BOOL:   return N2Register::self()->getMemoryAllocator()->createSimpleVar<N2VariableBOOL>(name,cnt);
     case VAR_INT:    return N2Register::self()->getMemoryAllocator()->createSimpleVar<N2VariableINT>(name,cnt);
-    case VAR_LONG:   return N2Register::self()->getMemoryAllocator()->createSimpleVar<N2VariableLONG>(name,cnt);
-    case VAR_FLOAT:  return N2Register::self()->getMemoryAllocator()->createSimpleVar<N2VariableFLOAT>(name,cnt);
-    case VAR_STRING: return N2Register::self()->getMemoryAllocator()->createSimpleVar<N2VariableSTR>(name,cnt);
+//    case VAR_LONG:   return N2Register::self()->getMemoryAllocator()->createSimpleVar<N2VariableLONG>(name,cnt);
+//    case VAR_FLOAT:  return N2Register::self()->getMemoryAllocator()->createSimpleVar<N2VariableFLOAT>(name,cnt);
+//    case VAR_STRING: return N2Register::self()->getMemoryAllocator()->createSimpleVar<N2VariableSTR>(name,cnt);
     }
     return NULL;
 }
@@ -174,9 +174,9 @@ N2BaseVariable *N2VariableCreator::createTable(TYPE_VAR type, string name, int r
     switch (type) {
     case VAR_BOOLTABLE:   return N2Register::self()->getMemoryAllocator()->createTableVar<N2VariableBoolTABLE>(name,rows,columns);
     case VAR_INTTABLE:    return N2Register::self()->getMemoryAllocator()->createTableVar<N2VariableIntTABLE>(name,rows,columns);
-    case VAR_LONGTABLE:   return N2Register::self()->getMemoryAllocator()->createTableVar<N2VariableLongTABLE>(name,rows,columns);
-    case VAR_FLOATTABLE:  return N2Register::self()->getMemoryAllocator()->createTableVar<N2VariableFloatTABLE>(name,rows,columns);
-    case VAR_STRINGTABLE: return N2Register::self()->getMemoryAllocator()->createTableVar<N2VariableStringTABLE>(name,rows,columns);
+//    case VAR_LONGTABLE:   return N2Register::self()->getMemoryAllocator()->createTableVar<N2VariableLongTABLE>(name,rows,columns);
+//    case VAR_FLOATTABLE:  return N2Register::self()->getMemoryAllocator()->createTableVar<N2VariableFloatTABLE>(name,rows,columns);
+//    case VAR_STRINGTABLE: return N2Register::self()->getMemoryAllocator()->createTableVar<N2VariableStringTABLE>(name,rows,columns);
     }
     return NULL;
 }

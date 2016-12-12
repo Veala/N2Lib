@@ -253,75 +253,75 @@ bool N2Processor::SelfExec(DataPack *tc)
         } break;
 
     /// условная команда IF
-//	case CMD_IF:
-//		{
-//		bool sol = false;
-//		N2BFC1* cmd = (N2BFC1*)tc->pCmd;
+    case CMD_IF:
+        {
+        bool sol = false;
+        N2BFC1* cmd = (N2BFC1*)tc->pCmd;
 
-//		N2BaseVariable* pVar1 = manVars.getVar(cmd->nameVariable1);
-//		if(!pVar1) {
-//				OnProcedureProcessError(head + "Переменной " + cmd->nameVariable1 +" не существует!", tc->signature.value, true);
-//				break;
-//			}
+        N2BaseVariable* pVar1 = manVars.getVar(cmd->nameVariable1);
+        if(!pVar1) {
+                OnProcedureProcessError(head + "Переменной " + cmd->nameVariable1 +" не существует!", tc->signature.value, true);
+                break;
+            }
 
-//		if(cmd->nameVariable2 != EMPTY_STR &&
-//			cmd->codeCompare != N2COMPARE_UNDEFINE) {
+        if(cmd->nameVariable2 != EMPTY_STR &&
+            cmd->codeCompare != N2COMPARE_UNDEFINE) {
 			
-//			N2BaseVariable* pVar2 = manVars.getVar(cmd->nameVariable2);
-//			if(!pVar2) {
-//				//проверка числового значения
-//				PHelper helper;
-//				helper.AddFirst("TRUE", 1);
-//				helper.Add("FALSE", 0);
-//				AHE ahe = helper.WhatIs(cmd->nameVariable2);
-//				if(ahe == AHE_TOKEN ||
-//					ahe == AHE_DIGIT) {
-//						N2VariableCreator maker;
-//						pVar2 = maker.createSimplex(pVar1->type());
-//						int x = helper.GetValue();
-//						pVar2->setVoid(&x);   /////// ?????????????
-//				}
-//			}
-//			//else {
-//			//	OnProcedureProcessError("значение атрибута value в команде IF недопустимо!", tc->signature.value, false);
-//			//	break;
-//			//}
-//			sol = pVar1->compare(cmd->codeCompare, pVar2);
-//		}
-//		else {
+            N2BaseVariable* pVar2 = manVars.getVar(cmd->nameVariable2);
+            if(!pVar2) {
+                //проверка числового значения
+                PHelper helper;
+                helper.AddFirst("TRUE", 1);
+                helper.Add("FALSE", 0);
+                AHE ahe = helper.WhatIs(cmd->nameVariable2);
+                if(ahe == AHE_TOKEN ||
+                    ahe == AHE_DIGIT) {
+                        N2VariableCreator maker;
+                        pVar2 = maker.createSimplex(pVar1->type());
+                        int x = helper.GetValue();
+                        pVar2->setVoid(&x);   /////// ?????????????
+                }
+            }
+            //else {
+            //	OnProcedureProcessError("значение атрибута value в команде IF недопустимо!", tc->signature.value, false);
+            //	break;
+            //}
+            sol = pVar1->compare(cmd->codeCompare, pVar2);
+        }
+        else {
 			
-//			if(!pVar1) {
-//				//проверка числового значения
-//				PHelper helper;
-//				helper.AddFirst("TRUE", 1);
-//				helper.Add("FALSE", 0);
-//				AHE ahe = helper.WhatIs(cmd->nameVariable1);
-//				if(ahe == AHE_TOKEN ||
-//					ahe == AHE_DIGIT) {
-//						sol = !!helper.GetValue();
-//				}
-//				else {
-//					OnProcedureProcessError(head + "Переменной " + cmd->nameVariable1 +" не существует!", tc->signature.value, true);
-//					break;
-//				}
-//			}
-//			switch(pVar1->type()) {
-//				case VAR_INT: sol = !! *((N2VariableINT*)pVar1)->get();
-//					break;
-//				case VAR_BOOL: sol = *((N2VariableBOOL*)pVar1)->get();
-//					break;
-//				default:
-//					OnProcedureProcessError("Неверный тип переменной!", \
-//						tc->signature.value, true);
-//			}
-//		}
-//		// принятие решения
-//		if(!sol)
-//			{
-//			pOrder_->JumpWithCurrent();
-//			return false;
-//			}
-//		} break;
+            if(!pVar1) {
+                //проверка числового значения
+                PHelper helper;
+                helper.AddFirst("TRUE", 1);
+                helper.Add("FALSE", 0);
+                AHE ahe = helper.WhatIs(cmd->nameVariable1);
+                if(ahe == AHE_TOKEN ||
+                    ahe == AHE_DIGIT) {
+                        sol = !!helper.GetValue();
+                }
+                else {
+                    OnProcedureProcessError(head + "Переменной " + cmd->nameVariable1 +" не существует!", tc->signature.value, true);
+                    break;
+                }
+            }
+            switch(pVar1->type()) {
+                case VAR_INT: sol = !! *((N2VariableINT*)pVar1)->get();
+                    break;
+                case VAR_BOOL: sol = *((N2VariableBOOL*)pVar1)->get();
+                    break;
+                default:
+                    OnProcedureProcessError("Неверный тип переменной!", \
+                        tc->signature.value, true);
+            }
+        }
+        // принятие решения
+        if(!sol)
+            {
+            pOrder_->JumpWithCurrent();
+            return false;
+            }
+        } break;
 
 
 
@@ -339,205 +339,205 @@ bool N2Processor::SelfExec(DataPack *tc)
         } break;
     // ...
 
-//	case CMD_VARIABLE: // Инициализация переменной
-//		{
-//			if(!tc->pCmd || tc->pCmd->label != N2_BFCDECL) {
-//				OnProcedureProcessError(head + (CT("Ошибка создания переменной")) + tc->namePack, \
-//					tc->signature.value, false);
-//				break;
-//			}
+    case CMD_VARIABLE: // Инициализация переменной
+        {
+            if(!tc->pCmd || tc->pCmd->label != N2_BFCDECL) {
+                OnProcedureProcessError(head + (CT("Ошибка создания переменной")) + tc->namePack, \
+                    tc->signature.value, false);
+                break;
+            }
 		
-//			N2DeclareBFC* pCmd = (N2DeclareBFC*)tc->pCmd;
-//			short size = pCmd->size;
-//			if(pCmd->sizeStr != EMPTY_STR) {
-//				N2BaseVariable* pVS = manVars.getVar(pCmd->sizeStr);
-//				if(!pVS || (pVS->type() != VAR_INT || pVS->type() != VAR_LONG)) {
-//					OnProcedureProcessError(head + CT("Переменная массива ") + pCmd->sizeStr + " не найдена.", \
-//					tc->signature.value, false);
-//					break;
-//				}
-//				size = maker.getIntFromSimplexVar(pVS);
-//			}
-//			if(size == 0)
-//				size = 1;
-//			N2BaseVariable* pVar;
-//			pVar = maker.createSimplex(pCmd->type, tc->namePack, size);
-//			if (pVar)
-//			{
-//				pVar->setVoid(tc->buffer);
-//				if (!pCmd->initVariable.empty())
-//				{
-//					N2BaseVariable* pVal = manVars.getVar(pCmd->initVariable);
-//					if (!pVal) {
-//						pVal = maker.createSimplex(VAR_STRING, "tmpX", size);
-//						if (pVal)
-//							((N2VariableSTR*) pVal)->set(pCmd->initVariable);
-//					}
-//					if (pVal)
-//						pVar->set(pVal);
-//				}
-//			}
+            N2DeclareBFC* pCmd = (N2DeclareBFC*)tc->pCmd;
+            short size = pCmd->size;
+            if(pCmd->sizeStr != EMPTY_STR) {
+                N2BaseVariable* pVS = manVars.getVar(pCmd->sizeStr);
+                if(!pVS || (pVS->type() != VAR_INT || pVS->type() != VAR_LONG)) {
+                    OnProcedureProcessError(head + CT("Переменная массива ") + pCmd->sizeStr + " не найдена.", \
+                    tc->signature.value, false);
+                    break;
+                }
+                size = maker.getIntFromSimplexVar(pVS);
+            }
+            if(size == 0)
+                size = 1;
+            N2BaseVariable* pVar;
+            pVar = maker.createSimplex(pCmd->type, tc->namePack, size);
+            if (pVar)
+            {
+                pVar->setVoid(tc->buffer);
+                if (!pCmd->initVariable.empty())
+                {
+                    N2BaseVariable* pVal = manVars.getVar(pCmd->initVariable);
+                    if (!pVal) {
+                        pVal = maker.createSimplex(VAR_STRING, "tmpX", size);
+                        if (pVal)
+                            ((N2VariableSTR*) pVal)->set(pCmd->initVariable);
+                    }
+                    if (pVal)
+                        pVar->set(pVal);
+                }
+            }
 
-//			if(!manVars.declare(pVar))
-//				OnProcedureProcessError(head + ("Переменная \"") + tc->namePack + \
-//										std_string ("\" существует или не может быть создана. "), \
-//										tc->signature.value, false);
+            if(!manVars.declare(pVar))
+                OnProcedureProcessError(head + ("Переменная \"") + tc->namePack + \
+                                        std_string ("\" существует или не может быть создана. "), \
+                                        tc->signature.value, false);
 
-//		} break;
+        } break;
 
 
-//	case CMD_OPERATION: // Операция с двумя  переменными  <OPERATION>
-//		{
-//			const std_string title = CT("Команда OPERATION : ");
-//			if(!tc->pCmd || tc->pCmd->label != N2_BFCOPER) {
-//				OnProcedureProcessError(title + CT("ошибка состава команды"), tc->signature.value, false);
-//				break;
-//			}
+    case CMD_OPERATION: // Операция с двумя  переменными  <OPERATION>
+        {
+            const std_string title = CT("Команда OPERATION : ");
+            if(!tc->pCmd || tc->pCmd->label != N2_BFCOPER) {
+                OnProcedureProcessError(title + CT("ошибка состава команды"), tc->signature.value, false);
+                break;
+            }
 		
-//			tc->namePack;
-//			N2OperationBFC* pCmd = (N2OperationBFC*)tc->pCmd;
-//			N2BaseVariable* pOp1 = manVars.getVar(pCmd->op1);
-//			if(!pOp1) { // && (pragma == PRAGMA_ERROR_REDECLARE) ) {
-//				OnProcedureProcessError(std_string("Переменная \"") + pCmd->op1 + CT("\" не существует! "), \
-//					tc->signature.value, false);
-//				break;
-//			}
-//			N2BaseVariable* pOp2 = manVars.getVar(pCmd->op2);
-//			N2BaseVariable* pRes = manVars.getVar(pCmd->opResult);
-//			if(!pRes)
-//				pRes = pOp1;
+            tc->namePack;
+            N2OperationBFC* pCmd = (N2OperationBFC*)tc->pCmd;
+            N2BaseVariable* pOp1 = manVars.getVar(pCmd->op1);
+            if(!pOp1) { // && (pragma == PRAGMA_ERROR_REDECLARE) ) {
+                OnProcedureProcessError(std_string("Переменная \"") + pCmd->op1 + CT("\" не существует! "), \
+                    tc->signature.value, false);
+                break;
+            }
+            N2BaseVariable* pOp2 = manVars.getVar(pCmd->op2);
+            N2BaseVariable* pRes = manVars.getVar(pCmd->opResult);
+            if(!pRes)
+                pRes = pOp1;
 
-//			N2_OPERATING_CODE code = pCmd->code;
-//			//
-//			if(pOp2) {
-//				if(pOp1->type() != pOp2->type()) { // приведение оператора 2 к опер. 1
-//					N2BaseVariable* p2 = pOp2;
-//					pOp2 = manVars.creator.createSimplex(pOp1->type(), "");
-//					if (pOp2) pOp2->set(p2);
-//					//OnProcedureProcessError(std_string(CT("Разнотипные операнды!")), \
-//					//	tc->signature.value, false);
-//				}
-//			}
-//			else {
-//				if(pCmd->op2 != EMPTY_STR) {
-//						pOp2 = manVars.creator.createSimplex(pOp1->type(), "%temp");
-//						N2BaseVariable* strVar = manVars.creator.createSimplex(VAR_STRING, "%temp2");
-//						if(pOp2!=0 && strVar!=0)
-//						{
-//							((N2VariableSTR*)strVar)->set(pCmd->op2);
-//							pOp2->set(strVar);
-//						}
-//				}
-//			}
-//			if(pRes->type() != pOp1->type()) {
-//				OnProcedureProcessError(std_string(CT("Неверный тип результата!")), \
-//					tc->signature.value, false);
-//			}
-//			// операция
-//			N2_ERRORS_OPCODES erc = pOp1->operation(code, pOp2, pRes);
-//			if(erc != N2EC_SUCCESS)
-//				OnProcedureProcessError(std_string(CT("Операция над типами невыполнима!")), \
-//				tc->signature.value, false);
+            N2_OPERATING_CODE code = pCmd->code;
+            //
+            if(pOp2) {
+                if(pOp1->type() != pOp2->type()) { // приведение оператора 2 к опер. 1
+                    N2BaseVariable* p2 = pOp2;
+                    pOp2 = manVars.creator.createSimplex(pOp1->type(), "");
+                    if (pOp2) pOp2->set(p2);
+                    //OnProcedureProcessError(std_string(CT("Разнотипные операнды!")), \
+                    //	tc->signature.value, false);
+                }
+            }
+            else {
+                if(pCmd->op2 != EMPTY_STR) {
+                        pOp2 = manVars.creator.createSimplex(pOp1->type(), "%temp");
+                        N2BaseVariable* strVar = manVars.creator.createSimplex(VAR_STRING, "%temp2");
+                        if(pOp2!=0 && strVar!=0)
+                        {
+                            ((N2VariableSTR*)strVar)->set(pCmd->op2);
+                            pOp2->set(strVar);
+                        }
+                }
+            }
+            if(pRes->type() != pOp1->type()) {
+                OnProcedureProcessError(std_string(CT("Неверный тип результата!")), \
+                    tc->signature.value, false);
+            }
+            // операция
+            N2_ERRORS_OPCODES erc = pOp1->operation(code, pOp2, pRes);
+            if(erc != N2EC_SUCCESS)
+                OnProcedureProcessError(std_string(CT("Операция над типами невыполнима!")), \
+                tc->signature.value, false);
 
-//		} break;
+        } break;
 
 
-//	case CMD_FOR: // FOR
-//		{
-//		int end = 0;
-//		int step = 0;
-//		int beg = 0;
-//		N2BFC2* cmd = (N2BFC2*)tc->pCmd;
-//		PHelper help;
-//		N2BaseVariable* pTemp = NULL;
-//		N2VariableCreator creator;
-//		N2VariableINT* pIv = (N2VariableINT*) creator.createSimplex(VAR_INT);
-//		if (!pIv)
-//			return false;
-//		// begin
-//		if(cmd->s_var[0] == EMPTY_STR)
-//			beg = cmd->i_var[0];
-//		else {
-//			pTemp = manVars.getVar(cmd->s_var[0]);
-//			if (!pTemp)
-//			{
-//				OnProcedureProcessError(std_string(CT("Нет переменной начала цикла FOR")), \
-//					tc->signature.value, true);
-//				break;
-//			}
-//			beg = pIv->custom(pTemp);
-//		}
+    case CMD_FOR: // FOR
+        {
+        int end = 0;
+        int step = 0;
+        int beg = 0;
+        N2BFC2* cmd = (N2BFC2*)tc->pCmd;
+        PHelper help;
+        N2BaseVariable* pTemp = NULL;
+        N2VariableCreator creator;
+        N2VariableINT* pIv = (N2VariableINT*) creator.createSimplex(VAR_INT);
+        if (!pIv)
+            return false;
+        // begin
+        if(cmd->s_var[0] == EMPTY_STR)
+            beg = cmd->i_var[0];
+        else {
+            pTemp = manVars.getVar(cmd->s_var[0]);
+            if (!pTemp)
+            {
+                OnProcedureProcessError(std_string(CT("Нет переменной начала цикла FOR")), \
+                    tc->signature.value, true);
+                break;
+            }
+            beg = pIv->custom(pTemp);
+        }
 	
-//		// end
-//		if(cmd->s_var[1] == EMPTY_STR)
-//			end = cmd->i_var[1];
-//		else {
-//			pTemp = manVars.getVar(cmd->s_var[1]);
-//			if (!pTemp)
-//			{
-//				OnProcedureProcessError(std_string(CT("Нет переменной конца цикла FOR")), \
-//					tc->signature.value, true);
-//				break;
-//			}
-//			end =pIv->custom(pTemp);
-//		}
+        // end
+        if(cmd->s_var[1] == EMPTY_STR)
+            end = cmd->i_var[1];
+        else {
+            pTemp = manVars.getVar(cmd->s_var[1]);
+            if (!pTemp)
+            {
+                OnProcedureProcessError(std_string(CT("Нет переменной конца цикла FOR")), \
+                    tc->signature.value, true);
+                break;
+            }
+            end =pIv->custom(pTemp);
+        }
 
-//		// step
-//		if(cmd->s_var[2] == EMPTY_STR)
-//			step = cmd->i_var[2];
-//		else {
-//			pTemp = manVars.getVar(cmd->s_var[2]);
-//			if (!pTemp)
-//			{
-//				OnProcedureProcessError(std_string(CT("Нет переменной шага цикла FOR")), \
-//					tc->signature.value, true);
-//				break;
-//			}
-//			step = pIv->custom(pTemp);
-//		}
+        // step
+        if(cmd->s_var[2] == EMPTY_STR)
+            step = cmd->i_var[2];
+        else {
+            pTemp = manVars.getVar(cmd->s_var[2]);
+            if (!pTemp)
+            {
+                OnProcedureProcessError(std_string(CT("Нет переменной шага цикла FOR")), \
+                    tc->signature.value, true);
+                break;
+            }
+            step = pIv->custom(pTemp);
+        }
 	
-//		//
-//		pTemp = manVars.getVar(tc->namePack);
-//		if (!pTemp || pTemp->type() != VAR_INT)
-//		{
-//			OnProcedureProcessError(std_string(CT("Переменная цикла FOR должна быть типа INT")), \
-//				tc->signature.value, true);
-//			break;
-//		}
-//		// исчисление переходов
-//		if(pOrder_->CurrentIsActive()) {
-//			if(!pTemp) {
-//				pIv->rename(tc->namePack);
-//				pTemp = pIv->clone();
-//				manVars.declare(pTemp);
-//			}
-//			((N2VariableINT*)pTemp)->set(beg);
-//			pOrder_->ResetActivityOfCurrent();
-//		}
-//		else
-//			{
-//			if (!pTemp)
-//			{
-//				OnProcedureProcessError(std_string(CT("Переменная цикла FOR удалена или не существует")), \
-//					tc->signature.value, true);
-//				break;
-//			}
-//			int curv;
-//			curv = *((N2VariableINT*)pTemp)->get();
-//			if(cmd->dec ? ((curv - step) < end) : ((curv + step) > end))
-//				{
-//				//vars.Delete(tc->namePack);
-//				pOrder_->SetActivityOfCurrent();
-//				pOrder_->JumpWithCurrent();
-//				return false;
-//				}
-//			else
-//				{
-//				int temp = cmd->dec ? (curv - step) : (curv + step);
-//				((N2VariableINT*)pTemp)->set(temp);
-//				}
-//			}
-//		} break;
+        //
+        pTemp = manVars.getVar(tc->namePack);
+        if (!pTemp || pTemp->type() != VAR_INT)
+        {
+            OnProcedureProcessError(std_string(CT("Переменная цикла FOR должна быть типа INT")), \
+                tc->signature.value, true);
+            break;
+        }
+        // исчисление переходов
+        if(pOrder_->CurrentIsActive()) {
+            if(!pTemp) {
+                pIv->rename(tc->namePack);
+                pTemp = pIv->clone();
+                manVars.declare(pTemp);
+            }
+            ((N2VariableINT*)pTemp)->set(beg);
+            pOrder_->ResetActivityOfCurrent();
+        }
+        else
+            {
+            if (!pTemp)
+            {
+                OnProcedureProcessError(std_string(CT("Переменная цикла FOR удалена или не существует")), \
+                    tc->signature.value, true);
+                break;
+            }
+            int curv;
+            curv = *((N2VariableINT*)pTemp)->get();
+            if(cmd->dec ? ((curv - step) < end) : ((curv + step) > end))
+                {
+                //vars.Delete(tc->namePack);
+                pOrder_->SetActivityOfCurrent();
+                pOrder_->JumpWithCurrent();
+                return false;
+                }
+            else
+                {
+                int temp = cmd->dec ? (curv - step) : (curv + step);
+                ((N2VariableINT*)pTemp)->set(temp);
+                }
+            }
+        } break;
 
     case 33: // INSTRUCTION_PROFILER
         {
@@ -554,72 +554,72 @@ bool N2Processor::SelfExec(DataPack *tc)
         // Включено в логику IF
         } break;
 
-//	///////////////////////////////////////////////////////////
-//	case CMD_COMPARE:  // COMPARE
-//		{
-//		N2BFC1* cmd = (N2BFC1*) tc->pCmd;
-//		N2BaseVariable* op1 = manVars.getVar(cmd->nameVariable1);
-//		N2BaseVariable* op2 = manVars.getVar(cmd->nameVariable2);
-//		if(!op1) {
-//			OnProcedureProcessError(std_string(CT("Нет переменной op1")), tc->signature.value, true);
-//			break;
-//		}
-//		if (!op2) {
-//			if(cmd->nameVariable2 == EMPTY_STR) {
-//				OnProcedureProcessError(std_string(CT("Нет переменной op2")), tc->signature.value, true);
-//				break;
-//			}
-//			N2BaseVariable* temp = maker.createSimplex(VAR_STRING);
-//			op2 = maker.createSimplex(op1->type());
-//			if (temp!=0 && op2!=0)
-//			{
-//				((N2VariableSTR*)temp)->set(cmd->nameVariable2);
-//				op2->set(temp);
-//			}
-//		}
-//		N2BaseVariable* pTemp = manVars.getVar(tc->namePack);
-//		if(!pTemp) {
-//			OnProcedureProcessError(std_string(CT("Нет переменной для сохранения результата")), \
-//				tc->signature.value, true);
-//			return false;
-//		}
-//		if(pTemp->type() != VAR_BOOL) {
-//			OnProcedureProcessError(std_string(CT("Переменная для сохранения результата не типа BOOL")), \
-//				tc->signature.value, true);
-//			return false;
-//		}
-//		bool res = false;
-//		switch(op1->type()) {
-//		case VAR_INT:
-//			res = ((N2VariableINT*)op1)->compare(cmd->codeCompare, op2);
-//			break;
-//		case VAR_FLOAT:
-//			res = ((N2VariableFLOAT*)op1)->compare(cmd->codeCompare, op2);
-//			break;
-//		case VAR_LONG:
-//			((N2VariableLONG*)op1)->compare(cmd->codeCompare, op2);
-//			break;
-//		case VAR_STRING:
-//			res = ((N2VariableSTR*)op1)->compare(cmd->codeCompare, op2);
-//			break;
-//		case VAR_BOOL:
-//			res = ((N2VariableBOOL*)op1)->compare(cmd->codeCompare, op2);
-//			break;
-//		case VAR_TERNAR:
-//			res = ((N2VariableTO*)op1)->compare(cmd->codeCompare, op2);
-//			break;
+    ///////////////////////////////////////////////////////////
+    case CMD_COMPARE:  // COMPARE
+        {
+        N2BFC1* cmd = (N2BFC1*) tc->pCmd;
+        N2BaseVariable* op1 = manVars.getVar(cmd->nameVariable1);
+        N2BaseVariable* op2 = manVars.getVar(cmd->nameVariable2);
+        if(!op1) {
+            OnProcedureProcessError(std_string(CT("Нет переменной op1")), tc->signature.value, true);
+            break;
+        }
+        if (!op2) {
+            if(cmd->nameVariable2 == EMPTY_STR) {
+                OnProcedureProcessError(std_string(CT("Нет переменной op2")), tc->signature.value, true);
+                break;
+            }
+            N2BaseVariable* temp = maker.createSimplex(VAR_STRING);
+            op2 = maker.createSimplex(op1->type());
+            if (temp!=0 && op2!=0)
+            {
+                ((N2VariableSTR*)temp)->set(cmd->nameVariable2);
+                op2->set(temp);
+            }
+        }
+        N2BaseVariable* pTemp = manVars.getVar(tc->namePack);
+        if(!pTemp) {
+            OnProcedureProcessError(std_string(CT("Нет переменной для сохранения результата")), \
+                tc->signature.value, true);
+            return false;
+        }
+        if(pTemp->type() != VAR_BOOL) {
+            OnProcedureProcessError(std_string(CT("Переменная для сохранения результата не типа BOOL")), \
+                tc->signature.value, true);
+            return false;
+        }
+        bool res = false;
+        switch(op1->type()) {
+        case VAR_INT:
+            res = ((N2VariableINT*)op1)->compare(cmd->codeCompare, op2);
+            break;
+        case VAR_FLOAT:
+            res = ((N2VariableFLOAT*)op1)->compare(cmd->codeCompare, op2);
+            break;
+        case VAR_LONG:
+            ((N2VariableLONG*)op1)->compare(cmd->codeCompare, op2);
+            break;
+        case VAR_STRING:
+            res = ((N2VariableSTR*)op1)->compare(cmd->codeCompare, op2);
+            break;
+        case VAR_BOOL:
+            res = ((N2VariableBOOL*)op1)->compare(cmd->codeCompare, op2);
+            break;
+        case VAR_TERNAR:
+            res = ((N2VariableTO*)op1)->compare(cmd->codeCompare, op2);
+            break;
 
-//		}
+        }
 		
-//		//res = op1->compare(cmd->codeCompare, op2);
+        //res = op1->compare(cmd->codeCompare, op2);
 
-//		if(pTemp->type() == VAR_BOOL)
-//			((N2VariableBOOL*) pTemp)->set(res);
+        if(pTemp->type() == VAR_BOOL)
+            ((N2VariableBOOL*) pTemp)->set(res);
 
-//		}break;
-//	///////////////////////////////////////////////////////////////
-//	//case 36:
-//	//	{
+        }break;
+    ///////////////////////////////////////////////////////////////
+    //case 36:
+    //	{
 
 
     ///**/
@@ -633,24 +633,24 @@ bool N2Processor::SelfExec(DataPack *tc)
         pOrder_->SetCIP(cp);
         } return false;
 		
-//	case CMD_EXECUTE: // EXECUTE
-//		{
-//		int ret = 0;
-//		N2BFC2* cmd = (N2BFC2*) tc->pCmd;
-//		N2BaseVariable* pTemp = manVars.getVar(cmd->s_var[2]);
-//		if(!pTemp ||
-//			pTemp->type() != VAR_INT ||
-//			pTemp->type() != VAR_LONG) {
-//				OnProcedureProcessError(std_string(CT("Необъявленная переменная или неверный тип")), \
-//					tc->signature.value, true);
-//				return false;
-//		}
-//		ret = system((cmd->s_var[0] + CT(" ") + cmd->s_var[1]).c_str());
-//		if(pTemp->type() == VAR_INT)
-//			((N2VariableINT*) pTemp)->set(ret);
-//		if(pTemp->type() == VAR_LONG)
-//			((N2VariableLONG*) pTemp)->set((long&)ret);
-//		} break;
+    case CMD_EXECUTE: // EXECUTE
+        {
+        int ret = 0;
+        N2BFC2* cmd = (N2BFC2*) tc->pCmd;
+        N2BaseVariable* pTemp = manVars.getVar(cmd->s_var[2]);
+        if(!pTemp ||
+            pTemp->type() != VAR_INT ||
+            pTemp->type() != VAR_LONG) {
+                OnProcedureProcessError(std_string(CT("Необъявленная переменная или неверный тип")), \
+                    tc->signature.value, true);
+                return false;
+        }
+        ret = system((cmd->s_var[0] + CT(" ") + cmd->s_var[1]).c_str());
+        if(pTemp->type() == VAR_INT)
+            ((N2VariableINT*) pTemp)->set(ret);
+        if(pTemp->type() == VAR_LONG)
+            ((N2VariableLONG*) pTemp)->set((long&)ret);
+        } break;
 
     case CMD_EXIT: // EXIT
         {
@@ -708,184 +708,187 @@ bool N2Processor::SelfExec(DataPack *tc)
 		
         } break;
 				
-//	case CMD_WHILE: // WHILE
+    case CMD_WHILE: // WHILE
+        {
+        int v = 0;
+        N2BFC3* cmd = (N2BFC3*) tc->pCmd;
+        N2BaseVariable* pTemp = manVars.getVar(cmd->var);
+        N2VariableCreator creator;
+        if(!pTemp) {
+                OnProcedureProcessError(std_string(CT("Необъявленная переменная цикла WHILE")), \
+                tc->signature.value, true);
+            return false;
+        }
+        if(pTemp->type() != VAR_BOOL &&
+            pTemp->type() != VAR_INT) {
+            OnProcedureProcessError(std_string(CT("Неверный тип переменной цикла WHILE")), \
+                tc->signature.value, true);
+            return false;
+        }
+        else {
+            v = creator.getIntFromSimplexVar(pTemp);
+        }
+        if(!v)
+            {
+            pOrder_->JumpWithCurrent();
+            return false;
+            }
+        } break;
+//
+    case CMD_FORMAT_CONST: // FORMAT_CONST
+        {
+        std_string nw = tc->namePack;
+        N2BFC_ARRAY_STRING* cmd = (N2BFC_ARRAY_STRING*) tc->pCmd;
+        if(!cmd)
+            break;
+        std_string pre = cmd->get(0);
+        std_string post = cmd->get(2);
+        std_string var = cmd->get(1);
+        std_string sym = cmd->get(3);
+        N2BaseVariable* pNew = manVars.getVar(nw);
+        N2BaseVariable* pVar = manVars.getVar(var);
+        if(!pNew || !pVar) {
+            OnProcedureProcessError(head + "не найдена переменная ", tc->signature.value, false);
+            break;
+        }
+        if(pNew->type() != VAR_STRING) {
+            OnProcedureProcessError(head + "new-переменная не типа STRING!  ", tc->signature.value, false);
+            break;
+        }
+        // записываем префикс
+        N2BaseVariable* pTv = manVars.getVar(pre);
+        if(pTv)
+            pNew->set(pTv);
+        else
+            ((N2VariableSTR*)pNew)->set(pre);
+        // format var
+        N2VariableCreator creator;
+        N2VariableSTR* sVar = (N2VariableSTR*)creator.createSimplex(VAR_STRING);
+        if (!sVar)
+            return false;
+        std_string str = sVar->custom(pVar);
+        sVar->set(str);
+
+        if(!sym.empty()) {
+            #define MAX_STRING_BUFFER_SIZE 512
+            CHAR_N2 buf[MAX_STRING_BUFFER_SIZE];
+            if(pVar->type() == VAR_INT) {
+                //std_snprintf(buf, MAX_STRING_BUFFER_SIZE, sym.c_str(), ((N2VariableINT*)pVar)->getValue());
+                snprintf(buf, MAX_STRING_BUFFER_SIZE, sym.c_str(), ((N2VariableINT*)pVar)->getValue());
+                std_string str = std_string(buf);
+                sVar->set(str);
+            }
+        }
+        // преобразуем значение переменной var в строку
+        // добавляем postfix
+        N2VariableSTR* sPost = (N2VariableSTR*)creator.createSimplex(VAR_STRING);
+        if (!sPost)
+            return false;
+        pTv = manVars.getVar(post);
+        if(pTv)
+            sPost->set(pTv);
+        else
+            sPost->set(post);
+        // добавляем в переменную
+        pNew->operation(N2OC_PLUS, sVar);
+        pNew->operation(N2OC_PLUS, sPost);
+
+        }
+        break;
+
+//	case 59: // LOG
 //		{
-//		int v = 0;
-//		N2BFC3* cmd = (N2BFC3*) tc->pCmd;
-//		N2BaseVariable* pTemp = manVars.getVar(cmd->var);
-//		N2VariableCreator creator;
-//		if(!pTemp) {
-//				OnProcedureProcessError(std_string(CT("Необъявленная переменная цикла WHILE")), \
-//				tc->signature.value, true);
-//			return false;
-//		}
-//		if(pTemp->type() != VAR_BOOL &&
-//			pTemp->type() != VAR_INT) {
-//			OnProcedureProcessError(std_string(CT("Неверный тип переменной цикла WHILE")), \
-//				tc->signature.value, true);
-//			return false;
-//		}
-//		else {
-//			v = creator.getIntFromSimplexVar(pTemp);
-//		}
-//		if(!v)
+//		std_string os;
+//		switch(vars.Type(tc->namePack))
 //			{
-//			pOrder_->JumpWithCurrent();
-//			return false;
+//			case VAR_STRING:
+//					vars.GetValue(tc->namePack, os);
+//					N2Register::self()->log()->Write(os);
+//					break;
+//			default:
+//					OnProcedureProcessError("LOG: не найдена переменная типа STRING для записи в журнал!  ", 0, false);
 //			}
-//		} break;
-////
-//	case CMD_FORMAT_CONST: // FORMAT_CONST
-//		{
-//		std_string nw = tc->namePack;
-//		N2BFC_ARRAY_STRING* cmd = (N2BFC_ARRAY_STRING*) tc->pCmd;
-//		if(!cmd)
-//			break;
-//		std_string pre = cmd->get(0);
-//		std_string post = cmd->get(2);
-//		std_string var = cmd->get(1);
-//		std_string sym = cmd->get(3);
-//		N2BaseVariable* pNew = manVars.getVar(nw);
-//		N2BaseVariable* pVar = manVars.getVar(var);
-//		if(!pNew || !pVar) {
-//			OnProcedureProcessError(head + "не найдена переменная ", tc->signature.value, false);
-//			break;
-//		}
-//		if(pNew->type() != VAR_STRING) {
-//			OnProcedureProcessError(head + "new-переменная не типа STRING!  ", tc->signature.value, false);
-//			break;
-//		}
-//		// записываем префикс
-//		N2BaseVariable* pTv = manVars.getVar(pre);
-//		if(pTv)
-//			pNew->set(pTv);
-//		else
-//			((N2VariableSTR*)pNew)->set(pre);
-//		// format var
-//		N2VariableCreator creator;
-//		N2VariableSTR* sVar = (N2VariableSTR*)creator.createSimplex(VAR_STRING);
-//		if (!sVar)
-//			return false;
-//		sVar->set(sVar->custom(pVar));
-
-//		if(!sym.empty()) {
-//			#define MAX_STRING_BUFFER_SIZE 512
-//			CHAR_N2 buf[MAX_STRING_BUFFER_SIZE];
-//			if(pVar->type() == VAR_INT) {
-//				std_snprintf(buf, MAX_STRING_BUFFER_SIZE, sym.c_str(), ((N2VariableINT*)pVar)->getValue());
-//				sVar->set(std_string(buf));
-//			}
-//		}
-//		// преобразуем значение переменной var в строку
-//		// добавляем postfix
-//		N2VariableSTR* sPost = (N2VariableSTR*)creator.createSimplex(VAR_STRING);
-//		if (!sPost)
-//			return false;
-//		pTv = manVars.getVar(post);
-//		if(pTv)
-//			sPost->set(pTv);
-//		else
-//			sPost->set(post);
-//		// добавляем в переменную
-//		pNew->operation(N2OC_PLUS, sVar);
-//		pNew->operation(N2OC_PLUS, sPost);
-
 //		}
 //		break;
-
-////	case 59: // LOG
-////		{
-////		std_string os;
-////		switch(vars.Type(tc->namePack))
-////			{
-////			case VAR_STRING:
-////					vars.GetValue(tc->namePack, os);
-////					N2Register::self()->log()->Write(os);
-////					break;
-////			default:
-////					OnProcedureProcessError("LOG: не найдена переменная типа STRING для записи в журнал!  ", 0, false);
-////			}
-////		}
-////		break;
-////
-////	case 60:
-////		{
-////		vars.ClearCache();
-////		}
-////		break;
-////
-////	case 62: // PRAGMA
-////		{
-////		switch(tc->pblock[0])
-////			{
-////			case PRAGMA_ERROR_REDECLARE:
-////				vars.ErrorOnRedeclare(!!tc->pblock[1]);
-////				break;
-////			}
-////		}
-////		break;
-////
-//	case CMD_CAST: // CAST
+//
+//	case 60:
 //		{
-//			N2BFC3* cmd = (N2BFC3*) tc->pCmd;
-//			N2BaseVariable* op1 = manVars.getVar(tc->namePack);
-//			N2BaseVariable* op2 = manVars.getVar(cmd->var);
-//			if(!op1 || !op2) {
-//				OnProcedureProcessError("Переменная не найдена!", tc->signature.value, true);
+//		vars.ClearCache();
+//		}
+//		break;
+//
+//	case 62: // PRAGMA
+//		{
+//		switch(tc->pblock[0])
+//			{
+//			case PRAGMA_ERROR_REDECLARE:
+//				vars.ErrorOnRedeclare(!!tc->pblock[1]);
 //				break;
 //			}
-//			op1->set(op2);
 //		}
 //		break;
-//////
+//
+    case CMD_CAST: // CAST
+        {
+            N2BFC3* cmd = (N2BFC3*) tc->pCmd;
+            N2BaseVariable* op1 = manVars.getVar(tc->namePack);
+            N2BaseVariable* op2 = manVars.getVar(cmd->var);
+            if(!op1 || !op2) {
+                OnProcedureProcessError("Переменная не найдена!", tc->signature.value, true);
+                break;
+            }
+            op1->set(op2);
+        }
+        break;
 ////
-//	case CMD_OPEN_DEVICE: // OPEN_DEVICE
-//		{
-//			int id = 0;
-//			N2BFC2* cmd = (N2BFC2*) tc->pCmd;
-//			HANDLE_NAME hndl;
-//			PHelper helper;
-//			bool obligative = !!cmd->i_var[0];
-//			hndl.nameHandle = cmd->s_var[0];
-//			FINDER_DEVICE findCondition = (FINDER_DEVICE) cmd->i_var[1];
-//			if(findCondition == FD_MANUAL)
-//				hndl.numberDevice = cmd->i_var[2] & 0xFF;
-//			else
-//				hndl.numberDevice = N2_ACTIVE_DEVICE;
+//
+    case CMD_OPEN_DEVICE: // OPEN_DEVICE
+        {
+            int id = 0;
+            N2BFC2* cmd = (N2BFC2*) tc->pCmd;
+            HANDLE_NAME hndl;
+            PHelper helper;
+            bool obligative = !!cmd->i_var[0];
+            hndl.nameHandle = cmd->s_var[0];
+            FINDER_DEVICE findCondition = (FINDER_DEVICE) cmd->i_var[1];
+            if(findCondition == FD_MANUAL)
+                hndl.numberDevice = cmd->i_var[2] & 0xFF;
+            else
+                hndl.numberDevice = N2_ACTIVE_DEVICE;
 
-//			SIGN signature = helper.StoI(cmd->s_var[2], RC_HEX);
+            SIGN signature = helper.StoI(cmd->s_var[2], RC_HEX);
 			
-//			N2ListModules* pListTable = pModsMan_->getListTable();
-//			N2Module* pModule  = pListTable->find(signature);
+            N2ListModules* pListTable = pModsMan_->getListTable();
+            N2Module* pModule  = pListTable->find(signature);
 
-//			if(!pModule) {
-//				if(obligative)
-//					OnProcedureProcessError("Модуль обработки обязательного устройства не найден!", \
-//					tc->signature.value, true);
-//				break;
-//			}
+            if(!pModule) {
+                if(obligative)
+                    OnProcedureProcessError("Модуль обработки обязательного устройства не найден!", \
+                    tc->signature.value, true);
+                break;
+            }
 
-//			hndl.pModule = pModule;
+            hndl.pModule = pModule;
 
-//			N2VariableBOOL* ok = (N2VariableBOOL*)maker.createSimplex(VAR_BOOL, cmd->s_var[1]);
-//			if (!ok)
-//				return false;
-//			bool bok = true;
-//			hndl.pModule = pModule;
-//			pModule->setCallBackFunc((void*)this, N2Processor::WrapperCallBack);
-//			//pModule->alive(hndl.numberDevice);
-//			bok = pModule->open(hndl.numberDevice);
-//			ok->set(bok);
-//			N2BaseVariable *pVar = manVars.getVar(cmd->s_var[1]);
-//			if(pVar)
-//				pVar->set(ok);
-//			else
-//				manVars.declare(ok->clone());
+            N2VariableBOOL* ok = (N2VariableBOOL*)maker.createSimplex(VAR_BOOL, cmd->s_var[1]);
+            if (!ok)
+                return false;
+            bool bok = true;
+            hndl.pModule = pModule;
+            pModule->setCallBackFunc((void*)this, N2Processor::WrapperCallBack);
+            //pModule->alive(hndl.numberDevice);
+            bok = pModule->open(hndl.numberDevice);
+            ok->set(bok);
+            N2BaseVariable *pVar = manVars.getVar(cmd->s_var[1]);
+            if(pVar)
+                pVar->set(ok);
+            else
+                manVars.declare(ok->clone());
 			
-//			if(bok)
-//				vecHands.push_back(hndl);
-//		}
-//		break;
+            if(bok)
+                vecHands.push_back(hndl);
+        }
+        break;
 
     case CMD_CLOSE_DEVICE: // CLOSE_DEVICE
         {
@@ -939,20 +942,20 @@ bool N2Processor::SelfExec(DataPack *tc)
         }
         break;
 
-//	case CMD_USE_GLOBAL: //  <USE_GLOBAL>
-//		{
-//			N2Environment* pEnv = N2Register::self()->getEnvironment();
-//			if(pEnv) {
-//				const N2BaseVariable* pVar = pEnv->get(tc->namePack);
-//				if(pVar) {
-//					manVars.declare(((N2BaseVariable* )pVar)->clone());
-//					break;
-//				}
-//			}
-//			OnProcedureProcessError(std_string(CT("Глобальная переменная ")) + tc->namePack + \
-//				std_string(CT(" не найдена!")), tc->signature.value, false);
-//		}
-//		break;
+    case CMD_USE_GLOBAL: //  <USE_GLOBAL>
+        {
+            N2Environment* pEnv = N2Register::self()->getEnvironment();
+            if(pEnv) {
+                const N2BaseVariable* pVar = pEnv->get(tc->namePack);
+                if(pVar) {
+                    manVars.declare(((N2BaseVariable* )pVar)->clone());
+                    break;
+                }
+            }
+            OnProcedureProcessError(std_string(CT("Глобальная переменная ")) + tc->namePack + \
+                std_string(CT(" не найдена!")), tc->signature.value, false);
+        }
+        break;
 
     case CMD_MACRO : //
         {
@@ -966,296 +969,297 @@ bool N2Processor::SelfExec(DataPack *tc)
         }
         break;
 
-//	case CMD_TABLE : //
-//		{
-//			if(!tc->pCmd || tc->pCmd->label != N2_BFCDECL2) {
-//				OnProcedureProcessError(head + (CT("Ошибка создания таблицы - ")) + tc->namePack, \
-//					tc->signature.value, false);
-//				break;
-//			}
-//			N2DeclareBFC2* pCmd = (N2DeclareBFC2*)tc->pCmd;
-//			int row = 0, column = 0;
-//			/// получаем число строк
-//			if(pCmd->s_row == EMPTY_STR)
-//				row = pCmd->row;
-//			else {
-//				N2BaseVariable *pVar = manVars.getVar(pCmd->s_row);
-//				if(!pVar) {
-//					OnProcedureProcessError(std_string(CT("Ошибка создания таблицы - ")) + tc->namePack  \
-//						+ CT(" (row) !"), tc->signature.value, false);
-//					break;
-//				}
-//				row = maker.getIntFromSimplexVar(pVar);
-//			}
-//			/// получаем число столбцов
-//			if(pCmd->s_column == EMPTY_STR)
-//				column = pCmd->column;
-//			else {
-//				N2BaseVariable *pVar = manVars.getVar(pCmd->s_column);
-//				if(!pVar) {
-//					OnProcedureProcessError(std_string(CT("Ошибка создания таблицы - ")) + tc->namePack  \
-//						+ CT(" (column) !"), tc->signature.value, false);
-//					break;
-//				}
-//			column = maker.getIntFromSimplexVar(pVar);
-//			}
-//			///
-//			N2BaseVariableTable* crVar = (N2BaseVariableTable*)maker.createTable(pCmd->type, tc->namePack, row, column);
-//			if (!crVar) {
-//					OnProcedureProcessError(std_string(CT("Ошибка создания таблицы - ")) + tc->namePack  \
-//						+ CT(" (недопустимый размер) !"), tc->signature.value, false);
-//					break;
-//			}
-//			N2BaseVariable *pV2 = manVars.getVar(pCmd->s_value);
-//			if (pV2)
-//				crVar->fill(pV2);
-//			else
-//				OnProcedureProcessError(std_string(CT("Ошибка инициализации таблицы - нет переменной с именем ")) + pCmd->s_value, \
-//				tc->signature.value, false);
-//			manVars.declare(crVar);
-//		}
-//		break;
+    case CMD_TABLE : //
+        {
+            if(!tc->pCmd || tc->pCmd->label != N2_BFCDECL2) {
+                OnProcedureProcessError(head + (CT("Ошибка создания таблицы - ")) + tc->namePack, \
+                    tc->signature.value, false);
+                break;
+            }
+            N2DeclareBFC2* pCmd = (N2DeclareBFC2*)tc->pCmd;
+            int row = 0, column = 0;
+            /// получаем число строк
+            if(pCmd->s_row == EMPTY_STR)
+                row = pCmd->row;
+            else {
+                N2BaseVariable *pVar = manVars.getVar(pCmd->s_row);
+                if(!pVar) {
+                    OnProcedureProcessError(std_string(CT("Ошибка создания таблицы - ")) + tc->namePack  \
+                        + CT(" (row) !"), tc->signature.value, false);
+                    break;
+                }
+                row = maker.getIntFromSimplexVar(pVar);
+            }
+            /// получаем число столбцов
+            if(pCmd->s_column == EMPTY_STR)
+                column = pCmd->column;
+            else {
+                N2BaseVariable *pVar = manVars.getVar(pCmd->s_column);
+                if(!pVar) {
+                    OnProcedureProcessError(std_string(CT("Ошибка создания таблицы - ")) + tc->namePack  \
+                        + CT(" (column) !"), tc->signature.value, false);
+                    break;
+                }
+            column = maker.getIntFromSimplexVar(pVar);
+            }
+            ///
+            N2BaseVariableTable* crVar = (N2BaseVariableTable*)maker.createTable(pCmd->type, tc->namePack, row, column);
+            if (!crVar) {
+                    OnProcedureProcessError(std_string(CT("Ошибка создания таблицы - ")) + tc->namePack  \
+                        + CT(" (недопустимый размер) !"), tc->signature.value, false);
+                    break;
+            }
+            N2BaseVariable *pV2 = manVars.getVar(pCmd->s_value);
+            if (pV2)
+                crVar->fill(pV2);
+            else
+                OnProcedureProcessError(std_string(CT("Ошибка инициализации таблицы - нет переменной с именем ")) + pCmd->s_value, \
+                tc->signature.value, false);
+            manVars.declare(crVar);
+        }
+        break;
 
-//	case CMD_TABULAR : //
-//		{
-//			if(!tc->pCmd || tc->pCmd->label != N2_BFC_ARRAY_STRING) {
-//				OnProcedureProcessError(head + (CT("ошибка создания таблицы - ")) + tc->namePack, \
-//					tc->signature.value, false);
-//				break;
-//			}
+    case CMD_TABULAR : //
+        {
+            if(!tc->pCmd || tc->pCmd->label != N2_BFC_ARRAY_STRING) {
+                OnProcedureProcessError(head + (CT("ошибка создания таблицы - ")) + tc->namePack, \
+                    tc->signature.value, false);
+                break;
+            }
 
-//			N2BFC_ARRAY_STRING* pCmd = (N2BFC_ARRAY_STRING*) tc->pCmd;
-//			std_string table = pCmd->get(0);
-//			std_string var = pCmd->get(1);
-//			std_string row = pCmd->get(2);
-//			std_string column = pCmd->get(3);
-//			std_string code = pCmd->get(4);
+            N2BFC_ARRAY_STRING* pCmd = (N2BFC_ARRAY_STRING*) tc->pCmd;
+            std_string table = pCmd->get(0);
+            std_string var = pCmd->get(1);
+            std_string row = pCmd->get(2);
+            std_string column = pCmd->get(3);
+            std_string code = pCmd->get(4);
 
-//			N2BaseVariableTable* pTable = (N2BaseVariableTable*)manVars.getVar(table);
-//			if(!pTable) {
-//				OnProcedureProcessError(head + (CT("нет таблицы с именем - ")) + table, \
-//					tc->signature.value, false);
-//				break;
-//			}
-//			// operation
-//			PHelper hlp;
-//			hlp.AddFirst("GET_CELL", N2TOC_GET_CELL);
-//			hlp.Add("SET_CELL", N2TOC_SET_CELL);
-//			if(hlp.WhatIs(code) != AHE_TOKEN) {
-//				OnProcedureProcessError(head + (CT("неверный код операции - ")) + code, \
-//					tc->signature.value, false);
-//				break;
-//			}
-//			N2_TABLE_OPERATING_CODE tCode = (N2_TABLE_OPERATING_CODE) hlp.GetValue();
-//			// value
-//			N2BaseVariable* pVar = manVars.getVar(var);
-//			if (!pVar) {
-//				if ((tCode == N2_Defines::N2TOC_SET_CELL) && (pVar = manVars.creator.createSimplex(VAR_STRING, "%temp1")))
-//						((N2VariableSTR*)pVar)->set(var);
-//				else {
-//					OnProcedureProcessError(head + (CT("нет переменной с именем - ")) + var, \
-//						tc->signature.value, false);
-//					break;
-//				}
-//			}
-//			// row
-//			int i_row = 0;
-//			hlp.Reset();
-//			switch(hlp.WhatIs(row)) {
-//				case AHE_DIGIT:
-//					i_row = hlp.GetValue();
-//					break;
-//				case AHE_VARIABLE:
-//					i_row = maker.getIntFromSimplexVar(manVars.getVar(row));
-//					break;
-//				default: ;
-//			}
-//			// column
-//			int i_column = 0;
-//			hlp.Reset();
-//			switch(hlp.WhatIs(column)) {
-//				case AHE_DIGIT:
-//					i_column = hlp.GetValue();
-//					break;
-//				case AHE_VARIABLE:
-//					i_column = maker.getIntFromSimplexVar(manVars.getVar(column));
-//					break;
-//				default: ;
-//			}
+            N2BaseVariableTable* pTable = (N2BaseVariableTable*)manVars.getVar(table);
+            if(!pTable) {
+                OnProcedureProcessError(head + (CT("нет таблицы с именем - ")) + table, \
+                    tc->signature.value, false);
+                break;
+            }
+            // operation
+            PHelper hlp;
+            hlp.AddFirst("GET_CELL", N2TOC_GET_CELL);
+            hlp.Add("SET_CELL", N2TOC_SET_CELL);
+            if(hlp.WhatIs(code) != AHE_TOKEN) {
+                OnProcedureProcessError(head + (CT("неверный код операции - ")) + code, \
+                    tc->signature.value, false);
+                break;
+            }
+            N2_TABLE_OPERATING_CODE tCode = (N2_TABLE_OPERATING_CODE) hlp.GetValue();
+            // value
+            N2BaseVariable* pVar = manVars.getVar(var);
+            if (!pVar) {
+                if ((tCode == N2_Defines::N2TOC_SET_CELL) && (pVar = manVars.creator.createSimplex(VAR_STRING, "%temp1")))
+                        ((N2VariableSTR*)pVar)->set(var);
+                else {
+                    OnProcedureProcessError(head + (CT("нет переменной с именем - ")) + var, \
+                        tc->signature.value, false);
+                    break;
+                }
+            }
+            // row
+            int i_row = 0;
+            hlp.Reset();
+            switch(hlp.WhatIs(row)) {
+                case AHE_DIGIT:
+                    i_row = hlp.GetValue();
+                    break;
+                case AHE_VARIABLE:
+                    i_row = maker.getIntFromSimplexVar(manVars.getVar(row));
+                    break;
+                default: ;
+            }
+            // column
+            int i_column = 0;
+            hlp.Reset();
+            switch(hlp.WhatIs(column)) {
+                case AHE_DIGIT:
+                    i_column = hlp.GetValue();
+                    break;
+                case AHE_VARIABLE:
+                    i_column = maker.getIntFromSimplexVar(manVars.getVar(column));
+                    break;
+                default: ;
+            }
 
-//			switch (tCode)
-//			{
-//			case N2_Defines::N2TOC_SET_CELL:
-//				pTable->moveVariableToCell(i_row, i_column, pVar);
-//				break;
-//			case N2_Defines::N2TOC_GET_CELL:
-//				pTable->moveCellToVariable(i_row, i_column, pVar);
-//				break;
-//			default:
-//				OnProcedureProcessError(head + (CT("неверный код операции - ")) + code, \
-//					tc->signature.value, false);
-//				break;
-//			}
+            switch (tCode)
+            {
+            case N2_Defines::N2TOC_SET_CELL:
+                pTable->moveVariableToCell(i_row, i_column, pVar);
+                break;
+            case N2_Defines::N2TOC_GET_CELL:
+                pTable->moveCellToVariable(i_row, i_column, pVar);
+                break;
+            default:
+                OnProcedureProcessError(head + (CT("неверный код операции - ")) + code, \
+                    tc->signature.value, false);
+                break;
+            }
 
-//		} break;
+        } break;
 
-//	case CMD_GFA:
-//		{
-//			N2BFC_ARRAY_STRING* pNas =	(N2BFC_ARRAY_STRING*) tc->pCmd;
-//			if(!pNas || (pNas->size()<3)) {
-//				OnProcedureProcessError(head + (CT("пустое поле параметров pCmd")), \
-//					tc->signature.value, false);
-//				break;
-//			}
-//			std_string var = pNas->get(0);
-//			std_string arr = pNas->get(1);
-//			std_string index = pNas->get(2);
-//			short indx = 0;
+    case CMD_GFA:
+        {
+            N2BFC_ARRAY_STRING* pNas =	(N2BFC_ARRAY_STRING*) tc->pCmd;
+            if(!pNas || (pNas->size()<3)) {
+                OnProcedureProcessError(head + (CT("пустое поле параметров pCmd")), \
+                    tc->signature.value, false);
+                break;
+            }
+            std_string var = pNas->get(0);
+            std_string arr = pNas->get(1);
+            std_string index = pNas->get(2);
+            short indx = 0;
 
-//			N2BaseVariable* pVar = manVars.getVar(var);
-//			if(!pVar || (pVar->kind() != KT_SIMPLEX)) {
-//				OnProcedureProcessError(head + (CT("недопустимая переменная атрибута var =")) + var, \
-//					tc->signature.value, false);
-//				break;
-//			}
-//			N2BaseVariable* pVarArr = manVars.getVar(arr);
-//			if(!pVarArr || (pVarArr->kind() != KT_SIMPLEX)) {
-//				OnProcedureProcessError(head + (CT("недопустимая переменная атрибута array =")) + arr, \
-//					tc->signature.value, false);
-//				break;
-//			}
-//			N2BaseVariable* pVi = manVars.getVar(index);
-//			if(pVi)
-//				indx = maker.getIntFromSimplexVar(pVi);
-//			else {
-//				PHelper hlp;
-//				indx = hlp.StoI(index);
-//			}
+            N2BaseVariable* pVar = manVars.getVar(var);
+            if(!pVar || (pVar->kind() != KT_SIMPLEX)) {
+                OnProcedureProcessError(head + (CT("недопустимая переменная атрибута var =")) + var, \
+                    tc->signature.value, false);
+                break;
+            }
+            N2BaseVariable* pVarArr = manVars.getVar(arr);
+            if(!pVarArr || (pVarArr->kind() != KT_SIMPLEX)) {
+                OnProcedureProcessError(head + (CT("недопустимая переменная атрибута array =")) + arr, \
+                    tc->signature.value, false);
+                break;
+            }
+            N2BaseVariable* pVi = manVars.getVar(index);
+            if(pVi)
+                indx = maker.getIntFromSimplexVar(pVi);
+            else {
+                PHelper hlp;
+                indx = hlp.StoI(index);
+            }
 
-//			pVar->setVoid(pVarArr->getVoid(indx));
+            pVar->setVoid(pVarArr->getVoid(indx));
 
-//		} break;
+        } break;
 
-//	case CMD_SET_GLOBAL:
-//		{
-//			N2BFC_ARRAY_STRING* pNas =	(N2BFC_ARRAY_STRING*) tc->pCmd;
-//			if(!pNas || (pNas->size()<3)) {
-//				OnProcedureProcessError(head + (CT("пустое поле параметров pCmd")), \
-//					tc->signature.value, false);
-//				break;
-//			}
-//			std_string var = pNas->get(0);
-//			std_string value = pNas->get(1);
-//			std_string index = pNas->get(2);
-//			short indx = 0;
+    case CMD_SET_GLOBAL:
+        {
+            N2BFC_ARRAY_STRING* pNas =	(N2BFC_ARRAY_STRING*) tc->pCmd;
+            if(!pNas || (pNas->size()<3)) {
+                OnProcedureProcessError(head + (CT("пустое поле параметров pCmd")), \
+                    tc->signature.value, false);
+                break;
+            }
+            std_string var = pNas->get(0);
+            std_string value = pNas->get(1);
+            std_string index = pNas->get(2);
+            short indx = 0;
 
-//			N2Environment* pEnv = N2Register::self()->getEnvironment();
-//			N2BaseVariable* pVar = pEnv->change(var);
-//			if(!pVar || (pVar->kind() != KT_SIMPLEX)) {
-//				OnProcedureProcessError(head + (CT("недопустимая переменная атрибута var =")) + var, \
-//					tc->signature.value, false);
-//				break;
-//			}
-//			// вытаскиваем индекс
-//			N2BaseVariable* pIndx = manVars.getVar(index);
-//			if(pIndx)
-//				indx = maker.getIntFromSimplexVar(pIndx);
-//			else {
-//				PHelper hlp;
-//				indx = hlp.StoI(index);
-//			}
-//			//
-//			N2BaseVariable* pValue = manVars.getVar(value);
-//			if(!pValue) {
-//				N2VariableSTR* pSV = (N2VariableSTR*) maker.createSimplex(VAR_STRING);
-//				if (!pSV)
-//					return false;
-//				pSV->set(value);
-//				pValue = pSV;
-//			}
-//			// собственно установка значения
-//			pVar->set(pValue, indx);
+            N2Environment* pEnv = N2Register::self()->getEnvironment();
+            N2BaseVariable* pVar = pEnv->change(var);
+            if(!pVar || (pVar->kind() != KT_SIMPLEX)) {
+                OnProcedureProcessError(head + (CT("недопустимая переменная атрибута var =")) + var, \
+                    tc->signature.value, false);
+                break;
+            }
+            // вытаскиваем индекс
+            N2BaseVariable* pIndx = manVars.getVar(index);
+            if(pIndx)
+                indx = maker.getIntFromSimplexVar(pIndx);
+            else {
+                PHelper hlp;
+                indx = hlp.StoI(index);
+            }
+            //
+            N2BaseVariable* pValue = manVars.getVar(value);
+            if(!pValue) {
+                N2VariableSTR* pSV = (N2VariableSTR*) maker.createSimplex(VAR_STRING);
+                if (!pSV)
+                    return false;
+                pSV->set(value);
+                pValue = pSV;
+            }
+            // собственно установка значения
+            pVar->set(pValue, indx);
 
-//		} break;
+        } break;
 
-//	case CMD_SET_GLOBAL_TABLE:
-//		{
+    case CMD_SET_GLOBAL_TABLE:
+        {
 
 
-//		} break;
+        } break;
 
-//	case CMD_STA: // SET_TO_ARRAY
-//		{
-//			N2BFC_ARRAY_DUX* pNas =	(N2BFC_ARRAY_DUX*) tc->pCmd;
-//			if(!pNas || (pNas->size()<3)) {
-//				OnProcedureProcessError(head + (CT("пустое поле параметров pCmd")), \
-//					tc->signature.value, false);
-//				break;
-//			}
-//			N2BFC_ARRAY_DUX::VAL* pV;
-//			std_string arr = pNas->getStr(0);
-//			N2BaseVariable* pVar = manVars.getVar(arr);
-//			if(!pVar) {
-//				OnProcedureProcessError(head + (CT("нет массива с именем ")) + arr, \
-//					tc->signature.value, false);
-//				break;
-//			}
-//			short index = 0;
-//			pV = pNas->get(1);
-//			if(pV->sval != EMPTY_STR) {
-//				N2BaseVariable* pVi = manVars.getVar(pV->sval);
-//				if(!pVi) {
-//					OnProcedureProcessError(head + (CT("нет переменной индекса с именем ")) + pV->sval, \
-//						tc->signature.value, false);
-//					break;
-//				}
-//				if (pVi->type() != VAR_INT) {
-//					OnProcedureProcessError(head + (CT("переменная индекса должна быть INT ")) + pV->sval, \
-//					tc->signature.value, false);
-//				break;
-//				}
-//				index = ((N2VariableINT*)pVi)->getValue();
-//			}
-//			else
-//				index = pV->ival;
+    case CMD_STA: // SET_TO_ARRAY
+        {
+            N2BFC_ARRAY_DUX* pNas =	(N2BFC_ARRAY_DUX*) tc->pCmd;
+            if(!pNas || (pNas->size()<3)) {
+                OnProcedureProcessError(head + (CT("пустое поле параметров pCmd")), \
+                    tc->signature.value, false);
+                break;
+            }
+            N2BFC_ARRAY_DUX::VAL* pV;
+            std_string arr = pNas->getStr(0);
+            N2BaseVariable* pVar = manVars.getVar(arr);
+            if(!pVar) {
+                OnProcedureProcessError(head + (CT("нет массива с именем ")) + arr, \
+                    tc->signature.value, false);
+                break;
+            }
+            short index = 0;
+            pV = pNas->get(1);
+            if(pV->sval != EMPTY_STR) {
+                N2BaseVariable* pVi = manVars.getVar(pV->sval);
+                if(!pVi) {
+                    OnProcedureProcessError(head + (CT("нет переменной индекса с именем ")) + pV->sval, \
+                        tc->signature.value, false);
+                    break;
+                }
+                if (pVi->type() != VAR_INT) {
+                    OnProcedureProcessError(head + (CT("переменная индекса должна быть INT ")) + pV->sval, \
+                    tc->signature.value, false);
+                break;
+                }
+                index = ((N2VariableINT*)pVi)->getValue();
+            }
+            else
+                index = pV->ival;
 			
-//			std_string value = pNas->getStr(2);
-//			N2BaseVariable* pValue = manVars.getVar(value);
-//			if(!pValue) {
-//				N2VariableSTR* pSV = (N2VariableSTR*) maker.createSimplex(VAR_STRING);
-//				if (!pSV)
-//					return false;
-//				pSV->set(value);
-//				pValue = (N2BaseVariable*)pSV;
-//			}
+            std_string value = pNas->getStr(2);
+            N2BaseVariable* pValue = manVars.getVar(value);
+            if(!pValue) {
+                N2VariableSTR* pSV = (N2VariableSTR*) maker.createSimplex(VAR_STRING);
+                if (!pSV)
+                    return false;
+                pSV->set(value);
+                pValue = (N2BaseVariable*)pSV;
+            }
 			
-//			pVar->set(pValue, index);
+            pVar->set(pValue, index);
 
-//		} break;
+        } break;
 
-//	case CMD_RIBBON_TO_ARRAY: // RIBBON_TO_ARRAY
-//		{
-//			N2BFC_ARRAY_STRING* pNas =	(N2BFC_ARRAY_STRING*) tc->pCmd;
-//			if(!pNas) {
-//				OnProcedureProcessError(head + (CT("пустое поле параметров pCmd")), \
-//					tc->signature.value, false);
-//				break;
-//			}
-//			N2BaseVariable* pVar = manVars.getVar(tc->namePack);
-//			if(!pVar) {
-//				OnProcedureProcessError(head + (CT("нет массива с именем ")) + tc->namePack, \
-//					tc->signature.value, false);
-//				break;
-//			}
-//			N2VariableSTR* pSV = (N2VariableSTR*) maker.createSimplex(VAR_STRING);
-//			if (!pSV)
-//				return false;
-//			for(size_t i=0; i<pNas->size() && i<pVar->dimension(); i++) {
-//				pSV->set(pNas->get(i));
-//				pVar->set(pSV, i);
-//			}
+    case CMD_RIBBON_TO_ARRAY: // RIBBON_TO_ARRAY
+        {
+            N2BFC_ARRAY_STRING* pNas =	(N2BFC_ARRAY_STRING*) tc->pCmd;
+            if(!pNas) {
+                OnProcedureProcessError(head + (CT("пустое поле параметров pCmd")), \
+                    tc->signature.value, false);
+                break;
+            }
+            N2BaseVariable* pVar = manVars.getVar(tc->namePack);
+            if(!pVar) {
+                OnProcedureProcessError(head + (CT("нет массива с именем ")) + tc->namePack, \
+                    tc->signature.value, false);
+                break;
+            }
+            N2VariableSTR* pSV = (N2VariableSTR*) maker.createSimplex(VAR_STRING);
+            if (!pSV)
+                return false;
+            for(size_t i=0; i<pNas->size() && i<pVar->dimension(); i++) {
+                std_string str = pNas->get(i);
+                pSV->set(str);
+                pVar->set(pSV, i);
+            }
 
-//		} break;
+        } break;
 
     ///	На удаление vvvvvvvvvvvv
     case 100:
@@ -1362,7 +1366,7 @@ N2Processor::callBack(DataPack& data)
 			}
 			N2DeclareBFC* pCmd = N2Register::self()->getMemoryAllocator()->create<N2DeclareBFC>("CMD_SP_GET_VARIABLE");
 			data.pCmd = (N2DeclareBFC*) pCmd;
-            pCmd->type = pVar->getType();
+            pCmd->type = pVar->type();
 			data.ret_value = ERR_NOTHING;
 			data.buffer = pVar; //->clone(); // переписать, или изменить саму команду
 		} break;

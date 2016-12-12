@@ -398,68 +398,7 @@ N2Table<T>::fill(T value)
 }
 
 
-///////////////////////////////////
-
-bool N2VariableComplex::add(N2BaseVariable* pVar)
-{
-    if(!pVar)
-        return false;
-    if(findChild(pVar->name()))
-        return false;
-    vecSimples.push_back(pVar);
-    return true;
-}
-
-
-bool N2VariableComplex::add(N2VariableComplex* pVar)
-{
-    if(!pVar)
-        return false;
-    if(findChild(pVar->name()))
-        return false;
-    vecComplex.push_back(pVar);
-    return true;
-}
-
-
-N2BaseVariable*
-N2VariableComplex::findChild(std_string pureName)
-{
-    vector<N2BaseVariable*>::iterator it;
-    vector<N2VariableComplex*>::iterator itx;
-    for(it=vecSimples.begin(); it<vecSimples.end(); it++) {
-        if((*it)->name() == pureName) {
-            return (*it);
-        }
-    }
-    for(itx=vecComplex.begin(); itx<vecComplex.end(); it++) {
-        if((*itx)->name() == pureName) {
-            return (*itx);
-        }
-    }
-    return NULL;
-}
-
-
-N2BaseVariable*
-N2VariableComplex::getNamed(std_string name)
-{
-    N2BaseVariable* retVal = NULL;
-	
-    ////разделение сложного имени
-    //std_string label; // = cutPartName(name);
-    //N2BaseVariable* pVar = NULL; //this->members;
-    //N2VariableComplex* pCpx = this;
-    //INDEX index = 0;
-    //std_string pureName;
-    //pVar = pCpx;
-
-    //label = cutPartName(name);
-    //pureName = clearName(label);
-    //index = parseIndex(label);
-
-    return retVal;
-}
+//////////////////
 
 N2_ERRORS_OPCODES
 N2VariableINT::operation(N2_OPERATING_CODE code, N2BaseVariable* op2, N2BaseVariable* res)
@@ -1049,4 +988,116 @@ N2VariableTABLE<T>::clone()
             ((N2VariableTABLE<T> *) retVal)->tbl.set(i, j, tbl.get(i, j));
     }
     return retVal;
+}
+
+
+
+////////////////
+
+//bool N2VariableComplex::add(N2BaseVariable* pVar)
+//{
+//    if(!pVar)
+//        return false;
+//    if(findChild(pVar->name()))
+//        return false;
+//    vecSimples.push_back(pVar);
+//    return true;
+//}
+
+
+//bool N2VariableComplex::add(N2VariableComplex* pVar)
+//{
+//    if(!pVar)
+//        return false;
+//    if(findChild(pVar->name()))
+//        return false;
+//    vecComplex.push_back(pVar);
+//    return true;
+//}
+
+
+//N2BaseVariable*
+//N2VariableComplex::findChild(std_string pureName)
+//{
+//    vector<N2BaseVariable*>::iterator it;
+//    vector<N2VariableComplex*>::iterator itx;
+//    for(it=vecSimples.begin(); it<vecSimples.end(); it++) {
+//        if((*it)->name() == pureName) {
+//            return (*it);
+//        }
+//    }
+//    for(itx=vecComplex.begin(); itx<vecComplex.end(); it++) {
+//        if((*itx)->name() == pureName) {
+//            return (*itx);
+//        }
+//    }
+//    return NULL;
+//}
+
+
+//N2BaseVariable*
+//N2VariableComplex::getNamed(std_string name)
+//{
+//    N2BaseVariable* retVal = NULL;
+
+//    ////разделение сложного имени
+//    //std_string label; // = cutPartName(name);
+//    //N2BaseVariable* pVar = NULL; //this->members;
+//    //N2VariableComplex* pCpx = this;
+//    //INDEX index = 0;
+//    //std_string pureName;
+//    //pVar = pCpx;
+
+//    //label = cutPartName(name);
+//    //pureName = clearName(label);
+//    //index = parseIndex(label);
+
+//    return retVal;
+//}
+
+
+void N2VariableComplex::addCopyVar(N2BaseVariable *Var) {
+    vars.push_back(Var->clone());
+}
+
+N2BaseVariable *N2VariableComplex::getVar(string strHierarchy, TYPE_VAR t) {
+    istringstream iss(strHierarchy);   vector<string> names;
+    while (getline(iss, strHierarchy, '.'))    names.push_back(strHierarchy);
+
+    if (names.size() == 0)  return 0;
+    else if (names.size() == 1)  return searchVar(names[0], t);
+    else {
+        strHierarchy.clear();
+        for (uint i=1;i<names.size();i++) {
+            strHierarchy+=names[i];
+            if (i!=names.size()-1) strHierarchy+='.';
+        }
+        N2BaseVariable* var = searchVar(names[0], VAR_VMUSER);
+        if(var) return ((N2VariableComplex*)var)->getVar(strHierarchy,t);
+        else    return 0;
+    }
+}
+
+N2VariableComplex *N2VariableComplex::clone() {
+    N2VariableComplex* clone = N2Register::self()->getMemoryAllocator()->createUserVar<N2VariableComplex>(name_);
+    for (uint i=0; i<vars.size();i++) {
+        N2BaseVariable* var = vars.at(i);
+        clone->addCopyVar(var->clone());
+    }
+    return clone;
+}
+
+N2VariableComplex::~N2VariableComplex() {
+    cout << "N2VariableComplexType: " << name_ << endl;
+    for (uint i=0; i<vars.size(); i++)
+        N2Register::self()->getMemoryAllocator()->releaseAnyVar<N2BaseVariable>(vars.at(i));
+}
+
+N2BaseVariable *N2VariableComplex::searchVar(string vName, TYPE_VAR t) {
+    N2BaseVariable* var;
+    for (uint i=0; i<vars.size(); i++) {
+        var = vars.at(i);
+        if ((var->name() == vName) && (var->type() == t)) return var;
+    }
+    return 0;
 }

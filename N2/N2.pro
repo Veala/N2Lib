@@ -46,8 +46,8 @@ SOURCES += \
     src/N2StandartProjectNode.cpp \
     src/N2System.cpp \
     src/N2TinyXMLParser.cpp \
-    src/N2Types.cpp \
-    #src/N2Variable.cpp \
+    #src/N2Types.cpp \
+    src/N2Variable.cpp \
     src/N2VariablesManager.cpp \
     utils/tinyxml/source/tinystr.cpp \
     utils/tinyxml/source/tinyxml.cpp \
@@ -86,8 +86,8 @@ HEADERS += \
     export/common/N2Standart2014ProjectNode.h \
     export/common/N2TinyXMLParser.h \
     export/common/N2TreeNode.h \
-    export/common/N2Types.h \
-    #export/common/N2Variable.h \
+    #export/common/N2Types.h \
+    export/common/N2Variable.h \
     export/common/N2XMLF.h \
     export/common/tuner.h \
     export/common/user_node.h \

@@ -18,8 +18,13 @@
 
 #pragma once
 
-#include "N2Defines.h"
+#include <iostream>
+#include <sstream>
+#include <string>
 #include <vector>
+#include <map>
+#include <stdexcept>
+#include "N2Defines.h"
 #include "N2Base.h"
 #include "N2LiveObjectsPolicy.h"
 
@@ -480,38 +485,61 @@ protected:
 
 
 
-/// Класс сложной переменной (В РАЗРАБОТКЕ)
+///// Класс сложной переменной (В РАЗРАБОТКЕ)
+//class N2VariableComplex : public N2BaseVariable
+//{
+//    vector<N2BaseVariable*> vecSimples;
+//    vector<N2VariableComplex*> vecComplex;
+
+////	std_string cutPartName(std_string& name);
+////	std_string clearName(std_string name);
+////	INDEX parseIndex(std_string name);
+////	N2BaseVariable* find(std_string name);
+
+//public:
+//    N2VariableComplex(std_string name):
+//        N2BaseVariable(VAR_COMPOSITE, KT_COMPLEX, name)
+//    {}
+//    virtual N2BaseVariable* clone(){return NULL;}//new N2VariableComplex(name());}
+
+//    /// Добавить в текущий контейнер переменную.
+//    /// \param pVar - указатель на добавляемую переменную
+//    /// \param index - индекс элемента данного объекта к которому добавляется переменная pVar
+//    /// \return возвращает true - при успешной операции, false -
+//    bool add(N2BaseVariable* pVar); //, INDEX index = 0);
+//    bool add(N2VariableComplex* pVar);
+
+//    /// \param index - индекс элемента данного объекта, если он сложного типа, иначе игнорируется
+//    N2BaseVariable* findChild(std_string pureName);
+
+//    /// Получить переменную по её имени
+//    /// \param name - имя переменной, формируется по правилам языков C/C++
+//    /// (вложенность определяется точкой, элемент массива квадратными скобками с непосредственным значением)
+//    /// \return возвращает указатель на найденную переменную или NULL, если переменная
+//    /// не была найдена.
+//    N2BaseVariable* getNamed(std_string name);
+//};
+
+
 class N2VariableComplex : public N2BaseVariable
 {
-    vector<N2BaseVariable*> vecSimples;
-    vector<N2VariableComplex*> vecComplex;
-
-//	std_string cutPartName(std_string& name);
-//	std_string clearName(std_string name);
-//	INDEX parseIndex(std_string name);
-//	N2BaseVariable* find(std_string name);
-
+    friend OLS_Heap;
 public:
-    N2VariableComplex(std_string name):
-        N2BaseVariable(VAR_COMPOSITE, KT_COMPLEX, name)
-    {}
-    virtual N2BaseVariable* clone(){return NULL;}//new N2VariableComplex(name());}
+    typedef unsigned int uint;
 
-    /// Добавить в текущий контейнер переменную.
-    /// \param pVar - указатель на добавляемую переменную
-    /// \param index - индекс элемента данного объекта к которому добавляется переменная pVar
-    /// \return возвращает true - при успешной операции, false -
-    bool add(N2BaseVariable* pVar); //, INDEX index = 0);
-    bool add(N2VariableComplex* pVar);
+    void addCopyVar(N2BaseVariable* Var);
+    N2BaseVariable* getVar(string strHierarchy, TYPE_VAR t);
 
-    /// \param index - индекс элемента данного объекта, если он сложного типа, иначе игнорируется
-    N2BaseVariable* findChild(std_string pureName);
+    bool set(N2BaseVariable *, INDEX index) { return false; }
+    bool setVoid(void *pVal, INDEX index)   { return false; }
+    bool compare(N2_COMPARE_CODES code, N2BaseVariable *pVar) { return false; }
 
-    /// Получить переменную по её имени
-    /// \param name - имя переменной, формируется по правилам языков C/C++
-    /// (вложенность определяется точкой, элемент массива квадратными скобками с непосредственным значением)
-    /// \return возвращает указатель на найденную переменную или NULL, если переменная
-    /// не была найдена.
-    N2BaseVariable* getNamed(std_string name);
+    N2VariableComplex* clone();
+    ~N2VariableComplex();
+protected:
+    N2VariableComplex(string vName) : N2BaseVariable(VAR_VMUSER, KT_COMPLEX, vName) { }
+    vector<N2BaseVariable*>   vars;
+private:
+    N2BaseVariable* searchVar(string vName, TYPE_VAR t);
+    map<VAR> data;
 };
-

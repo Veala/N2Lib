@@ -1,4 +1,5 @@
-#include "N2Types.h"
+//#include "N2Types.h"
+#include "N2Variable.h"
 #include "N2Register.h"
 
 void f(N2BaseVariable* data) {
