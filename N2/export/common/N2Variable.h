@@ -141,6 +141,7 @@ template <class T >
 class N2VariableSimplex : public N2BaseVariable
 {
     friend N2VariableCreator;
+    //friend OLS_Heap;
 
 protected:
     T* value_;
@@ -148,7 +149,7 @@ protected:
     /// Выделить в динамической памяти место под значение переменной
     virtual void create(std_string name, COUNT count = 1);
     /// Конструктор копирования ????
-    N2VariableSimplex(const N2VariableSimplex<T> & copy);
+    N2VariableSimplex(N2VariableSimplex<T> & copy);
     /// Конструктор с созданием элемента переменной
     N2VariableSimplex(const TYPE_VAR typeName, std_string name, COUNT numElements = 1);
 
@@ -216,6 +217,7 @@ public :
 class N2VariableINT : public N2VariableSimplex <int>
 {
     friend N2VariableCreator;
+    friend OLS_Heap;
 protected:
     N2VariableINT():N2VariableSimplex<int>(VAR_INT, EMPTY_STR, 1){}
     N2VariableINT(std_string name, COUNT numElements = 1):N2VariableSimplex(VAR_INT, name, numElements){}
@@ -527,7 +529,7 @@ class N2VariableComplex : public N2BaseVariable
 public:
     typedef unsigned int uint;
 
-    void addCopyVar(N2BaseVariable* Var);
+    void addCopyVar(N2BaseVariable* var);
     N2BaseVariable* getVar(string strHierarchy, TYPE_VAR t);
 
     bool set(N2BaseVariable *, INDEX index) { return false; }
@@ -538,8 +540,9 @@ public:
     ~N2VariableComplex();
 protected:
     N2VariableComplex(string vName) : N2BaseVariable(VAR_VMUSER, KT_COMPLEX, vName) { }
+    N2VariableComplex() : N2BaseVariable(VAR_VMUSER, KT_COMPLEX, "") { }
     vector<N2BaseVariable*>   vars;
 private:
     N2BaseVariable* searchVar(string vName, TYPE_VAR t);
-    map<VAR> data;
+    //map<VAR> data;
 };

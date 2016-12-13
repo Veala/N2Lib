@@ -50,26 +50,26 @@ struct OLS_HeapWithGarbage
 {
 	N2MemoManager memManager;
 
-    template <class T>
-    T* createSimpleVar(string name="simpleVar", unsigned int N=1) {
-        return new T(name,N);
-    }
-    template <class T>
-    T* createTableVar(string name="tableVar", unsigned int RowsN=1, unsigned int ColumnsN=1) {
-        return new T(name,RowsN,ColumnsN);
-    }
-    template <class T>
-    T* createUserVar(string name="userVar") {
-        return new T(name);
-    }
-    template <class T>
-    void releaseAnyVar(T* var) {
-        delete var;
-    }
-    template <class T>
-    T* createCopyVar(T& var) {
-        return new T(var);
-    }
+//    template <class T>
+//    T* createSimpleVar(string name="simpleVar", unsigned int N=1) {
+//        return new T(name,N);
+//    }
+//    template <class T>
+//    T* createTableVar(string name="tableVar", unsigned int RowsN=1, unsigned int ColumnsN=1) {
+//        return new T(name,RowsN,ColumnsN);
+//    }
+//    template <class T>
+//    T* createUserVar(string name="userVar") {
+//        return new T(name);
+//    }
+//    template <class T>
+//    void releaseAnyVar(T* var) {
+//        delete var;
+//    }
+//    template <class T>
+//    T* createCopyVar(T& var) {
+//        return new T(var);
+//    }
 
 	template <class T>
 	T* create(std_string name = "")
