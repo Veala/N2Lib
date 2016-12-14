@@ -43,69 +43,49 @@ void f(N2BaseVariable* data) {
 
 int main()
 {
-    N2VariableComplex *userVal = N2Register::self()->getMemoryAllocator()->create<N2VariableComplex>("userVal");    userVal->rename("userVal");
+    N2VariableCreator creator;
+    N2VariableComplex *userVal = (N2VariableComplex*)creator.createComplex("userVal");
 
 
-    N2BaseVariable *data1 = N2Register::self()->getMemoryAllocator()->create<N2VariableINT>("data1");
-//    N2BaseVariable *data2 = N2Register::self()->getMemoryAllocator()->create<N2VariableIntTABLE>("data2",3,3);
+    N2BaseVariable *data1 = creator.createSimplex(VAR_INT,"data1");
     int data=17;
     ((N2VariableINT*)data1)->set(data, 0);
     cout << ((N2VariableINT*)data1)->getValue(0) << endl;
-//    ((N2VariableIntTABLE*)data2)->setValue(0, 1, 18);
     userVal->addCopyVar(data1);
-//    userVal->addCopyVar(data2);
-    N2Register::self()->getMemoryAllocator()->release(data1);
-//    N2Register::self()->getMemoryAllocator()->release<N2BaseVariable>(data2);
+    N2Register::self()->getMemoryAllocator()->releaseVar<N2BaseVariable>(data1,1);
 
     N2BaseVariable *value = userVal->getVar("data1", VAR_INT);
     if (value!=0) {
         f(value);
     }
-//    value = userVal->getVar("data2", VAR_INTTABLE);
-//    if (value!=0) {
-//        f(value);
-//    }
-    N2BaseVariable *data3 = N2Register::self()->getMemoryAllocator()->create<N2VariableINT>("data3");
-//    N2BaseVariable *data4 = N2Register::self()->getMemoryAllocator()->create<N2VariableIntTABLE>("data4",4,4);
+    N2BaseVariable *data3 = creator.createSimplex(VAR_INT,"data3");
     data =21;
     ((N2VariableINT*)data3)->set(data, 0);
-//    ((N2VariableIntTABLE*)data4)->setValue(0, 1, 42);
-    N2VariableComplex *uv = N2Register::self()->getMemoryAllocator()->create<N2VariableComplex>("uv");  uv->rename("uv");
+    N2VariableComplex *uv = (N2VariableComplex*)creator.createComplex("uv");
     uv->addCopyVar(data3);
-//    uv->addCopyVar(data4);
     uv->addCopyVar(userVal);
 
-    N2Register::self()->getMemoryAllocator()->release(data3);
-//    N2Register::self()->getMemoryAllocator()->release(data4);
+    N2Register::self()->getMemoryAllocator()->releaseVar<N2BaseVariable>(data3, 1);
 
     N2VariableComplex *uVal = uv->clone();
 
-    N2Register::self()->getMemoryAllocator()->release(uv);
+    N2Register::self()->getMemoryAllocator()->releaseVar<N2BaseVariable>(uv,1);
 
     value = uVal->getVar("data3", VAR_INT);
     if (value!=0) {
         f(value);
     }
-//    value = uVal->getVar("data4", VAR_IntTABLE);
-//    if (value!=0) {
-//        f(value);
-//    }
     value = uVal->getVar("userVal.data1", VAR_INT);
     if (value!=0) {
         f(value);
     }
-//    value = uVal->getVar("userVal.data2", VAR_INTTABLE);
-//    if (value!=0) {
-//        f(value);
-//    }
     value = uVal->getVar("userVal", VAR_VMUSER);
     if (value!=0) {
         f(value);
     }
 
-    N2Register::self()->getMemoryAllocator()->release(uVal);
-    N2Register::self()->getMemoryAllocator()->release(userVal);
+    N2Register::self()->getMemoryAllocator()->releaseVar<N2BaseVariable>(uVal,1);
+    N2Register::self()->getMemoryAllocator()->releaseVar<N2BaseVariable>(userVal,1);
 
     return 0;
 }
-

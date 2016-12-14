@@ -117,17 +117,11 @@ public:
     N2BaseVariable*
         createSimplex(TYPE_VAR type, std_string name = EMPTY_STR, int cnt = 1);
 
-
-    N2BaseVariable*
-        createComplex(std_string name)
-    {
-        return NULL; // new N2VariableComplex(name);
-    }
-
-    //
-
     N2BaseVariable*
         createTable(TYPE_VAR el_type, std_string name, int rows, int columns);
+
+    static N2BaseVariable*
+        createComplex(std_string name);
 
     int
         getIntFromSimplexVar(N2BaseVariable* pVar);
@@ -141,8 +135,6 @@ template <class T >
 class N2VariableSimplex : public N2BaseVariable
 {
     friend N2VariableCreator;
-    //friend OLS_Heap;
-
 protected:
     T* value_;
     COUNT count_;
@@ -154,7 +146,6 @@ protected:
     N2VariableSimplex(const TYPE_VAR typeName, std_string name, COUNT numElements = 1);
 
 public :
-
     /// Деструктор
     virtual ~N2VariableSimplex();
 
@@ -217,7 +208,6 @@ public :
 class N2VariableINT : public N2VariableSimplex <int>
 {
     friend N2VariableCreator;
-    friend OLS_Heap;
 protected:
     N2VariableINT():N2VariableSimplex<int>(VAR_INT, EMPTY_STR, 1){}
     N2VariableINT(std_string name, COUNT numElements = 1):N2VariableSimplex(VAR_INT, name, numElements){}
@@ -380,6 +370,7 @@ class N2VariableCreator;
 template <class T>
 class N2VariableTABLE : public  N2BaseVariableTable
 {
+    friend N2VariableCreator;
 protected:
     N2VariableTABLE(std_string name, int rows, int columns, const TYPE_VAR typeElements):
         N2BaseVariableTable(name, rows, columns, typeElements),
@@ -525,6 +516,7 @@ protected:
 
 class N2VariableComplex : public N2BaseVariable
 {
+    //friend N2VariableCreator;
     friend OLS_Heap;
 public:
     typedef unsigned int uint;
@@ -539,8 +531,7 @@ public:
     N2VariableComplex* clone();
     ~N2VariableComplex();
 protected:
-    N2VariableComplex(string vName) : N2BaseVariable(VAR_VMUSER, KT_COMPLEX, vName) { }
-    N2VariableComplex() : N2BaseVariable(VAR_VMUSER, KT_COMPLEX, "") { }
+    N2VariableComplex(string vName="") : N2BaseVariable(VAR_VMUSER, KT_COMPLEX, vName) { }
     vector<N2BaseVariable*>   vars;
 private:
     N2BaseVariable* searchVar(string vName, TYPE_VAR t);
