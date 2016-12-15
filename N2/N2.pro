@@ -24,7 +24,7 @@ win32:INCLUDEPATH += d:/N2/N2/src/include \
 #              d:/N2/N2/utils/tinyxml/lib/tinyxmld.lib \
 
 SOURCES += \
-    main.cpp \
+    #main.cpp \
     src/N2AllOperatingState.cpp \
     src/N2Base.cpp \
     src/N2Control.cpp \
@@ -54,6 +54,7 @@ SOURCES += \
     utils/tinyxml/source/tinyxmlerror.cpp \
     utils/tinyxml/source/tinyxmlparser.cpp \
     #utils/tinyxml/source/xmltest.cpp \
+    tests/units/test_N2Variables/test_N2Variables.cpp
 
 HEADERS += \
     export/common/configuration.h \
@@ -108,3 +109,4 @@ HEADERS += \
     utils/tinyxml/source/tinystr.h \
     utils/tinyxml/source/tinystr.h \
     utils/tinyxml/source/tinyxml.h \
+    tests/Testing.h

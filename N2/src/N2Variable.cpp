@@ -107,7 +107,7 @@ N2VariableSimplex<T>::N2VariableSimplex(const TYPE_VAR typeName, std_string name
 template<class T>
 N2VariableSimplex<T>::~N2VariableSimplex()
 {
-    cout << "del N2VariableSimplex " << name_ << endl;
+    //cout << "del N2VariableSimplex " << name_ << endl;
     N2Register::self()->getMemoryAllocator()->releaseVar<T>(value_, count_);
 }
 
@@ -235,7 +235,7 @@ N2VariableSimplex<T>::getVoid(INDEX index)
 N2BaseVariable*
 N2VariableINT::clone(void)
 {
-    cout << "N2VariableINT::clone(void)" << endl;
+    //cout << "N2VariableINT::clone(void)" << endl;
     SIZE_N2 size = dimension();
     N2BaseVariable* retVal = new N2VariableINT(name(), size);
     for(INDEX i=0; i<size; i++) {
@@ -908,6 +908,12 @@ template class N2VariableTABLE<long>;
 template class N2VariableTABLE<float>;
 template class N2VariableTABLE<string>;
 
+template class N2Table<bool>;
+template class N2Table<int>;
+template class N2Table<long>;
+template class N2Table<float>;
+template class N2Table<string>;
+
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 /*
@@ -973,8 +979,14 @@ N2VariableComplex::getNamed(std_string name)
 }
 */
 
-void N2VariableComplex::addCopyVar(N2BaseVariable *var) {
-    vars.push_back(var->clone());
+bool N2VariableComplex::addCopyVar(N2BaseVariable *var) {
+    try {
+        vars.push_back(var->clone());
+    }
+    catch(...) {
+        return false;
+    }
+    return true;
 }
 
 N2BaseVariable *N2VariableComplex::getVar(string strHierarchy, TYPE_VAR t) {
@@ -996,7 +1008,7 @@ N2BaseVariable *N2VariableComplex::getVar(string strHierarchy, TYPE_VAR t) {
 }
 
 N2VariableComplex *N2VariableComplex::clone() {
-    cout << "clone N2VariableComplex::clone()" << endl;
+    //cout << "clone N2VariableComplex::clone()" << endl;
     N2VariableComplex* clone = (N2VariableComplex*)N2VariableCreator::createComplex(name_);
     for (uint i=0; i<vars.size();i++) {
         N2BaseVariable* var = vars.at(i);
@@ -1006,9 +1018,9 @@ N2VariableComplex *N2VariableComplex::clone() {
 }
 
 N2VariableComplex::~N2VariableComplex() {
-    cout << "del N2VariableComplexType " << name_ << endl;
+    //cout << "del N2VariableComplexType " << name_ << endl;
     for (uint i=0; i<vars.size(); i++)
-        N2Register::self()->getMemoryAllocator()->releaseVar<N2BaseVariable>(vars.at(i),1);
+        N2Register::self()->getMemoryAllocator()->releaseVar<N2BaseVariable>(vars.at(i), 1);
 }
 
 N2BaseVariable *N2VariableComplex::searchVar(string vName, TYPE_VAR t) {

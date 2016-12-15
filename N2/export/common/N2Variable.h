@@ -106,6 +106,7 @@ public:
     KIND_TYPE kind(void);
     ///
     virtual void* getVoid(INDEX index = 0);
+
 };
 
 /// Класс для создания объектов переменных разных типов
@@ -521,7 +522,7 @@ class N2VariableComplex : public N2BaseVariable
 public:
     typedef unsigned int uint;
 
-    void addCopyVar(N2BaseVariable* var);
+    bool addCopyVar(N2BaseVariable* var);
     N2BaseVariable* getVar(string strHierarchy, TYPE_VAR t);
 
     bool set(N2BaseVariable *, INDEX index) { return false; }
