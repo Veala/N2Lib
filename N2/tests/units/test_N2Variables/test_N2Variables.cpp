@@ -169,7 +169,6 @@ int main()
     TEST_CHK(uv->addCopyVar(value));
     TEST_CHK(uv->addCopyVar(intVar2));
     TEST_CHK(uv->addCopyVar(userVar));
-    N2Register::self()->getMemoryAllocator()->releaseVar<N2BaseVariable>(value, 1);
     N2Register::self()->getMemoryAllocator()->releaseVar<N2BaseVariable>(intVar2, 1);
     N2Register::self()->getMemoryAllocator()->releaseVar<N2BaseVariable>(userVar, 1);
 

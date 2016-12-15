@@ -107,7 +107,7 @@ N2VariableSimplex<T>::N2VariableSimplex(const TYPE_VAR typeName, std_string name
 template<class T>
 N2VariableSimplex<T>::~N2VariableSimplex()
 {
-    //cout << "del N2VariableSimplex " << name_ << endl;
+    cout << "del N2VariableSimplex " << name_ << endl;
     N2Register::self()->getMemoryAllocator()->releaseVar<T>(value_, count_);
 }
 
@@ -901,18 +901,21 @@ template class N2VariableSimplex<int>;
 template class N2VariableSimplex<long>;
 template class N2VariableSimplex<float>;
 template class N2VariableSimplex<string>;
+template class N2VariableSimplex<TERNAR>;
 
 template class N2VariableTABLE<bool>;
 template class N2VariableTABLE<int>;
 template class N2VariableTABLE<long>;
 template class N2VariableTABLE<float>;
 template class N2VariableTABLE<string>;
+template class N2VariableTABLE<TERNAR>;
 
 template class N2Table<bool>;
 template class N2Table<int>;
 template class N2Table<long>;
 template class N2Table<float>;
 template class N2Table<string>;
+template class N2Table<TERNAR>;
 
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -1018,7 +1021,7 @@ N2VariableComplex *N2VariableComplex::clone() {
 }
 
 N2VariableComplex::~N2VariableComplex() {
-    //cout << "del N2VariableComplexType " << name_ << endl;
+    cout << "del N2VariableComplexType " << name_ << endl;
     for (uint i=0; i<vars.size(); i++)
         N2Register::self()->getMemoryAllocator()->releaseVar<N2BaseVariable>(vars.at(i), 1);
 }
