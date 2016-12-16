@@ -128,8 +128,6 @@ public:
         getIntFromSimplexVar(N2BaseVariable* pVar);
 };
 
-
-
 /// @class Шаблонный класс динамической переменной,
 /// для создания простых переменных произвольного типа.
 template <class T >
@@ -203,7 +201,6 @@ public :
 	
     virtual void* getVoid(INDEX index = 0);
 };
-
 
 /// Класс переменной типа int.
 class N2VariableINT : public N2VariableSimplex <int>
@@ -415,7 +412,6 @@ public:
     }
 };
 
-
 /// Таблица с элементом ячейки типа int
 class N2VariableIntTABLE : public N2VariableTABLE<int>
 {
@@ -476,44 +472,42 @@ protected:
     {}
 };
 
+/*
+/// Класс сложной переменной (В РАЗРАБОТКЕ)
+class N2VariableComplex : public N2BaseVariable
+{
+    vector<N2BaseVariable*> vecSimples;
+    vector<N2VariableComplex*> vecComplex;
 
+//	std_string cutPartName(std_string& name);
+//	std_string clearName(std_string name);
+//	INDEX parseIndex(std_string name);
+//	N2BaseVariable* find(std_string name);
 
+public:
+    N2VariableComplex(std_string name):
+        N2BaseVariable(VAR_COMPOSITE, KT_COMPLEX, name)
+    {}
+    virtual N2BaseVariable* clone(){return NULL;}//new N2VariableComplex(name());}
 
-///// Класс сложной переменной (В РАЗРАБОТКЕ)
-//class N2VariableComplex : public N2BaseVariable
-//{
-//    vector<N2BaseVariable*> vecSimples;
-//    vector<N2VariableComplex*> vecComplex;
+    /// Добавить в текущий контейнер переменную.
+    /// \param pVar - указатель на добавляемую переменную
+    /// \param index - индекс элемента данного объекта к которому добавляется переменная pVar
+    /// \return возвращает true - при успешной операции, false -
+    bool add(N2BaseVariable* pVar); //, INDEX index = 0);
+    bool add(N2VariableComplex* pVar);
 
-////	std_string cutPartName(std_string& name);
-////	std_string clearName(std_string name);
-////	INDEX parseIndex(std_string name);
-////	N2BaseVariable* find(std_string name);
+    /// \param index - индекс элемента данного объекта, если он сложного типа, иначе игнорируется
+    N2BaseVariable* findChild(std_string pureName);
 
-//public:
-//    N2VariableComplex(std_string name):
-//        N2BaseVariable(VAR_COMPOSITE, KT_COMPLEX, name)
-//    {}
-//    virtual N2BaseVariable* clone(){return NULL;}//new N2VariableComplex(name());}
-
-//    /// Добавить в текущий контейнер переменную.
-//    /// \param pVar - указатель на добавляемую переменную
-//    /// \param index - индекс элемента данного объекта к которому добавляется переменная pVar
-//    /// \return возвращает true - при успешной операции, false -
-//    bool add(N2BaseVariable* pVar); //, INDEX index = 0);
-//    bool add(N2VariableComplex* pVar);
-
-//    /// \param index - индекс элемента данного объекта, если он сложного типа, иначе игнорируется
-//    N2BaseVariable* findChild(std_string pureName);
-
-//    /// Получить переменную по её имени
-//    /// \param name - имя переменной, формируется по правилам языков C/C++
-//    /// (вложенность определяется точкой, элемент массива квадратными скобками с непосредственным значением)
-//    /// \return возвращает указатель на найденную переменную или NULL, если переменная
-//    /// не была найдена.
-//    N2BaseVariable* getNamed(std_string name);
-//};
-
+    /// Получить переменную по её имени
+    /// \param name - имя переменной, формируется по правилам языков C/C++
+    /// (вложенность определяется точкой, элемент массива квадратными скобками с непосредственным значением)
+    /// \return возвращает указатель на найденную переменную или NULL, если переменная
+    /// не была найдена.
+    N2BaseVariable* getNamed(std_string name);
+};
+*/
 
 class N2VariableComplex : public N2BaseVariable
 {

@@ -23,7 +23,6 @@
 
 using namespace std;
 
-
 std_string
 N2BaseVariable::name(void)
 {
@@ -73,7 +72,6 @@ N2BaseVariable::operation(N2_OPERATING_CODE code, N2BaseVariable* op2, N2BaseVar
 {
     return N2EC_EMPTY;
 }
-
 
 void*
 N2BaseVariable::getVoid(INDEX index)
@@ -401,9 +399,7 @@ N2Table<T>::fill(T value)
     return true;
 }
 
-
 //////////////////
-
 N2_ERRORS_OPCODES
 N2VariableINT::operation(N2_OPERATING_CODE code, N2BaseVariable* op2, N2BaseVariable* res)
 {
@@ -441,7 +437,7 @@ N2VariableINT::operation(N2_OPERATING_CODE code, N2BaseVariable* op2, N2BaseVari
                 value = ~value;
                 retVal->set(value);
             }
-                       }
+    }
             return N2EC_SUCCESS;
     }
 	
@@ -472,8 +468,6 @@ N2VariableINT::operation(N2_OPERATING_CODE code, N2BaseVariable* op2, N2BaseVari
     return N2EC_SUCCESS;
 }
 
-
-
 int
 N2VariableINT::custom(N2BaseVariable* pVar)
 {
@@ -497,7 +491,6 @@ N2VariableINT::custom(N2BaseVariable* pVar)
 
     return retVal;
 }
-
 
 N2_ERRORS_OPCODES
 N2VariableLONG::operation(N2_OPERATING_CODE code, N2BaseVariable* op2, N2BaseVariable* res)
@@ -578,7 +571,6 @@ N2VariableLONG::custom(N2BaseVariable* pVar)
 
     return retVal;
 }
-
 
 N2_ERRORS_OPCODES
 N2VariableBOOL::operation(N2_OPERATING_CODE code, N2BaseVariable* op2, N2BaseVariable* res)
@@ -1090,7 +1082,6 @@ N2VariableCreator::createSimplex(TYPE_VAR type, string name, int cnt)
     }
     return retVal;
 }
-
 
 N2BaseVariable*
 N2VariableCreator::createTable(TYPE_VAR el_type, string name, int rows, int columns)

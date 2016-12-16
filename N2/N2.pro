@@ -54,7 +54,7 @@ SOURCES += \
     utils/tinyxml/source/tinyxmlerror.cpp \
     utils/tinyxml/source/tinyxmlparser.cpp \
     #utils/tinyxml/source/xmltest.cpp \
-    tests/units/test_N2Variables/test_N2Variables.cpp
+    tests/units/test_N2Variables/test_N2Variables_2.cpp
 
 HEADERS += \
     export/common/configuration.h \
