@@ -185,12 +185,67 @@ int main()
 
 
     //-------------------------------------------------------Проверка операторов обычных типов
-    int val1=10;
-    N2VariableINT *var1 = (N2VariableINT*)maker.createSimplex(VAR_INT, "var1");
-    TEST_CHK(var1->set(val1));
-    int val2=2;
-    N2VariableINT *var2 = (N2VariableINT*)maker.createSimplex(VAR_INT, "var2");
-    TEST_CHK(var2->set(val2));
+    int iVal1=10; int iVal2=2;
+    long lVal1=1000; long lVal2=200;
+    float fVal1=100.5; float fVal2=20.5;
+    string sVal1="A"; string sVal2="B";
+    bool bVal1=true; bool bVal2=false;
+
+    intVar1 = (N2VariableINT*)maker.createSimplex(VAR_INT, "intVar1");
+    intVar2 = (N2VariableINT*)maker.createSimplex(VAR_INT, "intVar2");
+    N2VariableINT *intVar3 = (N2VariableINT*)maker.createSimplex(VAR_INT, "intVar3");
+    intVar1->set(iVal1); intVar2->set(iVal2);
+
+    N2VariableLONG* longVar1 = (N2VariableLONG*)maker.createSimplex(VAR_LONG, "longVar1");
+    N2VariableLONG* longVar2 = (N2VariableLONG*)maker.createSimplex(VAR_LONG, "longVar2");
+    N2VariableLONG* longVar3 = (N2VariableLONG*)maker.createSimplex(VAR_LONG, "longVar3");
+    longVar1->set(lVal1); longVar2->set(lVal2);
+
+    N2VariableFLOAT* floatVar1 = (N2VariableFLOAT*)maker.createSimplex(VAR_FLOAT, "floatVar11");
+    N2VariableFLOAT* floatVar2 = (N2VariableFLOAT*)maker.createSimplex(VAR_FLOAT, "floatVar2");
+    N2VariableFLOAT* floatVar3 = (N2VariableFLOAT*)maker.createSimplex(VAR_FLOAT, "floatVar3");
+    floatVar1->set(fVal1); floatVar2->set(fVal2);
+
+    N2VariableSTR* strVar1 = (N2VariableSTR*)maker.createSimplex(VAR_STRING, "strVar1");
+    N2VariableSTR* strVar2 = (N2VariableSTR*)maker.createSimplex(VAR_STRING, "strVar2");
+    N2VariableSTR* strVar3 = (N2VariableSTR*)maker.createSimplex(VAR_STRING, "strVar3");
+    strVar1->set(sVal1); strVar2->set(sVal2);
+
+    N2VariableBOOL* boolVar1 = (N2VariableBOOL*)maker.createSimplex(VAR_BOOL, "boolVar1");
+    N2VariableBOOL* boolVar2 = (N2VariableBOOL*)maker.createSimplex(VAR_BOOL, "boolVar2");
+    N2VariableBOOL* boolVar3 = (N2VariableBOOL*)maker.createSimplex(VAR_BOOL, "boolVar3");
+    boolVar1->set(bVal1); boolVar2->set(bVal2);
+
+    //DECREMENT
+    TEST_CHK(intVar1->operation(N2OC_DEC,NULL,intVar3) == N2EC_SUCCESS);
+    TEST_CHK(intVar1->getValue() != intVar3->getValue());
+    TEST_CHK(intVar1->operation(N2OC_DEC,NULL,NULL) == N2EC_SUCCESS);
+    TEST_CHK(intVar1->getValue() == intVar3->getValue());
+    TEST_CHK(floatVar1->operation(N2OC_DEC,NULL,floatVar3) == N2EC_SUCCESS);
+    TEST_CHK(floatVar1->getValue() != floatVar3->getValue());
+    TEST_CHK(floatVar1->operation(N2OC_DEC,NULL,NULL) == N2EC_SUCCESS);
+    TEST_CHK(floatVar1->getValue() == floatVar3->getValue());
+    TEST_CHK(longVar1->operation(N2OC_DEC,NULL,longVar3) == N2EC_SUCCESS);
+    TEST_CHK(longVar1->getValue() != longVar3->getValue());
+    TEST_CHK(longVar1->operation(N2OC_DEC,NULL,NULL) == N2EC_SUCCESS);
+    TEST_CHK(longVar1->getValue() == longVar3->getValue());
+    TEST_CHK(strVar1->operation(N2OC_DEC,NULL,strVar3) == N2EC_INAPPLICABLE_CODE);
+    TEST_CHK(boolVar1->operation(N2OC_DEC,NULL,boolVar3) == N2EC_SUCCESS);
+    TEST_CHK(boolVar1->getValue() != boolVar3->getValue());
+    TEST_CHK(boolVar1->operation(N2OC_DEC,NULL,NULL) == N2EC_SUCCESS);
+    TEST_CHK(boolVar1->getValue() == boolVar3->getValue());
+
+
+    //INCREMENT
+    TEST_CHK(intVar1->set(iVal1));
+    TEST_CHK(intVar1->operation(N2OC_INC,NULL,intVar3) == N2EC_SUCCESS);
+    TEST_CHK(intVar1->getValue() != intVar3->getValue());
+    TEST_CHK(intVar1->operation(N2OC_INC,NULL,NULL) == N2EC_SUCCESS);
+    TEST_CHK(intVar1->getValue() == intVar3->getValue());
+
+
+
+
 
 
 
