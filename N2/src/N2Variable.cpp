@@ -449,15 +449,17 @@ N2VariableINT::operation(N2_OPERATING_CODE code, N2BaseVariable* op2, N2BaseVari
         case N2OC_INIT: temp = i2; break;
         case N2OC_PLUS: temp += i2; break;
         case N2OC_MINUS: temp -= i2; break;
-        case N2OC_DIV: temp = temp / (i2); break;
+        case N2OC_DIV:
+            if (i2==0) return N2EC_NULL_OPERAND;
+            temp = temp / (i2); break;
         case N2OC_AND: temp &= i2; break;
         case N2OC_OR: temp |= i2; break;
         case N2OC_XOR: temp ^= i2; break;
         case N2OC_MULT: temp *= i2; break;
         case N2OC_SHIFT_LEFT: temp = temp << (i2); break;
         case N2OC_SHIFT_RIGTH: temp = temp >> (i2); break;
-        case N2OC_MIN: temp = (temp > (i2) ) ? temp :  (i2); break;
-        case N2OC_MAX: temp = (temp < (i2) ) ? temp :  (i2); break;
+        case N2OC_MIN: temp = (temp < (i2) ) ? temp :  (i2); break;
+        case N2OC_MAX: temp = (temp > (i2) ) ? temp :  (i2); break;
         case N2OC_MOD: temp = temp % (i2); break;
         case N2OC_NOT: temp = ~temp; break;
         default:
@@ -502,26 +504,50 @@ N2VariableLONG::operation(N2_OPERATING_CODE code, N2BaseVariable* op2, N2BaseVar
     N2VariableLONG* retVal = (res == NULL) ? this : (N2VariableLONG*)res;
 
     switch(code) {
-        case N2OC_DEC:
-        case N2OC_INC:
-        case N2OC_LOG_10:
-        case N2OC_LOG:
-        case N2OC_NOT: {
-            retVal = (N2VariableLONG*)clone();
-            if(code == N2OC_DEC)
-                (*retVal->get()) -- ;
-            else if(code == N2OC_INC)
-                (*retVal->get()) ++ ;
-            else if(N2OC_LOG_10)
-                (log10l(*retVal->get()));
-            else if(N2OC_LOG)
-                (logl(*retVal->get()));
-            else if(N2OC_NOT) {
-                long x = ~(*retVal->get());
-                (retVal->set(x));
-            }
-                       }
-            return N2EC_SUCCESS;
+    case N2OC_DEC:
+    case N2OC_INC:
+    case N2OC_LOG_10:
+    case N2OC_LOG:
+    case N2OC_NOT: {
+        long x = *get();
+        if(code == N2OC_DEC) {
+            x--;
+            retVal->set(x);
+        }
+        else if(code == N2OC_INC) {
+            x++;
+            retVal->set(x);
+        }
+        else if(N2OC_LOG_10) {
+            x=log10l(x);
+            retVal->set(x);
+        }
+        else if(N2OC_LOG) {
+            x=log(x);
+            retVal->set(x);
+        }
+        else if(N2OC_NOT) {
+            x=~x;
+            retVal->set(x);
+        }
+    }
+        return N2EC_SUCCESS;
+
+//            retVal = (N2VariableLONG*)clone();
+//            if(code == N2OC_DEC)
+//                (*retVal->get()) -- ;
+//            else if(code == N2OC_INC)
+//                (*retVal->get()) ++ ;
+//            else if(N2OC_LOG_10)
+//                (log10l(*retVal->get()));
+//            else if(N2OC_LOG)
+//                (logl(*retVal->get()));
+//            else if(N2OC_NOT) {
+//                long x = ~(*retVal->get());
+//                (retVal->set(x));
+//            }
+//                       }
+//            return N2EC_SUCCESS;
     }
 	
     if(!op2)
@@ -532,15 +558,17 @@ N2VariableLONG::operation(N2_OPERATING_CODE code, N2BaseVariable* op2, N2BaseVar
         case N2OC_INIT: temp = i2; break;
         case N2OC_PLUS: temp += i2; break;
         case N2OC_MINUS: temp -= i2; break;
-        case N2OC_DIV: temp = temp / (i2); break;
+        case N2OC_DIV:
+            if (i2==0) return N2EC_NULL_OPERAND;
+            temp = temp / (i2); break;
         case N2OC_AND: temp &= i2; break;
         case N2OC_OR: temp |= i2; break;
         case N2OC_XOR: temp ^= i2; break;
         case N2OC_MULT: temp *= i2; break;
         case N2OC_SHIFT_LEFT: temp = temp << (i2); break;
         case N2OC_SHIFT_RIGTH: temp = temp >> (i2); break;
-        case N2OC_MIN: temp = (temp > (i2) ) ? temp :  (i2); break;
-        case N2OC_MAX: temp = (temp < (i2) ) ? temp :  (i2); break;
+        case N2OC_MIN: temp = (temp < (i2) ) ? temp :  (i2); break;
+        case N2OC_MAX: temp = (temp > (i2) ) ? temp :  (i2); break;
         case N2OC_MOD: temp = temp % (i2); break;
         case N2OC_NOT: temp = ~temp; break;
         default:
@@ -585,7 +613,7 @@ N2VariableBOOL::operation(N2_OPERATING_CODE code, N2BaseVariable* op2, N2BaseVar
         case N2OC_DEC:
         case N2OC_INC:
         case N2OC_LOG_10:
-        case N2OC_LOG:
+        case N2OC_LOG:  return N2EC_INAPPLICABLE_CODE;
         case N2OC_NOT:
             if(code == N2OC_NOT) {
                 bool x = !(*retVal->get());
@@ -666,8 +694,8 @@ N2VariableSTR::operation(N2_OPERATING_CODE code, N2BaseVariable* op2, N2BaseVari
     switch(code) {
         case N2OC_INIT: temp = i2; break;
         case N2OC_PLUS: temp += i2; break;
-        case N2OC_MIN: temp = (temp.size() > i2.size() ) ? temp : i2; break;
-        case N2OC_MAX: temp = (temp.size() < i2.size() ) ? temp : i2; break;
+        case N2OC_MIN: temp = (temp.size() < i2.size() ) ? temp : i2; break;
+        case N2OC_MAX: temp = (temp.size() > i2.size() ) ? temp : i2; break;
         default:
             return N2EC_INAPPLICABLE_CODE;
     }
@@ -734,9 +762,9 @@ N2VariableFLOAT::operation(N2_OPERATING_CODE code, N2BaseVariable* op2, N2BaseVa
         case N2OC_LOG_10:
         case N2OC_LOG: {
             if(N2OC_LOG_10)
-                (temp = log10(*retVal->get()));
+                (temp = log10(*get()));
             else if(N2OC_LOG)
-                (temp = log(*retVal->get()));
+                (temp = log(*get()));
                        }
             retVal->set(temp);
             return N2EC_SUCCESS;
@@ -749,10 +777,12 @@ N2VariableFLOAT::operation(N2_OPERATING_CODE code, N2BaseVariable* op2, N2BaseVa
         case N2OC_INIT: temp = i2; break;
         case N2OC_PLUS: temp += i2; break;
         case N2OC_MINUS: temp -= i2; break;
-        case N2OC_DIV: temp = temp / (i2); break;
+        case N2OC_DIV:
+            if (i2==0) return N2EC_NULL_OPERAND;
+            temp = temp / (i2); break;
         case N2OC_MULT: temp *= i2; break;
-        case N2OC_MIN: temp = (temp > (i2) ) ? temp :  (i2); break;
-        case N2OC_MAX: temp = (temp < (i2) ) ? temp :  (i2); break;
+        case N2OC_MIN: temp = (temp < (i2) ) ? temp :  (i2); break;
+        case N2OC_MAX: temp = (temp > (i2) ) ? temp :  (i2); break;
         default:
             return N2EC_INAPPLICABLE_CODE;
     }
