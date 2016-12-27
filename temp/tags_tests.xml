@@ -1,0 +1,960 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2008 sp1 (http://www.altova.com) by atagira (EMBRACE) -->
+<TASK name="Тест (скриптовый) внутренних команд процессора" usid="2F335900-3874-422e-8392-5B5CD775AA94" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="x_s_v.xsd">
+	<VAR type="STRING" var="list"/>
+	<VAR type="STRING" var="empty" value="SUPER"/>
+	<CON_WRITE write="empty"/>
+	<VAR type="STRING" var="result_task"/>
+	<VAR type="BOOL" var="result" value="TRUE"/>
+	<CON_WRITE write="result"/>
+	<VAR type="BOOL" var="var_result" value="TRUE"/>
+	<CON_WRITE write="var_result"/>
+	<!--***************************************************************************************************************************************************-->
+	<!--***Исходим из предположения, что <IF var="bool"/>  рабочий *************************************************************************-->
+	<!--** <OPERATION op1="result" code="INIT" value="FALSE"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = INIT) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = INIT) - сбой"/> - рабочий ************************************************************-->
+	<!--***************************************************************************************************************************************************-->
+	<OPEN_DEVICE handleName="Console" sign="0x00000021" ok="okc" obligative="TRUE"/>
+	<OPEN_DEVICE handleName="Recorder" sign="0x00000071" ok="okr" obligative="TRUE"/>
+	<CON_WRITE write="Начало тестирования ..."/>
+	<STEP name="OPERATION(INIT, BOOL), IF var=...">
+		<VAR type="BOOL" var="true_" value="TRUE"/>
+		<VAR type="BOOL" var="false_" value="FALSE"/>
+		<VAR type="BOOL" var="var"/>
+		<VAR type="BOOL" var="var0"/>
+		<VAR type="BOOL" var="var1"/>
+		<!--***********     Инициализация булевской переменной        ***************************************************************************-->
+		<CON_WRITE write="Инициализация булевской переменной"/>
+		<CON_WRITE write="***Простой IF***"/>
+		<IF var="false_">
+			<CON_WRITE write="false_"/>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix='Тег IF var="bool" - сбой'/>
+		</IF>
+		<ELSE>
+			<CON_WRITE write="FALSE(VAR) +"/>
+		</ELSE>
+		<IF var="true_">
+			<CON_WRITE write="TRUE( VAR) +"/>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix='Тег IF var="bool" - сбой'/>
+			<CON_WRITE write='IF var="bool" - сбой) - сбой'/>
+		</ELSE>
+		<CON_WRITE write="присвоение переменной FALSE через другую переменную"/>
+		<OPERATION op1="var" code="INIT" op2="false_"/>
+		<IF var="var">
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = INIT-bool) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = INIT-bool) - сбой"/>
+		</IF>
+		<ELSE>
+			<CON_WRITE write="FALSE(OPERATION(INIT) bool) +"/>
+		</ELSE>
+		<CON_WRITE write="присвоение переменной TRUE через другую переменную"/>
+		<OPERATION op1="var" code="INIT" op2="true_"/>
+		<IF var="var">
+			<CON_WRITE write="TRUE(OPERATION(INIT) bool) +"/>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = INIT-bool) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = INIT-bool) - сбой, result="/>
+			<CON_WRITE write="result"/>
+		</ELSE>
+		<CON_WRITE write="присвоение переменной TRUE напрямую"/>
+		<OPERATION op1="var" code="INIT" op2="1" type2="BOOL"/>
+		<CON_WRITE write="var"/>
+		<IF var="var">
+			<CON_WRITE write="TRUE(OPERATION(INIT) int) +"/>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = INIT-bool) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = INIT-bool) - сбой, result="/>
+			<CON_WRITE write="result"/>
+		</ELSE>
+		<CON_WRITE write="присвоение переменной FALSE напрямую"/>
+		<OPERATION op1="var" code="INIT" op2="FALSE" type2="BOOL"/>
+		<IF var="var">
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = INIT-bool) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = INIT-bool) - сбой"/>
+		</IF>
+		<ELSE>
+			<CON_WRITE write="FALSE(OPERATION(INIT) const) +"/>
+		</ELSE>
+		<IF var="result">
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = INIT-bool)  - норма"/>
+			<CON_WRITE write="Тег OPERATION(code = INIT-bool)  - норма, result="/>
+			<CON_WRITE write="result"/>
+		</IF>
+		<!--***********     Операции с булевскими переменными         ***************************************************************************-->
+		<CON_WRITE write="***Операции с булевскими переменными***"/>
+		<!--*************-->
+		<!--*** NOT ***-->
+		<!--*************-->
+		<CON_WRITE write="NOT"/>
+		<!--*** 0 ***-->
+		<OPERATION op1="var" code="INIT" op2="FALSE" type2="BOOL"/>
+		<OPERATION op1="var" code="NOT"/>
+		<IF var="var">
+			<CON_WRITE write="FALSE(OPERATION(code = NOT)) +"/>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = NOT) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = NOT) - сбой"/>
+		</ELSE>
+		<!--*** 1 ***-->
+		<OPERATION op1="var" code="INIT" op2="TRUE" type2="BOOL"/>
+		<OPERATION op1="var" code="NOT"/>
+		<IF var="var">
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = NOT) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = NOT) - сбой"/>
+		</IF>
+		<IF var="result">
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = NOT)  - норма"/>
+			<CON_WRITE write="Тег OPERATION(code = NOT)  - норма"/>
+		</IF>
+		<!--*************-->
+		<!--*** AND ***-->
+		<!--*************-->
+		<!--*** 00 ***-->
+		<CON_WRITE write="AND"/>
+		<OPERATION op1="var" code="INIT" op2="FALSE" type2="BOOL"/>
+		<OPERATION op1="var" code="AND" op2="var"/>
+		<CON_WRITE write="00"/>
+		<CON_WRITE write="var"/>
+		<CON_WRITE write="var"/>
+		<IF var="var">
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = AND) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = AND)(00) - сбой"/>
+		</IF>
+		<!--*** 01 ***-->
+		<OPERATION op1="var" code="INIT" op2="FALSE" type2="BOOL"/>
+		<OPERATION op1="var1" code="INIT" op2="TRUE" type2="BOOL"/>
+		<OPERATION op1="var" code="AND" op2="var1"/>
+		<CON_WRITE write="01"/>
+		<CON_WRITE write="var"/>
+		<CON_WRITE write="var1"/>
+		<IF var="var">
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = AND) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = AND)(01) - сбой"/>
+		</IF>
+		<!--*** 10 ***-->
+		<OPERATION op1="var" code="INIT" op2="TRUE" type2="BOOL"/>
+		<OPERATION op1="var0" code="INIT" op2="FALSE" type2="BOOL"/>
+		<OPERATION op1="var" code="AND" op2="var0"/>
+		<CON_WRITE write="10"/>
+		<CON_WRITE write="var"/>
+		<CON_WRITE write="var0"/>
+		<IF var="var">
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = AND) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = AND)(10) - сбой"/>
+		</IF>
+		<!--*** 11 ***-->
+		<OPERATION op1="var" code="INIT" op2="TRUE" type2="BOOL"/>
+		<OPERATION op1="var" code="AND" op2="var"/>
+		<CON_WRITE write="11"/>
+		<CON_WRITE write="var"/>
+		<CON_WRITE write="var"/>
+		<IF var="var">
+			<CON_WRITE write="Тег OPERATION(code = AND)(11) - да"/>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = AND) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = AND)(11) - сбой"/>
+		</ELSE>
+		<IF var="result">
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = AND)  - норма"/>
+			<CON_WRITE write="Тег OPERATION(code = AND)  - норма"/>
+		</IF>
+		<!--*************-->
+		<!--*** OR ****-->
+		<!--*************-->
+		<CON_WRITE write="OR"/>
+		<!--*** 00 ***-->
+		<OPERATION op1="var" code="INIT" op2="FALSE" type2="BOOL"/>
+		<OPERATION op1="var" code="OR" op2="var"/>
+		<CON_WRITE write="00"/>
+		<CON_WRITE write="var"/>
+		<CON_WRITE write="var"/>
+		<IF var="var">
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = OR) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = OR)(00) - сбой"/>
+		</IF>
+		<!--*** 01 ***-->
+		<OPERATION op1="var" code="INIT" op2="FALSE" type2="BOOL"/>
+		<OPERATION op1="var1" code="INIT" op2="TRUE" type2="BOOL"/>
+		<OPERATION op1="var" code="OR" op2="var1"/>
+		<CON_WRITE write="01"/>
+		<CON_WRITE write="var"/>
+		<CON_WRITE write="var1"/>
+		<IF var="var">
+			<CON_WRITE write="Тег OPERATION(code = OR)(01) +"/>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = OR) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = OR)(01) - сбой"/>
+		</ELSE>
+		<!--*** 10 ***-->
+		<OPERATION op1="var" code="INIT" op2="TRUE" type2="BOOL"/>
+		<OPERATION op1="var0" code="INIT" op2="FALSE" type2="BOOL"/>
+		<OPERATION op1="var" code="OR" op2="var0"/>
+		<CON_WRITE write="10"/>
+		<CON_WRITE write="var"/>
+		<CON_WRITE write="var0"/>
+		<IF var="var">
+			<CON_WRITE write="Тег OPERATION(code = OR)(10) - +"/>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = OR) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = OR)(10) - сбой"/>
+		</ELSE>
+		<!--*** 11 ***-->
+		<OPERATION op1="var" code="INIT" op2="TRUE" type2="BOOL"/>
+		<OPERATION op1="var" code="OR" op2="var"/>
+		<CON_WRITE write="11"/>
+		<CON_WRITE write="var"/>
+		<CON_WRITE write="var"/>
+		<IF var="var">
+			<CON_WRITE write="Тег OPERATION(code = OR)(11) - +"/>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = OR) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = OR)(11) - сбой"/>
+		</ELSE>
+		<IF var="result">
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = OR)  - норма"/>
+			<CON_WRITE write="Тег OPERATION(code = OR)  - норма"/>
+		</IF>
+		<!--*************-->
+		<!--*** XOR ***-->
+		<!--*************-->
+		<CON_WRITE write="XOR"/>
+		<!--*** 00 ***-->
+		<OPERATION op1="var" code="INIT" op2="FALSE" type2="BOOL"/>
+		<OPERATION op1="var" code="XOR" op2="var"/>
+		<CON_WRITE write="00"/>
+		<CON_WRITE write="var"/>
+		<CON_WRITE write="var"/>
+		<IF var="var">
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = XOR) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = XOR)(00) - сбой"/>
+		</IF>
+		<!--*** 01 ***-->
+		<OPERATION op1="var" code="INIT" op2="FALSE" type2="BOOL"/>
+		<OPERATION op1="var1" code="INIT" op2="TRUE" type2="BOOL"/>
+		<OPERATION op1="var" code="XOR" op2="var1"/>
+		<CON_WRITE write="01"/>
+		<CON_WRITE write="var"/>
+		<CON_WRITE write="var1"/>
+		<IF var="var">
+			<CON_WRITE write="Тег OPERATION(code = XOR)(01) - +"/>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = XOR) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = XOR)(01) - сбой"/>
+		</ELSE>
+		<!--*** 10 ***-->
+		<OPERATION op1="var" code="INIT" op2="TRUE" type2="BOOL"/>
+		<OPERATION op1="var0" code="INIT" op2="FALSE" type2="BOOL"/>
+		<OPERATION op1="var" code="XOR" op2="var0"/>
+		<CON_WRITE write="10"/>
+		<CON_WRITE write="var"/>
+		<CON_WRITE write="var0"/>
+		<IF var="var">
+			<CON_WRITE write="Тег OPERATION(code = XOR)(10) - +"/>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = XOR) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = XOR)(10) - сбой"/>
+		</ELSE>
+		<!--*** 11 ***-->
+		<OPERATION op1="var" code="INIT" op2="TRUE" type2="BOOL"/>
+		<OPERATION op1="var" code="XOR" op2="var"/>
+		<CON_WRITE write="11"/>
+		<CON_WRITE write="var"/>
+		<CON_WRITE write="var"/>
+		<IF var="var">
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = XOR) - сбой"/>
+			<CON_WRITE write="Тег OPERATION(code = XOR)(11) - сбой"/>
+		</IF>
+		<IF var="result">
+			<FORMAT_CONST new="list" var="empty" prefix="Тег OPERATION(code = XOR)  - норма"/>
+			<CON_WRITE write="Тег OPERATION(code = XOR)  - норма"/>
+		</IF>
+	</STEP>
+	<!--******************************************************-->
+	<!--******************************************************-->
+	<STEP name="IF">
+		<!--***********    Тег IF         ***************************************************************************-->
+		<VAR type="INT" var="m1" value="10"/>
+		<VAR type="INT" var="m2" value="10"/>
+		<CON_WRITE write="m1"/>
+		<CON_WRITE write="m2"/>
+		<!--<VAR type="BOOL" var="false" value="FALSE"/>
+		-->
+		<IF var="m1" code="NEQ" value="10">
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег IF(code = NEQ) - сбой"/>
+			<CON_WRITE write="Тег IF(code = NEQ) - сбой"/>
+		</IF>
+		<ELSE>
+			<CON_WRITE write="Тег IF(code = NEQ) - OK cо вторым операндом числом"/>
+		</ELSE>
+		<CON_WRITE write="m1"/>
+		<CON_WRITE write="m2"/>
+		<IF var="m1" code="LS" value="m2">
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<CON_WRITE write="result"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег IF(code = LS) - сбой"/>
+			<CON_WRITE write="Тег IF(code = LS) - сбой"/>
+		</IF>
+		<IF var="m1" code="GR" value="m2">
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег IF(code = GR) - сбой"/>
+			<CON_WRITE write="Тег IF(code = GR) - сбой"/>
+		</IF>
+		<IF var="false_">
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег IF - сбой"/>
+			<CON_WRITE write="Тег IF - сбой"/>
+		</IF>
+		<!--***-->
+		<IF var="m1" code="EQU" value="m2">
+			<EMPTY/>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег IF(code = EQU) - сбой"/>
+			<CON_WRITE write="Тег IF(code = EQU) - сбой"/>
+		</ELSE>
+		<IF var="m1" code="LSEQ" value="m2">
+			<EMPTY/>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег IF(code =LSEQ) - сбой"/>
+			<CON_WRITE write="Тег IF(code =LSEQ) - сбой"/>
+		</ELSE>
+		<IF var="m1" code="GREQ" value="m2">
+			<EMPTY/>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег IF(code = GREQ) - сбой"/>
+			<CON_WRITE write="Тег IF(code = GREQ) - сбой"/>
+		</ELSE>
+		<IF var="true_">
+			<EMPTY/>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег IF - сбой"/>
+			<CON_WRITE write="Тег IF - сбой"/>
+		</ELSE>
+		<!--******************************************************-->
+		<!--******Вложенный IF******-->
+		<!--******************************************************-->
+		<IF var="true_">
+			<IF var="true_">
+				<CON_WRITE write="Тег IF(вложенный 11) - ОК"/>
+			</IF>
+			<ELSE>
+				<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+				<FORMAT_CONST new="list" var="empty" prefix="Тег IF - сбой(вложенный 11)"/>
+				<CON_WRITE write="Тег IF - сбой"/>
+			</ELSE>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег IF - сбой(вложенный 11)"/>
+			<CON_WRITE write="Тег IF - сбой"/>
+		</ELSE>
+		<IF var="false_">
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег IF - сбой(вложенный 01)"/>
+			<CON_WRITE write="Тег IF - сбой"/>
+		</IF>
+		<ELSE>
+			<IF var="true_">
+				<CON_WRITE write="Тег IF(вложенный 01) - ОК"/>
+			</IF>
+			<ELSE>
+				<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+				<FORMAT_CONST new="list" var="empty" prefix="Тег IF - сбой(вложенный 01)"/>
+				<CON_WRITE write="Тег IF - сбой"/>
+			</ELSE>
+		</ELSE>
+		<IF var="false_">
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег IF - сбой(вложенный 01)"/>
+			<CON_WRITE write="Тег IF - сбой"/>
+		</IF>
+		<IF var="true_">
+			<CON_WRITE write="Тег IF(вложенный 10) - ОК"/>
+		</IF>
+		<ELSE>
+			<IF var="false_">
+				<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+				<FORMAT_CONST new="list" var="empty" prefix="Тег IF - сбой(вложенный 10)"/>
+				<CON_WRITE write="Тег IF - сбой"/>
+			</IF>
+			<ELSE>
+				<CON_WRITE write="Тег IF(вложенный 10) - ОК"/>
+			</ELSE>
+		</ELSE>
+		<ELSE>
+			<IF var="false_">
+				<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+				<FORMAT_CONST new="list" var="empty" prefix="Тег IF - сбой(вложенный 00)"/>
+				<CON_WRITE write="Тег IF - сбой"/>
+			</IF>
+			<ELSE>
+				<CON_WRITE write="Тег IF(вложенный 10) - ОК"/>
+			</ELSE>
+		</ELSE>
+		<IF var="m1" code="EQU" value="m2">
+			<CON_WRITE write="Тег IF(вложенный 10) - ОК"/>
+		</IF>
+		<ELSE>
+			<IF var="m1" code="NEQ" value="m2">
+				<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+				<FORMAT_CONST new="list" var="empty" prefix="Тег IF - сбой(вложенный 10)"/>
+				<CON_WRITE write="Тег IF - сбой"/>
+			</IF>
+			<ELSE>
+				<CON_WRITE write="Тег IF(вложенный 10) - ОК"/>
+			</ELSE>
+		</ELSE>
+		<IF var="result">
+			<FORMAT_CONST new="list" var="empty" prefix="Тег IF - норма"/>
+			<CON_WRITE write="Тег IF - норма"/>
+		</IF>
+	</STEP>
+	<!--******************************************************-->
+	<STEP name="COMPARE">
+		<VAR type="INT" var="int10" value="10"/>
+		<VAR type="INT" var="int365" value="365"/>
+		<VAR type="FLOAT" var="float365E-2" value="365E-2"/>
+		<VAR type="FLOAT" var="float3_14E2" value="3.14E2"/>
+		<VAR type="FLOAT" var="float3_65" value="3.65"/>
+		<VAR type="FLOAT" var="float314" value="314"/>
+		<VAR type="BOOL" var="true_equ" value="FALSE"/>
+		<VAR type="BOOL" var="true_neq" value="FALSE"/>
+		<VAR type="BOOL" var="true_gr" value="FALSE"/>
+		<VAR type="BOOL" var="true_ls" value="FALSE"/>
+		<VAR type="BOOL" var="true_greq" value="FALSE"/>
+		<VAR type="BOOL" var="true_lseq" value="FALSE"/>
+		<VAR type="BOOL" var="false_equ" value="TRUE"/>
+		<VAR type="STRING" var="string_MARMOT" value="MARMOT"/>
+		<VAR type="STRING" var="string_MARMOT_v2" value="MARMOT"/>
+		<VAR type="STRING" var="string_marmot" value="marmot"/>
+		<VAR type="STRING" var="string_nonmarmot" value="nonmarmot"/>
+		<!--******************************************************-->
+		<COMPARE op1="int10" op2="int10" code="EQU" result="true_equ"/>
+		<COMPARE op1="int10" op2="int365" code="NEQ" result="true_neq"/>
+		<COMPARE op1="int365" op2="int10" code="GR" result="true_gr"/>
+		<COMPARE op1="int10" op2="int365" code="LS" result="true_ls"/>
+		<COMPARE op1="int10" op2="int10" code="GREQ" result="true_greq"/>
+		<COMPARE op1="int365" op2="int365" code="LSEQ" result="true_lseq"/>
+		<CON_WRITE write="*** Тег COMPARE(int var) ***"/>
+		<IF var="true_equ">
+			<IF var="true_neq">
+				<IF var="true_gr">
+					<IF var="true_ls">
+						<IF var="true_greq">
+							<IF var="true_lseq">
+								<CON_WRITE write="Тег COMPARE(int var) - OK"/>
+							</IF>
+							<ELSE>
+								<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+								<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(int LSEQ) - сбой"/>
+								<CON_WRITE write="Тег COMPARE(int LSEQ) - сбой"/>
+							</ELSE>
+						</IF>
+						<ELSE>
+							<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+							<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(int GREQ) - сбой"/>
+							<CON_WRITE write="Тег COMPARE(int GREQ) - сбой"/>
+						</ELSE>
+					</IF>
+					<ELSE>
+						<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+						<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(int LS) - сбой"/>
+						<CON_WRITE write="Тег COMPARE(int LS) - сбой"/>
+					</ELSE>
+				</IF>
+				<ELSE>
+					<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+					<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(int GR) - сбой"/>
+					<CON_WRITE write="Тег COMPARE(int GR) - сбой"/>
+				</ELSE>
+			</IF>
+			<ELSE>
+				<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+				<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(int NEQ) - сбой"/>
+				<CON_WRITE write="Тег COMPARE(int NEQ) - сбой"/>
+			</ELSE>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(int EQU) - сбой"/>
+			<CON_WRITE write="Тег COMPARE(int EQU) - сбой"/>
+		</ELSE>
+		<!--******************************************************-->
+		<COMPARE op1="int10" op2="10" code="EQU" result="true_equ"/>
+		<COMPARE op1="int10" op2="365" code="NEQ" result="true_neq"/>
+		<COMPARE op1="int365" op2="10" code="GR" result="true_gr"/>
+		<COMPARE op1="int10" op2="365" code="LS" result="true_ls"/>
+		<COMPARE op1="int10" op2="10" code="GREQ" result="true_greq"/>
+		<COMPARE op1="int365" op2="365" code="LSEQ" result="true_lseq"/>
+		<CON_WRITE write="int10"/>
+		<CON_WRITE write="10"/>
+		<CON_WRITE write="int365"/>
+		<CON_WRITE write="365"/>
+		<CON_WRITE write="true_equ"/>
+		<CON_WRITE write="true_neq"/>
+		<CON_WRITE write="true_gr"/>
+		<CON_WRITE write="true_ls"/>
+		<CON_WRITE write="true_greq"/>
+		<CON_WRITE write="true_lseq"/>
+		<IF var="true_equ">
+			<IF var="true_neq">
+				<IF var="true_gr">
+					<IF var="true_ls">
+						<IF var="true_greq">
+							<IF var="true_lseq">
+								<CON_WRITE write="Тег COMPARE(int const) - OK"/>
+							</IF>
+							<ELSE>
+								<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+								<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(int  LSEQ) - сбой"/>
+								<CON_WRITE write="Тег COMPARE(int LSEQ) - сбой"/>
+							</ELSE>
+						</IF>
+						<ELSE>
+							<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+							<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(int GREQ) - сбой"/>
+							<CON_WRITE write="Тег COMPARE(int GREQ) - сбой"/>
+						</ELSE>
+					</IF>
+					<ELSE>
+						<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+						<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(int LS) - сбой"/>
+						<CON_WRITE write="Тег COMPARE(int LS) - сбой"/>
+					</ELSE>
+				</IF>
+				<ELSE>
+					<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+					<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(int GR) - сбой"/>
+					<CON_WRITE write="Тег COMPARE(int GR) - сбой"/>
+				</ELSE>
+			</IF>
+			<ELSE>
+				<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+				<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(int NEQ) - сбой"/>
+				<CON_WRITE write="Тег COMPARE(int NEQ) - сбой"/>
+			</ELSE>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(int EQU) - сбой"/>
+			<CON_WRITE write="Тег COMPARE(int EQU) - сбой"/>
+		</ELSE>
+		<!--******************************************************-->
+		<CON_WRITE write="*** Тег COMPARE(float var) ***"/>
+		<COMPARE op1="float365E-2" op2="float3_65" code="EQU" result="true_equ"/>
+		<COMPARE op1="float3_14E2" op2="float3_65" code="NEQ" result="true_neq"/>
+		<COMPARE op1="float314" op2="float3_65" code="GR" result="true_gr"/>
+		<COMPARE op1="float3_65" op2="float314" code="LS" result="true_ls"/>
+		<COMPARE op1="float365E-2" op2="float3_65" code="GREQ" result="true_greq"/>
+		<COMPARE op1="float3_14E2" op2="float314" code="LSEQ" result="true_lseq"/>
+		<IF var="true_equ">
+			<IF var="true_neq">
+				<IF var="true_gr">
+					<IF var="true_ls">
+						<IF var="true_greq">
+							<IF var="true_lseq">
+								<CON_WRITE write="Тег COMPARE(float var) - OK"/>
+								<CON_WRITE write="float365E-2"/>
+								<CON_WRITE write="float3_14E2"/>
+								<CON_WRITE write="float3_65"/>
+								<CON_WRITE write="float314"/>
+							</IF>
+							<ELSE>
+								<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+								<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(float  LSEQ) - сбой"/>
+								<CON_WRITE write="Тег COMPARE(float LSEQ) - сбой"/>
+							</ELSE>
+						</IF>
+						<ELSE>
+							<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+							<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(float GREQ) - сбой"/>
+							<CON_WRITE write="Тег COMPARE(float GREQ) - сбой"/>
+						</ELSE>
+					</IF>
+					<ELSE>
+						<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+						<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(float LS) - сбой"/>
+						<CON_WRITE write="Тег COMPARE(float LS) - сбой"/>
+					</ELSE>
+				</IF>
+				<ELSE>
+					<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+					<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(float GR) - сбой"/>
+					<CON_WRITE write="Тег COMPARE(float GR) - сбой"/>
+				</ELSE>
+			</IF>
+			<ELSE>
+				<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+				<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(float NEQ) - сбой"/>
+				<CON_WRITE write="Тег COMPARE(float NEQ) - сбой"/>
+			</ELSE>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(float EQU) - сбой"/>
+			<CON_WRITE write="Тег COMPARE(float EQU) - сбой"/>
+		</ELSE>
+		<!--******************************************************-->
+		<CON_WRITE write="*** Тег COMPARE(float const) ***"/>
+		<COMPARE op1="float365E-2" op2="365E-2" code="EQU" result="true_equ"/>
+		<COMPARE op1="float3_14E2" op2="3.65" code="NEQ" result="true_neq"/>
+		<COMPARE op1="float314" op2="3.65" code="GR" result="true_gr"/>
+		<COMPARE op1="float3_65" op2="314" code="LS" result="true_ls"/>
+		<COMPARE op1="float365E-2" op2="3.65" code="GREQ" result="true_greq"/>
+		<COMPARE op1="float3_14E2" op2="314" code="LSEQ" result="true_lseq"/>
+		<CON_WRITE write="float365E-2"/>
+		<CON_WRITE write="365E-2"/>
+		<CON_WRITE write="float314"/>
+		<CON_WRITE write="3.65"/>
+		<CON_WRITE write="true_equ"/>
+		<CON_WRITE write="true_neq"/>
+		<CON_WRITE write="true_gr"/>
+		<CON_WRITE write="true_ls"/>
+		<CON_WRITE write="true_greq"/>
+		<CON_WRITE write="true_lseq"/>
+		<IF var="true_equ">
+			<IF var="true_neq">
+				<IF var="true_gr">
+					<IF var="true_ls">
+						<IF var="true_greq">
+							<IF var="true_lseq">
+								<CON_WRITE write="Тег COMPARE(float var) - OK"/>
+								<CON_WRITE write="float365E-2"/>
+								<CON_WRITE write="float3_14E2"/>
+								<CON_WRITE write="float3_65"/>
+								<CON_WRITE write="float314"/>
+							</IF>
+							<ELSE>
+								<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+								<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(float  LSEQ) - сбой"/>
+								<CON_WRITE write="Тег COMPARE(float LSEQ) - сбой"/>
+							</ELSE>
+						</IF>
+						<ELSE>
+							<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+							<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(float GREQ) - сбой"/>
+							<CON_WRITE write="Тег COMPARE(float GREQ) - сбой"/>
+						</ELSE>
+					</IF>
+					<ELSE>
+						<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+						<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(float LS) - сбой"/>
+						<CON_WRITE write="Тег COMPARE(float LS) - сбой"/>
+					</ELSE>
+				</IF>
+				<ELSE>
+					<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+					<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(float GR) - сбой"/>
+					<CON_WRITE write="Тег COMPARE(float GR) - сбой"/>
+				</ELSE>
+			</IF>
+			<ELSE>
+				<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+				<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(float NEQ) - сбой"/>
+				<CON_WRITE write="Тег COMPARE(float NEQ) - сбой"/>
+			</ELSE>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(float EQU) - сбой"/>
+			<CON_WRITE write="Тег COMPARE(float EQU) - сбой"/>
+		</ELSE>
+		<!--******************************************************-->
+		<CON_WRITE write="*** Тег COMPARE(string var) ***"/>
+		<CON_WRITE write="string_MARMOT"/>
+		<CON_WRITE write="string_MARMOT_v2"/>
+		<CON_WRITE write="string_marmot"/>
+		<CON_WRITE write="string_nonmarmot"/>
+		<CON_WRITE write="true_equ"/>
+		<CON_WRITE write='COMPARE op1="string_MARMOT" op2="string_MARMOT_v2" code="EQU" result="true_equ"'/>
+		<COMPARE op1="string_MARMOT" op2="string_MARMOT_v2" code="EQU" result="true_equ"/>
+		<CON_WRITE write="string_MARMOT"/>
+		<CON_WRITE write="string_MARMOT_v2"/>
+		<CON_WRITE write="true_equ"/>
+		<CON_WRITE write='COMPARE op1="string_MARMOT" op2="string_marmot" code="NEQ" result="true_neq"'/>
+		<COMPARE op1="string_MARMOT" op2="string_marmot" code="NEQ" result="true_neq"/>
+		<CON_WRITE write='COMPARE op1="string_marmot" op2="string_nonmarmot" code="EQU" result="false_equ"'/>
+		<COMPARE op1="string_marmot" op2="string_nonmarmot" code="EQU" result="false_equ"/>
+		<CON_WRITE write="+++"/>
+		<CON_WRITE write="true_equ"/>
+		<CON_WRITE write="true_neq"/>
+		<CON_WRITE write="false_equ"/>
+		<IF var="true_equ">
+			<IF var="true_neq">
+				<IF var="false_equ" code="NEQ" value="TRUE">
+					<CON_WRITE write="Тег COMPARE(string var) - OK"/>
+					<CON_WRITE write="string_MARMOT"/>
+					<CON_WRITE write="string_MARMOT_v2"/>
+					<CON_WRITE write="string_marmot"/>
+					<CON_WRITE write="string_nonmarmot"/>
+				</IF>
+				<ELSE>
+					<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+					<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(string equ) - сбой"/>
+					<CON_WRITE write="Тег COMPARE(string equ) - сбой"/>
+				</ELSE>
+			</IF>
+			<ELSE>
+				<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+				<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(string NEQ) - сбой"/>
+				<CON_WRITE write="Тег COMPARE(string NEQ) - сбой"/>
+			</ELSE>
+		</IF>
+		<ELSE>
+			<OPERATION op1="result" code="INIT" op2="FALSE" type2="BOOL"/>
+			<FORMAT_CONST new="list" var="empty" prefix="Тег COMPARE(stringt EQU) - сбой"/>
+			<CON_WRITE write="Тег COMPARE(string EQU) - сбой"/>
+		</ELSE>
+	</STEP>
+	<!--******************************************************-->
+	<!--******************************************************-->
+	<STEP name="CAST">
+		<!--***** Инициализация ор1 значением ор2 с приведением ор2 к типу ор1 *****-->
+		<CON_WRITE write="Тег CAST - Инициализация ор1 значением ор2 с приведением ор2 к типу ор1"/>
+		<VAR type="BOOL" var="true_cast" value="FALSE"/>
+		<VAR type="INT" var="v_int"/>
+		<VAR type="FLOAT" var="v_float"/>
+		<VAR type="STRING" var="v_string"/>
+		<VAR type="STRING" var="str789" value="789"/>
+		<VAR type="STRING" var="str2_345" value="2,345"/>
+		<VAR type="STRING" var="str3_4E5" value="3,4E5"/>
+		<CON_WRITE write="Тег CAST - Инициализация int значением string 2.345"/>
+		<CAST op1="v_int" op2="str2_345"/>
+		<CON_WRITE write="v_int"/>
+		<CON_WRITE write="Тег CAST - Инициализация int значением float 3.65"/>
+		<CAST op1="v_int" op2="float3_65"/>
+		<CON_WRITE write="v_int"/>
+		<CON_WRITE write="Тег CAST - Инициализация float значением int 365"/>
+		<CAST op1="v_float" op2="int365"/>
+		<CON_WRITE write="v_float"/>
+		<CON_WRITE write="Тег CAST - Инициализация string значением int 365"/>
+		<CAST op1="v_string" op2="int365"/>
+		<CON_WRITE write="v_string"/>
+		<CON_WRITE write="Тег CAST - Инициализация string значением float 3.65"/>
+		<CAST op1="v_string" op2="float3_65"/>
+		<CON_WRITE write="v_string"/>
+		<CON_WRITE write="Тег CAST - Инициализация int значением string 789"/>
+		<CAST op1="v_int" op2="str789"/>
+		<CON_WRITE write="v_int"/>
+		<CON_WRITE write="Тег CAST - Инициализация float значением string 2.345"/>
+		<CAST op1="v_float" op2="str2_345"/>
+		<CON_WRITE write="Тег CAST - Инициализация float значением string 3.4E5"/>
+		<CAST op1="v_float" op2="str3_4E5"/>
+		<CON_WRITE write="v_float"/>
+	</STEP>
+	<!--******************************************************-->
+	<!--******************************************************-->
+	<STEP name="WHILE">
+		<!--***** Циклическое исполнение инструкций, пока var="TRUE" *****-->
+		<VAR type="FLOAT" var="f" value="0.5"/>
+		<VAR type="BOOL" var="i" value="TRUE"/>
+		<VAR type="INT" var="k" value="0"/>
+		<VAR type="FLOAT" var="f_max" value="115"/>
+		<CON_WRITE write='Циклическое исполнение инструкций, пока var="TRUE"'/>
+		<WHILE var="i">
+			<OPERATION op1="f" code="PLUS" op2="f"/>
+			<COMPARE op1="f" op2="f_max" code="LS" result="i"/>
+			<OPERATION op1="k" code="PLUS" op2="1"/>
+			<CON_WRITE write="f"/>
+			<CON_WRITE write="f_max"/>
+			<CON_WRITE write="i"/>
+		</WHILE>
+		<CON_WRITE write="Верхний предел"/>
+		<CON_WRITE write="f"/>
+		<CON_WRITE write="Количество циклов"/>
+		<CON_WRITE write="k"/>
+	</STEP>
+	<!--******************************************************-->
+	<!--******************************************************-->
+	<STEP name="FOR">
+		<!--***** Циклическое исполнение инструкций, со счетчиком *****-->
+		<CON_WRITE write='Циклическое исполнение инструкций, со счетчиком"'/>
+		<OPERATION op1="f" code="INIT" op2="1."/>
+		<OPERATION op1="k" code="INIT" op2="0"/>
+		<VAR type="INT" var="j"/>
+		<FOR var="j" begin="0" end="8" step="2" decrement="NO">
+			<OPERATION op1="f" code="PLUS" op2="f"/>
+			<OPERATION op1="k" code="PLUS" op2="1"/>
+			<CON_WRITE write="f"/>
+			<CON_WRITE write="j"/>
+		</FOR>
+		<CON_WRITE write="f"/>
+		<CON_WRITE write="Количество циклов (вперед)"/>
+		<CON_WRITE write="k"/>
+		<OPERATION op1="f" code="INIT" op2="0.5"/>
+		<OPERATION op1="k" code="INIT" op2="0"/>
+		<FOR var="j" begin="8" end="0" step="2" decrement="YES">
+			<OPERATION op1="f" code="PLUS" op2="f"/>
+			<OPERATION op1="k" code="PLUS" op2="1"/>
+			<CON_WRITE write="f"/>
+			<CON_WRITE write="j"/>
+		</FOR>
+		<CON_WRITE write="f"/>
+		<CON_WRITE write="Количество циклов (назад)"/>
+		<CON_WRITE write="k"/>
+	</STEP>
+	<!--******************************************************-->
+	<!--******************************************************-->
+	<STEP name="TABULAR">
+		<!--***** Операции с таблицами *****-->
+		<!--******************************************************-->
+		<!--***** Создание таблиц *****-->
+		<VAR type="BOOL" var="v_b" value="FALSE"/>
+		<VAR type="BOOL" var="v_b_ini" value="TRUE"/>
+		<VAR type="BOOL" var="v_b_get" value="FALSE"/>
+		<VAR type="INT" var="v_i" value="7"/>
+		<VAR type="INT" var="v_i_ini" value="13"/>
+		<VAR type="INT" var="v_i_get" value="5"/>
+		<VAR type="INT" var="v_i_neg" value="-5"/>
+		<VAR type="FLOAT" var="v_f" value="0.7"/>
+		<VAR type="FLOAT" var="v_f_ini" value="3.1415"/>
+		<VAR type="STRING" var="v_s" value="Плохо"/>
+		<VAR type="STRING" var="v_s_ini" value="Хорошо"/>
+		<CON_WRITE write="Создание таблиц"/>
+		<VAR_TABLE type="BOOL" name="table_b" value="v_b_ini" row="4" column="3"/>
+		<VAR_TABLE type="INT" name="table_i" value="v_i_ini" row="5" column="7"/>
+		<VAR_TABLE type="FLOAT" name="table_f" value="v_f_ini" row=4 column=4/>
+		<VAR_TABLE type="STRING" name="table_s" value="v_s_ini" row="4" column="3"/>
+		<CON_WRITE write="Обработка ошибок в командах создания таблиц"/>
+		<VAR_TABLE type="FLOAT" name="table_f_0" value="0.5" row="4" column="5"/>
+		<VAR_TABLE type="FLOAT" name="table_bad" value="v_f" row="0" column="5"/>
+		<!--******************************************************-->
+		<CON_WRITE write="Операции с таблицами"/>
+		<CON_WRITE write="*** BOOL ***"/>
+		<CON_WRITE write="Присвоение элементу bool-таблицы (2;1) значения FALSE"/>
+		<TABULAR table="table_b" var="FALSE" code="SET_CELL" row="2" column="1"/>
+		<CON_WRITE write="Присвоение элементу bool-таблицы (2;0) значения переменной v_b (FALSE)"/>
+		<TABULAR table="table_b" var="v_b" code="SET_CELL" row="2" column="0"/>
+		<CON_WRITE write="v_b"/>
+		<CON_WRITE write="Присвоение переменной v_b_get значений элементов bool-таблицы"/>
+		<CON_WRITE write="(1;1) - TRUE по инициализации"/>
+		<TABULAR  table="table_b" var="v_b_get" code="GET_CELL" row="1" column="1"/>
+		<CON_WRITE write="v_b_get"/>
+		<TABULAR table="table_b" var="v_b_get" code="GET_CELL" row="2" column="1"/>
+		<CON_WRITE write="(2;1) - FALSE по присвоению"/>
+		<CON_WRITE write="v_b_get"/>
+		<!--******************************************************-->
+		<CON_WRITE write="*** INT ***"/>
+		<CON_WRITE write="Присвоение элементу int-таблицы (2;3) значения 7 (v_i)"/>
+		<CON_WRITE write="v_i"/>
+		<TABULAR table="table_i" var="v_i" code="SET_CELL" row="2" column="3"/>
+		<CON_WRITE write="Присвоение элементу int-таблицы (3;3) значения 11"/>
+		<TABULAR table="table_i" var="11" code="SET_CELL" row="3" column="3"/>
+		<CON_WRITE write="Присвоение элементу int-таблицы (3;0) значения Хорошо"/>
+		<TABULAR table="table_i" var="Хорошо" code="SET_CELL" row="3" column="0"/>
+		<CON_WRITE write="Присвоение элементу int-таблицы (3;1) значения Плохо"/>
+		<TABULAR table="table_i" var="v_s" code="SET_CELL" row="3" column="1"/>
+		<CON_WRITE write="Присвоение элементу int-таблицы (3;2) значения 11"/>
+		<TABULAR table="table_i" var=11 code="SET_CELL" row="3" column="2"/>
+		<CON_WRITE write="Присвоение элементу int-таблицы (3;4) значения -5"/>
+		<TABULAR table="table_i" var=-5 code="SET_CELL" row="3" column="4"/>
+		<CON_WRITE write="Присвоение элементу int-таблицы (3;5) значения -5"/>
+		<TABULAR table="table_i" var="-5" code="SET_CELL" row="3" column="5"/>
+		<CON_WRITE write="Присвоение элементу int-таблицы (3;6) значения переменной -5"/>
+		<TABULAR table="table_i" var="v_i_neg" code="SET_CELL" row="3" column="6"/>
+		<CON_WRITE write="Присвоение элементу int-таблицы (4;6) значения 5 переменной без кавычек"/>
+		<TABULAR table="table_i" var=v_i_get code="SET_CELL" row="4" column="6"/>
+		<CON_WRITE write="Присвоение элементу int-таблицы (0;0) значения 3"/>
+		<TABULAR table="table_i" var="v_f_ini" code="SET_CELL" row="0" column="0"/>
+		<CON_WRITE write="Присвоение переменной v_i_get значений элементов int-таблицы"/>
+		<CON_WRITE write="(1;1) - 13 по инициализации"/>
+		<TABULAR table="table_i" var="v_i_get" code="GET_CELL" row="1" column="1"/>
+		<CON_WRITE write="v_i_get"/>
+		<CON_WRITE write="(2;3) - 7 по присвоению"/>
+		<TABULAR table="table_i" var="v_i_get" code="GET_CELL" row="2" column="3"/>
+		<CON_WRITE write="v_i"/>
+		<CON_WRITE write="v_i_get"/>
+		<!--******************************************************-->
+		<CON_WRITE write="*** FLOAT ***"/>
+		<CON_WRITE write="Присвоение элементу float-таблицы (2;1) значения 0.85"/>
+		<TABULAR table="table_f" var="0.85" code="SET_CELL" row="2" column="1"/>
+		<CON_WRITE write="Присвоение элементу float-таблицы (2;2) отрицательного значения -0.5"/>
+		<TABULAR table="table_f" var="-0.5" code="SET_CELL" row="2" column="2"/>
+		<CON_WRITE write="Присвоение элементу float_таблицы (2;0) значения переменной v_f (0.7)"/>
+		<TABULAR table="table_f" var="v_f" code="SET_CELL" row="2" column="0"/>
+		<CON_WRITE write="Присвоение элементу float-таблицы (3;1) значения 0.85"/>
+		<TABULAR table="table_f" var=0.85 code="SET_CELL" row="3" column="1"/>
+		<CON_WRITE write="Присвоение элементу float-таблицы (3;2) значения отрицательной целой переменной"/>
+		<TABULAR table="table_f" var="v_i_neg" code="SET_CELL" row="3" column="2"/>
+		<CON_WRITE write="Присвоение элементу float-таблицы (3;3) значения 19"/>
+		<TABULAR table="table_f" var="19" code="SET_CELL" row="3" column="3"/>
+		<CON_WRITE write="v_f"/>
+		<CON_WRITE write="Присвоение переменной v_f значения элемента (1;1) float-таблицы"/>
+		<CON_WRITE write="(1;1) - 3.1415 по инициализации"/>
+		<TABULAR  table="table_f" var="v_f" code="GET_CELL" row="1" column="1"/>
+		<CON_WRITE write="v_f"/>
+		<CON_WRITE write="Присвоение целочисленной переменной v_i_get значения элемента (1;1) float-таблицы"/>
+		<TABULAR  table="table_f" var="v_i_get" code="GET_CELL" row="1" column="1"/>
+		<CON_WRITE write="v_i_get"/>
+		<CON_WRITE write="Присвоение переменной v_f значения элемента (2;1) float-таблицы"/>
+		<TABULAR table="table_f" var="v_f" code="GET_CELL" row="2" column="1"/>
+		<CON_WRITE write="(2;1) -  0.85 по присвоению"/>
+		<CON_WRITE write="v_f"/>
+		<!--******************************************************-->
+		<CON_WRITE write="*** STRING ***"/>
+		<CON_WRITE write="Присвоение элементу string-таблицы (2;1) значения переменной v_s (Плохо)"/>
+		<TABULAR table="table_s" var="v_s" code="SET_CELL" row="2" column="1"/>
+		<CON_WRITE write="Присвоение элементу string-таблицы (2;0) нового значения"/>
+		<TABULAR table="table_s" var="Новое значение" code="SET_CELL" row="2" column="0"/>
+		<CON_WRITE write="Присвоение элементу string-таблицы (2;2) значения переменной v_f_ini"/>
+		<TABULAR table="table_s" var="v_f_ini" code="SET_CELL" row="2" column="2"/>
+		<CON_WRITE write="Присвоение переменной v_s значений элемента (2;0) string-таблицы"/>
+		<TABULAR  table="table_s" var="v_s" code="GET_CELL" row="2" column="0"/>
+		<CON_WRITE write="v_s"/>
+	</STEP>
+	<!--******************************************************-->
+	<!--******************************************************-->
+	<CON_WRITE write="Конец тестов"/>
+	<CON_WRITE write="result"/>
+	<IF var="result">
+		<OPERATION op1="result_task" code="INIT" op2="OK" type2="STRING"/>
+	</IF>
+	<ELSE>
+		<OPERATION op1="result_task" code="INIT" op2="FAIL" type2="STRING"/>
+	</ELSE>
+	<CON_WRITE write="result_task"/>
+	<DEVICE handleName="Recorder">
+		<ELECTRICAL_WR name="Тест тегов" range_min="" range_max="" unit="" value="U" result="result_task"/>
+	</DEVICE>
+</TASK>
+<!--**********************************************************-->
