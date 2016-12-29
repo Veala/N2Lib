@@ -1264,6 +1264,31 @@ N2DissInternal::decode(XMLF* px, vector<DataPack>& totalPack)
 	}
 //*****************************************************	
 
+    if(px->nametag == CT("DEF_CX"))
+    {
+        std_string var = px->getValue(CT("var"));
+        std_string value = px->getValue(CT("value"));
+        std_string row = px->getValue(CT("row"));
+        std_string column = px->getValue(CT("column"));
+
+        if(var.empty() || value.empty()) {
+            SET_PARSER_ERR(totalPack, pack, CT("SET_GLOBAL_TABLE"), var.empty()?CT("var"):CT("value"), \
+                var.empty()?var:value);
+            return ERROR;
+        }
+        pack.pCmd = N2Register::self()->getMemoryAllocator()->create<N2BFC_ARRAY_STRING>(CT("<SET_GLOBAL_TABLE>"));
+        N2BFC_ARRAY_STRING* pCmd = (N2BFC_ARRAY_STRING*)pack.pCmd;
+
+        pCmd->add(var);
+        pCmd->add(value);
+        pCmd->add(row);
+        pCmd->add(column);
+
+        pack.signature.value = SIGN_PROCC(CMD_SET_GLOBAL);
+
+        totalPack.push_back(pack);  return retVal;
+    }
+//*****************************************************
 
 	
 	retVal = NOT_FOUND;
