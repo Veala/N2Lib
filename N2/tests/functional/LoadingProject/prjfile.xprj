@@ -1,0 +1,10 @@
+<XTS type= "PRJ">
+	<FILES>
+		<TREE_FILE_CONST file="tree.x" />
+		<VOILE_FILE file = "ext.x"/>
+	</FILES>
+	<ADD >
+		Text between
+		<ADD_VOILE_FILE file = "ext.x"/>
+	</ADD>
+</XTS>

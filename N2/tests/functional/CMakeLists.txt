@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 2.8)
+
+add_subdirectory(Environment)
+add_subdirectory(LoadingProject)
+add_subdirectory(MemoryAllocationAndControl)
+add_subdirectory(ModuleManager)
+add_subdirectory(test_funk_mainwindow)
+add_subdirectory(TotalControl)
+add_subdirectory(TreeTests)
+add_subdirectory(VariableComposite)

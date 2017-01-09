@@ -4,27 +4,20 @@
 #
 #-------------------------------------------------
 
-#QT       -= core gui
-
-#TARGET = N2
-#TEMPLATE = lib
-#CONFIG += staticlib c++11
-TEMPLATE = app
-CONFIG += console
-CONFIG -= app_bundle
+TARGET = N2
+TEMPLATE = lib
+CONFIG += staticlib c++11
 CONFIG -= qt
-CONFIG += c++11
-CONFIG += no_lflags_merge
 
+win32:LIBS += d:/N2/N2/utils/tinyxml/lib/tinyxml.lib \
+              d:/N2/N2/utils/tinyxml/lib/tinyxmld.lib \
+
+# INCLUDEPATH т.к. используется например include <Parser.h> вместо include "Parser.h"
 win32:INCLUDEPATH += d:/N2/N2/src/include \
                      d:/N2/N2/export/common \
-                     d:/N2/N2/utils/tinyxml \
 
-#win32:LIBS += d:/N2/N2/utils/tinyxml/lib/tinyxml.lib \
-#              d:/N2/N2/utils/tinyxml/lib/tinyxmld.lib \
 
 SOURCES += \
-    #main.cpp \
     src/N2AllOperatingState.cpp \
     src/N2Base.cpp \
     src/N2Control.cpp \
@@ -46,15 +39,8 @@ SOURCES += \
     src/N2StandartProjectNode.cpp \
     src/N2System.cpp \
     src/N2TinyXMLParser.cpp \
-    #src/N2Types.cpp \
     src/N2Variable.cpp \
     src/N2VariablesManager.cpp \
-    utils/tinyxml/source/tinystr.cpp \
-    utils/tinyxml/source/tinyxml.cpp \
-    utils/tinyxml/source/tinyxmlerror.cpp \
-    utils/tinyxml/source/tinyxmlparser.cpp \
-    #utils/tinyxml/source/xmltest.cpp \
-    tests/units/test_N2Variables/test_N2Variables_2.cpp
 
 HEADERS += \
     export/common/configuration.h \
@@ -87,7 +73,6 @@ HEADERS += \
     export/common/N2Standart2014ProjectNode.h \
     export/common/N2TinyXMLParser.h \
     export/common/N2TreeNode.h \
-    #export/common/N2Types.h \
     export/common/N2Variable.h \
     export/common/N2XMLF.h \
     export/common/tuner.h \
@@ -106,7 +91,5 @@ HEADERS += \
     src/include/N2SharedAccess.h \
     src/include/N2SharedAccessWorker.h \
     src/include/N2VariablesManager.h \
-    utils/tinyxml/source/tinystr.h \
-    utils/tinyxml/source/tinystr.h \
-    utils/tinyxml/source/tinyxml.h \
-    tests/Testing.h
+    utils/tinyxml/tinystr.h \
+    utils/tinyxml/tinyxml.h \

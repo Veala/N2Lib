@@ -1266,7 +1266,7 @@ N2DissInternal::decode(XMLF* px, vector<DataPack>& totalPack)
 
     if(px->nametag == CT("DEF_CX"))
     {
-        std_string var = px->getValue(CT("var"));
+        std_string var = px->getValue(CT("name"));
         std_string value = px->getValue(CT("value"));
         std_string row = px->getValue(CT("row"));
         std_string column = px->getValue(CT("column"));

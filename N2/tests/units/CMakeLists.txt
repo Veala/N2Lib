@@ -1,0 +1,25 @@
+cmake_minimum_required(VERSION 2.8)
+
+include_directories(../../export/common)	
+include_directories(../../src/include)	
+# или
+include_directories(../../../export/common)	
+include_directories(../../../src/include)	
+
+set(HEADERS_TST_FILES ../../Testing.h)
+
+add_subdirectory(test_N2Dissection)
+add_subdirectory(test_N2LiveObjectsPolicy)
+add_subdirectory(test_N2Commands)
+add_subdirectory(test_N2Module)
+add_subdirectory(test_N2XMLF)
+add_subdirectory(test_N2DllSharedAccess)
+add_subdirectory(test_N2Log)
+add_subdirectory(test_N2Modules)
+add_subdirectory(test_N2ModulesManager)
+add_subdirectory(test_N2TinyXMLParser)
+add_subdirectory(test_N2VariablesManager)
+add_subdirectory(test_N2Variables)
+#add_subdirectory()
+#add_subdirectory()
+#add_subdirectory()
